@@ -1,0 +1,258 @@
+d2385e3949a6d85ad2b0fae40c770992
+"use strict";
+
+var __createBinding = void 0 && (void 0).__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+  Object.defineProperty(o, k2, desc);
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+var __setModuleDefault = void 0 && (void 0).__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+var __importStar = void 0 && (void 0).__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  __setModuleDefault(result, mod);
+  return result;
+};
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const Parser_1 = require("./Parser");
+const gherkin_languages_json_1 = __importDefault(require("./gherkin-languages.json"));
+const messages = __importStar(require("@cucumber/messages"));
+const Errors_1 = require("./Errors");
+const DIALECT_DICT = gherkin_languages_json_1.default;
+const DEFAULT_DOC_STRING_SEPARATOR = /^(```[`]*)(.*)/;
+function addKeywordTypeMappings(h, keywords, keywordType) {
+  for (const k of keywords) {
+    if (!(k in h)) {
+      h[k] = [];
+    }
+    h[k].push(keywordType);
+  }
+}
+class GherkinInMarkdownTokenMatcher {
+  constructor(defaultDialectName = 'en') {
+    this.defaultDialectName = defaultDialectName;
+    this.dialect = DIALECT_DICT[defaultDialectName];
+    this.nonStarStepKeywords = [].concat(this.dialect.given).concat(this.dialect.when).concat(this.dialect.then).concat(this.dialect.and).concat(this.dialect.but).filter((value, index, self) => value !== '* ' && self.indexOf(value) === index);
+    this.initializeKeywordTypes();
+    this.stepRegexp = new RegExp(`${KeywordPrefix.BULLET}(${this.nonStarStepKeywords.map(escapeRegExp).join('|')})`);
+    const headerKeywords = [].concat(this.dialect.feature).concat(this.dialect.background).concat(this.dialect.rule).concat(this.dialect.scenarioOutline).concat(this.dialect.scenario).concat(this.dialect.examples).filter((value, index, self) => self.indexOf(value) === index);
+    this.headerRegexp = new RegExp(`${KeywordPrefix.HEADER}(${headerKeywords.map(escapeRegExp).join('|')})`);
+    this.reset();
+  }
+  changeDialect(newDialectName, location) {
+    const newDialect = DIALECT_DICT[newDialectName];
+    if (!newDialect) {
+      throw Errors_1.NoSuchLanguageException.create(newDialectName, location);
+    }
+    this.dialectName = newDialectName;
+    this.dialect = newDialect;
+    this.initializeKeywordTypes();
+  }
+  initializeKeywordTypes() {
+    this.keywordTypesMap = {};
+    addKeywordTypeMappings(this.keywordTypesMap, this.dialect.given, messages.StepKeywordType.CONTEXT);
+    addKeywordTypeMappings(this.keywordTypesMap, this.dialect.when, messages.StepKeywordType.ACTION);
+    addKeywordTypeMappings(this.keywordTypesMap, this.dialect.then, messages.StepKeywordType.OUTCOME);
+    addKeywordTypeMappings(this.keywordTypesMap, [].concat(this.dialect.and).concat(this.dialect.but), messages.StepKeywordType.CONJUNCTION);
+  }
+  // We've made a deliberate choice not to support `# language: [ISO 639-1]` headers or similar
+  // in Markdown. Users should specify a language globally. This can be done in
+  // cucumber-js using the --language [ISO 639-1] option.
+  match_Language(token) {
+    if (!token) throw new Error('no token');
+    return false;
+  }
+  match_Empty(token) {
+    let result = false;
+    if (token.line.isEmpty) {
+      result = true;
+    }
+    if (!this.match_TagLine(token) && !this.match_FeatureLine(token) && !this.match_ScenarioLine(token) && !this.match_BackgroundLine(token) && !this.match_ExamplesLine(token) && !this.match_RuleLine(token) && !this.match_TableRow(token) && !this.match_Comment(token) && !this.match_Language(token) && !this.match_DocStringSeparator(token) && !this.match_EOF(token) && !this.match_StepLine(token)) {
+      // neutered
+      result = true;
+    }
+    if (result) {
+      token.matchedType = Parser_1.TokenType.Empty;
+    }
+    return this.setTokenMatched(token, null, result);
+  }
+  match_Other(token) {
+    const text = token.line.getLineText(this.indentToRemove); // take the entire line, except removing DocString indents
+    token.matchedType = Parser_1.TokenType.Other;
+    token.matchedText = text;
+    token.matchedIndent = 0;
+    return this.setTokenMatched(token, null, true);
+  }
+  match_Comment(token) {
+    let result = false;
+    if (token.line.startsWith('|')) {
+      const tableCells = token.line.getTableCells();
+      if (this.isGfmTableSeparator(tableCells)) result = true;
+    }
+    return this.setTokenMatched(token, null, result);
+  }
+  match_DocStringSeparator(token) {
+    const match = token.line.trimmedLineText.match(this.activeDocStringSeparator);
+    const [, newSeparator, mediaType] = match || [];
+    let result = false;
+    if (newSeparator) {
+      if (this.activeDocStringSeparator === DEFAULT_DOC_STRING_SEPARATOR) {
+        this.activeDocStringSeparator = new RegExp(`^(${newSeparator})$`);
+        this.indentToRemove = token.line.indent;
+      } else {
+        this.activeDocStringSeparator = DEFAULT_DOC_STRING_SEPARATOR;
+      }
+      token.matchedKeyword = newSeparator;
+      token.matchedType = Parser_1.TokenType.DocStringSeparator;
+      token.matchedText = mediaType || '';
+      result = true;
+    }
+    return this.setTokenMatched(token, null, result);
+  }
+  match_EOF(token) {
+    let result = false;
+    if (token.isEof) {
+      token.matchedType = Parser_1.TokenType.EOF;
+      result = true;
+    }
+    return this.setTokenMatched(token, null, result);
+  }
+  match_FeatureLine(token) {
+    if (this.matchedFeatureLine) {
+      return this.setTokenMatched(token, null, false);
+    }
+    // We first try to match "# Feature: blah"
+    let result = this.matchTitleLine(KeywordPrefix.HEADER, this.dialect.feature, ':', token, Parser_1.TokenType.FeatureLine);
+    // If we didn't match "# Feature: blah", we still match this line
+    // as a FeatureLine.
+    // The reason for this is that users may not want to be constrained by having this as their fist line.
+    if (!result) {
+      token.matchedType = Parser_1.TokenType.FeatureLine;
+      token.matchedText = token.line.trimmedLineText;
+      result = this.setTokenMatched(token, null, true);
+    }
+    this.matchedFeatureLine = result;
+    return result;
+  }
+  match_BackgroundLine(token) {
+    return this.matchTitleLine(KeywordPrefix.HEADER, this.dialect.background, ':', token, Parser_1.TokenType.BackgroundLine);
+  }
+  match_RuleLine(token) {
+    return this.matchTitleLine(KeywordPrefix.HEADER, this.dialect.rule, ':', token, Parser_1.TokenType.RuleLine);
+  }
+  match_ScenarioLine(token) {
+    return this.matchTitleLine(KeywordPrefix.HEADER, this.dialect.scenario, ':', token, Parser_1.TokenType.ScenarioLine) || this.matchTitleLine(KeywordPrefix.HEADER, this.dialect.scenarioOutline, ':', token, Parser_1.TokenType.ScenarioLine);
+  }
+  match_ExamplesLine(token) {
+    return this.matchTitleLine(KeywordPrefix.HEADER, this.dialect.examples, ':', token, Parser_1.TokenType.ExamplesLine);
+  }
+  match_StepLine(token) {
+    return this.matchTitleLine(KeywordPrefix.BULLET, this.nonStarStepKeywords, '', token, Parser_1.TokenType.StepLine);
+  }
+  matchTitleLine(prefix, keywords, keywordSuffix, token, matchedType) {
+    const regexp = new RegExp(`${prefix}(${keywords.map(escapeRegExp).join('|')})${keywordSuffix}(.*)`);
+    const match = token.line.match(regexp);
+    let indent = token.line.indent;
+    let result = false;
+    if (match) {
+      token.matchedType = matchedType;
+      token.matchedKeyword = match[2];
+      if (match[2] in this.keywordTypesMap) {
+        // only set the keyword type if this is a step keyword
+        if (this.keywordTypesMap[match[2]].length > 1) {
+          token.matchedKeywordType = messages.StepKeywordType.UNKNOWN;
+        } else {
+          token.matchedKeywordType = this.keywordTypesMap[match[2]][0];
+        }
+      }
+      token.matchedText = match[3].trim();
+      indent += match[1].length;
+      result = true;
+    }
+    return this.setTokenMatched(token, indent, result);
+  }
+  setTokenMatched(token, indent, matched) {
+    token.matchedGherkinDialect = this.dialectName;
+    token.matchedIndent = indent !== null ? indent : token.line == null ? 0 : token.line.indent;
+    token.location.column = token.matchedIndent + 1;
+    return matched;
+  }
+  match_TableRow(token) {
+    // Gherkin tables must be indented 2-5 spaces in order to be distinguidedn from non-Gherkin tables
+    if (token.line.lineText.match(/^\s\s\s?\s?\s?\|/)) {
+      const tableCells = token.line.getTableCells();
+      if (this.isGfmTableSeparator(tableCells)) return false;
+      token.matchedKeyword = '|';
+      token.matchedType = Parser_1.TokenType.TableRow;
+      token.matchedItems = tableCells;
+      return true;
+    }
+    return false;
+  }
+  isGfmTableSeparator(tableCells) {
+    const separatorValues = tableCells.map(item => item.text).filter(value => value.match(/^:?-+:?$/));
+    return separatorValues.length > 0;
+  }
+  match_TagLine(token) {
+    const tags = [];
+    let m;
+    const re = /`(@[^`]+)`/g;
+    do {
+      m = re.exec(token.line.trimmedLineText);
+      if (m) {
+        tags.push({
+          column: token.line.indent + m.index + 2,
+          text: m[1]
+        });
+      }
+    } while (m);
+    if (tags.length === 0) return false;
+    token.matchedType = Parser_1.TokenType.TagLine;
+    token.matchedItems = tags;
+    return true;
+  }
+  reset() {
+    if (this.dialectName !== this.defaultDialectName) {
+      this.changeDialect(this.defaultDialectName);
+    }
+    this.activeDocStringSeparator = DEFAULT_DOC_STRING_SEPARATOR;
+  }
+}
+exports.default = GherkinInMarkdownTokenMatcher;
+var KeywordPrefix;
+(function (KeywordPrefix) {
+  // https://spec.commonmark.org/0.29/#bullet-list-marker
+  KeywordPrefix["BULLET"] = "^(\\s*[*+-]\\s*)";
+  KeywordPrefix["HEADER"] = "^(#{1,6}\\s)";
+})(KeywordPrefix || (KeywordPrefix = {}));
+// https://stackoverflow.com/questions/3115150/how-to-escape-regular-expression-special-characters-using-javascript
+function escapeRegExp(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJQYXJzZXJfMSIsInJlcXVpcmUiLCJnaGVya2luX2xhbmd1YWdlc19qc29uXzEiLCJfX2ltcG9ydERlZmF1bHQiLCJtZXNzYWdlcyIsIl9faW1wb3J0U3RhciIsIkVycm9yc18xIiwiRElBTEVDVF9ESUNUIiwiZGVmYXVsdCIsIkRFRkFVTFRfRE9DX1NUUklOR19TRVBBUkFUT1IiLCJhZGRLZXl3b3JkVHlwZU1hcHBpbmdzIiwiaCIsImtleXdvcmRzIiwia2V5d29yZFR5cGUiLCJrIiwicHVzaCIsIkdoZXJraW5Jbk1hcmtkb3duVG9rZW5NYXRjaGVyIiwiY29uc3RydWN0b3IiLCJkZWZhdWx0RGlhbGVjdE5hbWUiLCJkaWFsZWN0Iiwibm9uU3RhclN0ZXBLZXl3b3JkcyIsImNvbmNhdCIsImdpdmVuIiwid2hlbiIsInRoZW4iLCJhbmQiLCJidXQiLCJmaWx0ZXIiLCJ2YWx1ZSIsImluZGV4Iiwic2VsZiIsImluZGV4T2YiLCJpbml0aWFsaXplS2V5d29yZFR5cGVzIiwic3RlcFJlZ2V4cCIsIlJlZ0V4cCIsIktleXdvcmRQcmVmaXgiLCJCVUxMRVQiLCJtYXAiLCJlc2NhcGVSZWdFeHAiLCJqb2luIiwiaGVhZGVyS2V5d29yZHMiLCJmZWF0dXJlIiwiYmFja2dyb3VuZCIsInJ1bGUiLCJzY2VuYXJpb091dGxpbmUiLCJzY2VuYXJpbyIsImV4YW1wbGVzIiwiaGVhZGVyUmVnZXhwIiwiSEVBREVSIiwicmVzZXQiLCJjaGFuZ2VEaWFsZWN0IiwibmV3RGlhbGVjdE5hbWUiLCJsb2NhdGlvbiIsIm5ld0RpYWxlY3QiLCJOb1N1Y2hMYW5ndWFnZUV4Y2VwdGlvbiIsImNyZWF0ZSIsImRpYWxlY3ROYW1lIiwia2V5d29yZFR5cGVzTWFwIiwiU3RlcEtleXdvcmRUeXBlIiwiQ09OVEVYVCIsIkFDVElPTiIsIk9VVENPTUUiLCJDT05KVU5DVElPTiIsIm1hdGNoX0xhbmd1YWdlIiwidG9rZW4iLCJFcnJvciIsIm1hdGNoX0VtcHR5IiwicmVzdWx0IiwibGluZSIsImlzRW1wdHkiLCJtYXRjaF9UYWdMaW5lIiwibWF0Y2hfRmVhdHVyZUxpbmUiLCJtYXRjaF9TY2VuYXJpb0xpbmUiLCJtYXRjaF9CYWNrZ3JvdW5kTGluZSIsIm1hdGNoX0V4YW1wbGVzTGluZSIsIm1hdGNoX1J1bGVMaW5lIiwibWF0Y2hfVGFibGVSb3ciLCJtYXRjaF9Db21tZW50IiwibWF0Y2hfRG9jU3RyaW5nU2VwYXJhdG9yIiwibWF0Y2hfRU9GIiwibWF0Y2hfU3RlcExpbmUiLCJtYXRjaGVkVHlwZSIsIlRva2VuVHlwZSIsIkVtcHR5Iiwic2V0VG9rZW5NYXRjaGVkIiwibWF0Y2hfT3RoZXIiLCJ0ZXh0IiwiZ2V0TGluZVRleHQiLCJpbmRlbnRUb1JlbW92ZSIsIk90aGVyIiwibWF0Y2hlZFRleHQiLCJtYXRjaGVkSW5kZW50Iiwic3RhcnRzV2l0aCIsInRhYmxlQ2VsbHMiLCJnZXRUYWJsZUNlbGxzIiwiaXNHZm1UYWJsZVNlcGFyYXRvciIsIm1hdGNoIiwidHJpbW1lZExpbmVUZXh0IiwiYWN0aXZlRG9jU3RyaW5nU2VwYXJhdG9yIiwibmV3U2VwYXJhdG9yIiwibWVkaWFUeXBlIiwiaW5kZW50IiwibWF0Y2hlZEtleXdvcmQiLCJEb2NTdHJpbmdTZXBhcmF0b3IiLCJpc0VvZiIsIkVPRiIsIm1hdGNoZWRGZWF0dXJlTGluZSIsIm1hdGNoVGl0bGVMaW5lIiwiRmVhdHVyZUxpbmUiLCJCYWNrZ3JvdW5kTGluZSIsIlJ1bGVMaW5lIiwiU2NlbmFyaW9MaW5lIiwiRXhhbXBsZXNMaW5lIiwiU3RlcExpbmUiLCJwcmVmaXgiLCJrZXl3b3JkU3VmZml4IiwicmVnZXhwIiwibGVuZ3RoIiwibWF0Y2hlZEtleXdvcmRUeXBlIiwiVU5LTk9XTiIsInRyaW0iLCJtYXRjaGVkIiwibWF0Y2hlZEdoZXJraW5EaWFsZWN0IiwiY29sdW1uIiwibGluZVRleHQiLCJUYWJsZVJvdyIsIm1hdGNoZWRJdGVtcyIsInNlcGFyYXRvclZhbHVlcyIsIml0ZW0iLCJ0YWdzIiwibSIsInJlIiwiZXhlYyIsIlRhZ0xpbmUiLCJleHBvcnRzIiwicmVwbGFjZSJdLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9HaGVya2luSW5NYXJrZG93blRva2VuTWF0Y2hlci50cyJdLCJzb3VyY2VzQ29udGVudCI6W251bGxdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFFQSxNQUFBQSxRQUFBLEdBQUFDLE9BQUE7QUFDQSxNQUFBQyx3QkFBQSxHQUFBQyxlQUFBLENBQUFGLE9BQUE7QUFFQSxNQUFBRyxRQUFBLEdBQUFDLFlBQUEsQ0FBQUosT0FBQTtBQUNBLE1BQUFLLFFBQUEsR0FBQUwsT0FBQTtBQUVBLE1BQU1NLFlBQVksR0FBK0JMLHdCQUFBLENBQUFNLE9BQVE7QUFDekQsTUFBTUMsNEJBQTRCLEdBQUcsZ0JBQWdCO0FBRXJELFNBQVNDLHNCQUFzQkEsQ0FBQ0MsQ0FBZ0QsRUFBRUMsUUFBMkIsRUFBRUMsV0FBcUM7RUFDbEosS0FBSyxNQUFNQyxDQUFDLElBQUlGLFFBQVEsRUFBRTtJQUN4QixJQUFJLEVBQUVFLENBQUMsSUFBSUgsQ0FBQyxDQUFDLEVBQUU7TUFDYkEsQ0FBQyxDQUFDRyxDQUFDLENBQUMsR0FBRyxFQUFnQzs7SUFFekNILENBQUMsQ0FBQ0csQ0FBQyxDQUFDLENBQUNDLElBQUksQ0FBQ0YsV0FBVyxDQUFDOztBQUUxQjtBQUVBLE1BQXFCRyw2QkFBNkI7RUFXaERDLFlBQTZCQyxrQkFBQSxHQUE2QixJQUFJO0lBQWpDLEtBQUFBLGtCQUFrQixHQUFsQkEsa0JBQWtCO0lBQzdDLElBQUksQ0FBQ0MsT0FBTyxHQUFHWixZQUFZLENBQUNXLGtCQUFrQixDQUFDO0lBQy9DLElBQUksQ0FBQ0UsbUJBQW1CLEdBQUcsRUFBRSxDQUMxQkMsTUFBTSxDQUFDLElBQUksQ0FBQ0YsT0FBTyxDQUFDRyxLQUFLLENBQUMsQ0FDMUJELE1BQU0sQ0FBQyxJQUFJLENBQUNGLE9BQU8sQ0FBQ0ksSUFBSSxDQUFDLENBQ3pCRixNQUFNLENBQUMsSUFBSSxDQUFDRixPQUFPLENBQUNL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

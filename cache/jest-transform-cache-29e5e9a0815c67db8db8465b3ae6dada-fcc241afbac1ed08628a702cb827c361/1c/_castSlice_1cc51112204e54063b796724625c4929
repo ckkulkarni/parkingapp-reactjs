@@ -1,0 +1,21 @@
+3467799ccba7e37591ccaf14cf25f073
+"use strict";
+
+var baseSlice = require('./_baseSlice');
+
+/**
+ * Casts `array` to a slice if it's needed.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {number} start The start position.
+ * @param {number} [end=array.length] The end position.
+ * @returns {Array} Returns the cast slice.
+ */
+function castSlice(array, start, end) {
+  var length = array.length;
+  end = end === undefined ? length : end;
+  return !start && end >= length ? array : baseSlice(array, start, end);
+}
+module.exports = castSlice;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJiYXNlU2xpY2UiLCJyZXF1aXJlIiwiY2FzdFNsaWNlIiwiYXJyYXkiLCJzdGFydCIsImVuZCIsImxlbmd0aCIsInVuZGVmaW5lZCIsIm1vZHVsZSIsImV4cG9ydHMiXSwic291cmNlcyI6WyJfY2FzdFNsaWNlLmpzIl0sInNvdXJjZXNDb250ZW50IjpbInZhciBiYXNlU2xpY2UgPSByZXF1aXJlKCcuL19iYXNlU2xpY2UnKTtcblxuLyoqXG4gKiBDYXN0cyBgYXJyYXlgIHRvIGEgc2xpY2UgaWYgaXQncyBuZWVkZWQuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7QXJyYXl9IGFycmF5IFRoZSBhcnJheSB0byBpbnNwZWN0LlxuICogQHBhcmFtIHtudW1iZXJ9IHN0YXJ0IFRoZSBzdGFydCBwb3NpdGlvbi5cbiAqIEBwYXJhbSB7bnVtYmVyfSBbZW5kPWFycmF5Lmxlbmd0aF0gVGhlIGVuZCBwb3NpdGlvbi5cbiAqIEByZXR1cm5zIHtBcnJheX0gUmV0dXJucyB0aGUgY2FzdCBzbGljZS5cbiAqL1xuZnVuY3Rpb24gY2FzdFNsaWNlKGFycmF5LCBzdGFydCwgZW5kKSB7XG4gIHZhciBsZW5ndGggPSBhcnJheS5sZW5ndGg7XG4gIGVuZCA9IGVuZCA9PT0gdW5kZWZpbmVkID8gbGVuZ3RoIDogZW5kO1xuICByZXR1cm4gKCFzdGFydCAmJiBlbmQgPj0gbGVuZ3RoKSA/IGFycmF5IDogYmFzZVNsaWNlKGFycmF5LCBzdGFydCwgZW5kKTtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBjYXN0U2xpY2U7XG4iXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSUEsU0FBUyxHQUFHQyxPQUFPLENBQUMsY0FBYyxDQUFDOztBQUV2QztBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxTQUFTQyxTQUFTQSxDQUFDQyxLQUFLLEVBQUVDLEtBQUssRUFBRUMsR0FBRyxFQUFFO0VBQ3BDLElBQUlDLE1BQU0sR0FBR0gsS0FBSyxDQUFDRyxNQUFNO0VBQ3pCRCxHQUFHLEdBQUdBLEdBQUcsS0FBS0UsU0FBUyxHQUFHRCxNQUFNLEdBQUdELEdBQUc7RUFDdEMsT0FBUSxDQUFDRCxLQUFLLElBQUlDLEdBQUcsSUFBSUMsTUFBTSxHQUFJSCxLQUFLLEdBQUdILFNBQVMsQ0FBQ0csS0FBSyxFQUFFQyxLQUFLLEVBQUVDLEdBQUcsQ0FBQztBQUN6RTtBQUVBRyxNQUFNLENBQUNDLE9BQU8sR0FBR1AsU0FBUyJ9

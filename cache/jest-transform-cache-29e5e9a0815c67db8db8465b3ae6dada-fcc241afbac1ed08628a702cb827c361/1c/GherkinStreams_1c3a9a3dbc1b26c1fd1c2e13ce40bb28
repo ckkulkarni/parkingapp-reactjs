@@ -1,0 +1,69 @@
+8a88f2785884d466bdaf52d2b2634980
+"use strict";
+
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const fs_1 = __importDefault(require("fs"));
+const stream_1 = require("stream");
+const makeGherkinOptions_1 = __importDefault(require("./makeGherkinOptions"));
+const ParserMessageStream_1 = __importDefault(require("./ParserMessageStream"));
+const SourceMessageStream_1 = __importDefault(require("./SourceMessageStream"));
+function fromPaths(paths, options) {
+  const pathsCopy = paths.slice();
+  options = (0, makeGherkinOptions_1.default)(options);
+  const combinedMessageStream = new stream_1.PassThrough({
+    writableObjectMode: true,
+    readableObjectMode: true
+  });
+  function pipeSequentially() {
+    const path = pathsCopy.shift();
+    if (path !== undefined) {
+      const parserMessageStream = new ParserMessageStream_1.default(options);
+      parserMessageStream.on('end', () => {
+        pipeSequentially();
+      });
+      const end = pathsCopy.length === 0;
+      // Can't use pipeline here because of the { end } argument,
+      // so we have to manually propagate errors.
+      fs_1.default.createReadStream(path, {
+        encoding: 'utf-8'
+      }).on('error', err => combinedMessageStream.emit('error', err)).pipe(new SourceMessageStream_1.default(path, options.relativeTo)).on('error', err => combinedMessageStream.emit('error', err)).pipe(parserMessageStream).on('error', err => combinedMessageStream.emit('error', err)).pipe(combinedMessageStream, {
+        end
+      });
+    }
+  }
+  pipeSequentially();
+  return combinedMessageStream;
+}
+function fromSources(envelopes, options) {
+  const envelopesCopy = envelopes.slice();
+  options = (0, makeGherkinOptions_1.default)(options);
+  const combinedMessageStream = new stream_1.PassThrough({
+    writableObjectMode: true,
+    readableObjectMode: true
+  });
+  function pipeSequentially() {
+    const envelope = envelopesCopy.shift();
+    if (envelope !== undefined && envelope.source) {
+      const parserMessageStream = new ParserMessageStream_1.default(options);
+      parserMessageStream.pipe(combinedMessageStream, {
+        end: envelopesCopy.length === 0
+      });
+      parserMessageStream.on('end', pipeSequentially);
+      parserMessageStream.end(envelope);
+    }
+  }
+  pipeSequentially();
+  return combinedMessageStream;
+}
+exports.default = {
+  fromPaths,
+  fromSources
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJmc18xIiwiX19pbXBvcnREZWZhdWx0IiwicmVxdWlyZSIsInN0cmVhbV8xIiwibWFrZUdoZXJraW5PcHRpb25zXzEiLCJQYXJzZXJNZXNzYWdlU3RyZWFtXzEiLCJTb3VyY2VNZXNzYWdlU3RyZWFtXzEiLCJmcm9tUGF0aHMiLCJwYXRocyIsIm9wdGlvbnMiLCJwYXRoc0NvcHkiLCJzbGljZSIsImRlZmF1bHQiLCJjb21iaW5lZE1lc3NhZ2VTdHJlYW0iLCJQYXNzVGhyb3VnaCIsIndyaXRhYmxlT2JqZWN0TW9kZSIsInJlYWRhYmxlT2JqZWN0TW9kZSIsInBpcGVTZXF1ZW50aWFsbHkiLCJwYXRoIiwic2hpZnQiLCJ1bmRlZmluZWQiLCJwYXJzZXJNZXNzYWdlU3RyZWFtIiwib24iLCJlbmQiLCJsZW5ndGgiLCJjcmVhdGVSZWFkU3RyZWFtIiwiZW5jb2RpbmciLCJlcnIiLCJlbWl0IiwicGlwZSIsInJlbGF0aXZlVG8iLCJmcm9tU291cmNlcyIsImVudmVsb3BlcyIsImVudmVsb3Blc0NvcHkiLCJlbnZlbG9wZSIsInNvdXJjZSIsImV4cG9ydHMiXSwic291cmNlcyI6WyIuLi8uLi9zcmMvR2hlcmtpblN0cmVhbXMudHMiXSwic291cmNlc0NvbnRlbnQiOltudWxsXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7QUFFQSxNQUFBQSxJQUFBLEdBQUFDLGVBQUEsQ0FBQUMsT0FBQTtBQUNBLE1BQUFDLFFBQUEsR0FBQUQsT0FBQTtBQUVBLE1BQUFFLG9CQUFBLEdBQUFILGVBQUEsQ0FBQUMsT0FBQTtBQUNBLE1BQUFHLHFCQUFBLEdBQUFKLGVBQUEsQ0FBQUMsT0FBQTtBQUNBLE1BQUFJLHFCQUFBLEdBQUFMLGVBQUEsQ0FBQUMsT0FBQTtBQU1BLFNBQVNLLFNBQVNBLENBQ2hCQyxLQUF3QixFQUN4QkMsT0FBOEI7RUFFOUIsTUFBTUMsU0FBUyxHQUFHRixLQUFLLENBQUNHLEtBQUssRUFBRTtFQUMvQkYsT0FBTyxHQUFHLElBQUFMLG9CQUFBLENBQUFRLE9BQWtCLEVBQUNILE9BQU8sQ0FBQztFQUNyQyxNQUFNSSxxQkFBcUIsR0FBRyxJQUFJVixRQUFBLENBQUFXLFdBQVcsQ0FBQztJQUM1Q0Msa0JBQWtCLEVBQUUsSUFBSTtJQUN4QkMsa0JBQWtCLEVBQUU7R0FDckIsQ0FBQztFQUVGLFNBQVNDLGdCQUFnQkEsQ0FBQTtJQUN2QixNQUFNQyxJQUFJLEdBQUdSLFNBQVMsQ0FBQ1MsS0FBSyxFQUFFO0lBQzlCLElBQUlELElBQUksS0FBS0UsU0FBUyxFQUFFO01BQ3RCLE1BQU1DLG1CQUFtQixHQUFHLElBQUloQixxQkFBQSxDQUFBTyxPQUFtQixDQUFDSCxPQUFPLENBQUM7TUFDNURZLG1CQUFtQixDQUFDQyxFQUFFLENBQUMsS0FBSyxFQUFFLE1BQUs7UUFDakNMLGdCQUFnQixFQUFFO01BQ3BCLENBQUMsQ0FBQztNQUVGLE1BQU1NLEdBQUcsR0FBR2IsU0FBUyxDQUFDYyxNQUFNLEtBQUssQ0FBQztNQUNsQztNQUNBO01BQ0F4QixJQUFBLENBQUFZLE9BQUUsQ0FBQ2EsZ0JBQWdCLENBQUNQLElBQUksRUFBRTtRQUFFUSxRQUFRLEVBQUU7TUFBTyxDQUFFLENBQUMsQ0FDN0NKLEVBQUUsQ0FBQyxPQUFPLEVBQUdLLEdBQUcsSUFBS2QscUJBQXFCLENBQUNlLElBQUksQ0FBQyxPQUFPLEVBQUVELEdBQUcsQ0FBQyxDQUFDLENBQzlERSxJQUFJLENBQUMsSUFBSXZCLHFCQUFBLENBQUFNLE9BQW1CLENBQUNNLElBQUksRUFBRVQsT0FBTyxDQUFDcUIsVUFBVSxDQUFDLENBQUMsQ0FDdkRSLEVBQUUsQ0FBQyxPQUFPLEVBQUdLLEdBQUcsSUFBS2QscUJBQXFCLENBQUNlLElBQUksQ0FBQyxPQUFPLEVBQUVELEdBQUcsQ0FBQyxDQUFDLENBQzlERSxJQUFJLENBQUNSLG1CQUFtQixDQUFDLENBQ3pCQyxFQUFFLENBQUMsT0FBTyxFQUFHSyxHQUFHLElBQUtkLHFCQUFxQixDQUFDZSxJQUFJLENBQUMsT0FBTyxFQUFFRCxHQUFHLENBQUMsQ0FBQyxDQUM5REUsSUFBSSxDQUFDaEIscUJBQXFCLEVBQUU7UUFBRVU7TUFBRyxDQUFFLENBQUM7O0VBRTNDO0VBQ0FOLGdCQUFnQixFQUFFO0VBQ2xCLE9BQU9KLHFCQUFxQjtBQUM5QjtBQUVBLFNBQVNrQixXQUFXQSxDQUNsQkMsU0FBdUMsRUFDdkN2QixPQUF3QjtFQUV4QixNQUFNd0IsYUFBYSxHQUFHRCxTQUFTLENBQUNyQixLQUFLLEVBQUU7RUFDdkNGLE9BQU8sR0FBRyxJQUFBTCxvQkFBQSxDQUFBUSxPQUFrQixFQUFDSCxPQUFPLENBQUM7RUFDckMsTUFBTUkscUJBQXFCLEdBQUcsSUFBSVYsUUFBQSxDQUFBVyxXQUFXLENBQUM7SUFDNUNDLGtCQUFrQixFQUFFLElBQUk7SUFDeEJDLGtCQUFrQixFQUFFO0dBQ3JCLENBQUM7RUFFRixTQUFTQyxnQkFBZ0JBLENBQUE7SUFDdkIsTUFBTWlCLFFBQVEsR0FBR0QsYUFBYSxDQUFDZCxLQUFLLEVBQUU7SUFDdEMsSUFBSWUsUUFBUSxLQUFLZCxTQUFTLElBQUljLFFBQVEsQ0FBQ0MsTUFBTSxFQUFFO01BQzdDLE1BQU1kLG1CQUFtQixHQUFHLElBQUloQixxQkFBQSxDQUFBTyxPQUFtQixDQUFDSCxPQUFPLENBQUM7TUFDNURZLG1CQUFtQixDQUFDUSxJQUFJLENBQUNoQixxQkFBcUIsRUFBRTtRQUM5Q1UsR0FBRyxFQUFFVSxhQUFhLENBQUNULE1BQU0sS0FBSztPQUMvQixDQUFDO01BQ0ZILG1CQUFtQixDQUFDQyxFQUFFLENBQUMsS0FBSyxFQUFFTCxnQkFBZ0IsQ0FBQztNQUMvQ0ksbUJBQW1CLENBQUNFLEdBQUcsQ0FBQ1csUUFBUSxDQUFDOztFQUVyQztFQUNBakIsZ0JBQWdCLEVBQUU7RUFFbEIsT0FBT0oscUJBQXFCO0FBQzlCO0FBRUF1QixPQUFBLENBQUF4QixPQUFBLEdBQWU7RUFDYkwsU0FBUztFQUNUd0I7Q0FDRCJ9

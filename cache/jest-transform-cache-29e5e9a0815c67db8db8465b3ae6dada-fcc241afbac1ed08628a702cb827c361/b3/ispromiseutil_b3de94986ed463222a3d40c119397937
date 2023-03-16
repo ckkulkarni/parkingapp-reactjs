@@ -1,0 +1,12 @@
+d12bc967c2063f6336ae17b106315ab4
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isPromise = void 0;
+function isPromise(p) {
+  return p !== null && typeof p === 'object' && typeof p.then === 'function';
+}
+exports.isPromise = isPromise;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJpc1Byb21pc2UiLCJwIiwidGhlbiIsImV4cG9ydHMiXSwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvdXRpbHMvaXMtcHJvbWlzZS51dGlsLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBmdW5jdGlvbiBpc1Byb21pc2U8VD4ocDogYW55KTogcCBpcyBQcm9taXNlPFQ+IHtcbiAgcmV0dXJuIHAgIT09IG51bGwgJiYgdHlwZW9mIHAgPT09ICdvYmplY3QnICYmIHR5cGVvZiBwLnRoZW4gPT09ICdmdW5jdGlvbic7XG59XG4iXSwibWFwcGluZ3MiOiI7Ozs7OztBQUFBLFNBQWdCQSxTQUFTQSxDQUFJQyxDQUFNO0VBQ2pDLE9BQU9BLENBQUMsS0FBSyxJQUFJLElBQUksT0FBT0EsQ0FBQyxLQUFLLFFBQVEsSUFBSSxPQUFPQSxDQUFDLENBQUNDLElBQUksS0FBSyxVQUFVO0FBQzVFO0FBRkFDLE9BQUEsQ0FBQUgsU0FBQSxHQUFBQSxTQUFBIn0=

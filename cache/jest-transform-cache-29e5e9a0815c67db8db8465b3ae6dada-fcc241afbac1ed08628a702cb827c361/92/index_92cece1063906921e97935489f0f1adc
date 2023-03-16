@@ -1,0 +1,17 @@
+d6a6a992c879039b44b91e4c93f50614
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+'use strict';
+
+module.exports = {
+  // "dotAll" `s` flag
+  dotAll: require('./compat-dotall-s-transform'),
+  // Named capturing groups.
+  namedCapturingGroups: require('./compat-named-capturing-groups-transform'),
+  // `x` flag
+  xFlag: require('./compat-x-flag-transform')
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJtb2R1bGUiLCJleHBvcnRzIiwiZG90QWxsIiwicmVxdWlyZSIsIm5hbWVkQ2FwdHVyaW5nR3JvdXBzIiwieEZsYWciXSwic291cmNlcyI6WyJpbmRleC5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIFRoZSBNSVQgTGljZW5zZSAoTUlUKVxuICogQ29weXJpZ2h0IChjKSAyMDE3LXByZXNlbnQgRG1pdHJ5IFNvc2huaWtvdiA8ZG1pdHJ5LnNvc2huaWtvdkBnbWFpbC5jb20+XG4gKi9cblxuJ3VzZSBzdHJpY3QnO1xuXG5tb2R1bGUuZXhwb3J0cyA9IHtcbiAgLy8gXCJkb3RBbGxcIiBgc2AgZmxhZ1xuICBkb3RBbGw6IHJlcXVpcmUoJy4vY29tcGF0LWRvdGFsbC1zLXRyYW5zZm9ybScpLFxuXG4gIC8vIE5hbWVkIGNhcHR1cmluZyBncm91cHMuXG4gIG5hbWVkQ2FwdHVyaW5nR3JvdXBzOiByZXF1aXJlKCcuL2NvbXBhdC1uYW1lZC1jYXB0dXJpbmctZ3JvdXBzLXRyYW5zZm9ybScpLFxuXG4gIC8vIGB4YCBmbGFnXG4gIHhGbGFnOiByZXF1aXJlKCcuL2NvbXBhdC14LWZsYWctdHJhbnNmb3JtJylcbn07Il0sIm1hcHBpbmdzIjoiQUFBQTtBQUNBO0FBQ0E7QUFDQTs7QUFFQSxZQUFZOztBQUVaQSxNQUFNLENBQUNDLE9BQU8sR0FBRztFQUNmO0VBQ0FDLE1BQU0sRUFBRUMsT0FBTyxDQUFDLDZCQUE2QixDQUFDO0VBRTlDO0VBQ0FDLG9CQUFvQixFQUFFRCxPQUFPLENBQUMsMkNBQTJDLENBQUM7RUFFMUU7RUFDQUUsS0FBSyxFQUFFRixPQUFPLENBQUMsMkJBQTJCO0FBQzVDLENBQUMifQ==

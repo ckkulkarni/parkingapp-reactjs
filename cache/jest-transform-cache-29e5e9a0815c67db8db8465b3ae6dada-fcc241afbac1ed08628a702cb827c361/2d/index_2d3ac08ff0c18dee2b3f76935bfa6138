@@ -1,0 +1,10 @@
+6125379d5cc3e5c066bcfbc8d916a0de
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+'use strict';
+
+module.exports = require('./dist/regexp-tree');
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJtb2R1bGUiLCJleHBvcnRzIiwicmVxdWlyZSJdLCJzb3VyY2VzIjpbImluZGV4LmpzIl0sInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogVGhlIE1JVCBMaWNlbnNlIChNSVQpXG4gKiBDb3B5cmlnaHQgKGMpIDIwMTctcHJlc2VudCBEbWl0cnkgU29zaG5pa292IDxkbWl0cnkuc29zaG5pa292QGdtYWlsLmNvbT5cbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbm1vZHVsZS5leHBvcnRzID0gcmVxdWlyZSgnLi9kaXN0L3JlZ2V4cC10cmVlJyk7Il0sIm1hcHBpbmdzIjoiQUFBQTtBQUNBO0FBQ0E7QUFDQTs7QUFFQSxZQUFZOztBQUVaQSxNQUFNLENBQUNDLE9BQU8sR0FBR0MsT0FBTyxDQUFDLG9CQUFvQixDQUFDIn0=

@@ -1,0 +1,110 @@
+f6f0c22813514ffff4e50f746ae47e88
+"use strict";
+
+var __values = void 0 && (void 0).__values || function (o) {
+  var s = typeof Symbol === "function" && Symbol.iterator,
+    m = s && o[s],
+    i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+    next: function () {
+      if (o && i >= o.length) o = void 0;
+      return {
+        value: o && o[i++],
+        done: !o
+      };
+    }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var CucumberExpressionError_js_1 = __importDefault(require("./CucumberExpressionError.js"));
+var CucumberExpressionGenerator_js_1 = __importDefault(require("./CucumberExpressionGenerator.js"));
+var defineDefaultParameterTypes_js_1 = __importDefault(require("./defineDefaultParameterTypes.js"));
+var Errors_js_1 = require("./Errors.js");
+var ParameterType_js_1 = __importDefault(require("./ParameterType.js"));
+var ParameterTypeRegistry = /** @class */function () {
+  function ParameterTypeRegistry() {
+    this.parameterTypeByName = new Map();
+    this.parameterTypesByRegexp = new Map();
+    (0, defineDefaultParameterTypes_js_1.default)(this);
+  }
+  Object.defineProperty(ParameterTypeRegistry.prototype, "parameterTypes", {
+    get: function () {
+      return this.parameterTypeByName.values();
+    },
+    enumerable: false,
+    configurable: true
+  });
+  ParameterTypeRegistry.prototype.lookupByTypeName = function (typeName) {
+    return this.parameterTypeByName.get(typeName);
+  };
+  ParameterTypeRegistry.prototype.lookupByRegexp = function (parameterTypeRegexp, expressionRegexp, text) {
+    var _this = this;
+    var parameterTypes = this.parameterTypesByRegexp.get(parameterTypeRegexp);
+    if (!parameterTypes) {
+      return undefined;
+    }
+    if (parameterTypes.length > 1 && !parameterTypes[0].preferForRegexpMatch) {
+      // We don't do this check on insertion because we only want to restrict
+      // ambiguity when we look up by Regexp. Users of CucumberExpression should
+      // not be restricted.
+      var generatedExpressions = new CucumberExpressionGenerator_js_1.default(function () {
+        return _this.parameterTypes;
+      }).generateExpressions(text);
+      throw Errors_js_1.AmbiguousParameterTypeError.forRegExp(parameterTypeRegexp, expressionRegexp, parameterTypes, generatedExpressions);
+    }
+    return parameterTypes[0];
+  };
+  ParameterTypeRegistry.prototype.defineParameterType = function (parameterType) {
+    var e_1, _a;
+    if (parameterType.name !== undefined) {
+      if (this.parameterTypeByName.has(parameterType.name)) {
+        if (parameterType.name.length === 0) {
+          throw new CucumberExpressionError_js_1.default("The anonymous parameter type has already been defined");
+        } else {
+          throw new CucumberExpressionError_js_1.default("There is already a parameter type with name ".concat(parameterType.name));
+        }
+      }
+      this.parameterTypeByName.set(parameterType.name, parameterType);
+    }
+    try {
+      for (var _b = __values(parameterType.regexpStrings), _c = _b.next(); !_c.done; _c = _b.next()) {
+        var parameterTypeRegexp = _c.value;
+        if (!this.parameterTypesByRegexp.has(parameterTypeRegexp)) {
+          this.parameterTypesByRegexp.set(parameterTypeRegexp, []);
+        }
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        var parameterTypes = this.parameterTypesByRegexp.get(parameterTypeRegexp);
+        var existingParameterType = parameterTypes[0];
+        if (parameterTypes.length > 0 && existingParameterType.preferForRegexpMatch && parameterType.preferForRegexpMatch) {
+          throw new CucumberExpressionError_js_1.default('There can only be one preferential parameter type per regexp. ' + "The regexp /".concat(parameterTypeRegexp, "/ is used for two preferential parameter types, {").concat(existingParameterType.name, "} and {").concat(parameterType.name, "}"));
+        }
+        if (parameterTypes.indexOf(parameterType) === -1) {
+          parameterTypes.push(parameterType);
+          this.parameterTypesByRegexp.set(parameterTypeRegexp, parameterTypes.sort(ParameterType_js_1.default.compare));
+        }
+      }
+    } catch (e_1_1) {
+      e_1 = {
+        error: e_1_1
+      };
+    } finally {
+      try {
+        if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+      } finally {
+        if (e_1) throw e_1.error;
+      }
+    }
+  };
+  return ParameterTypeRegistry;
+}();
+exports.default = ParameterTypeRegistry;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJDdWN1bWJlckV4cHJlc3Npb25FcnJvcl9qc18xIiwiX19pbXBvcnREZWZhdWx0IiwicmVxdWlyZSIsIkN1Y3VtYmVyRXhwcmVzc2lvbkdlbmVyYXRvcl9qc18xIiwiZGVmaW5lRGVmYXVsdFBhcmFtZXRlclR5cGVzX2pzXzEiLCJFcnJvcnNfanNfMSIsIlBhcmFtZXRlclR5cGVfanNfMSIsIlBhcmFtZXRlclR5cGVSZWdpc3RyeSIsInBhcmFtZXRlclR5cGVCeU5hbWUiLCJNYXAiLCJwYXJhbWV0ZXJUeXBlc0J5UmVnZXhwIiwiZGVmYXVsdCIsIk9iamVjdCIsImRlZmluZVByb3BlcnR5IiwicHJvdG90eXBlIiwiZ2V0IiwidmFsdWVzIiwibG9va3VwQnlUeXBlTmFtZSIsInR5cGVOYW1lIiwibG9va3VwQnlSZWdleHAiLCJwYXJhbWV0ZXJUeXBlUmVnZXhwIiwiZXhwcmVzc2lvblJlZ2V4cCIsInRleHQiLCJfdGhpcyIsInBhcmFtZXRlclR5cGVzIiwidW5kZWZpbmVkIiwibGVuZ3RoIiwicHJlZmVyRm9yUmVnZXhwTWF0Y2giLCJnZW5lcmF0ZWRFeHByZXNzaW9ucyIsImdlbmVyYXRlRXhwcmVzc2lvbnMiLCJBbWJpZ3VvdXNQYXJhbWV0ZXJUeXBlRXJyb3IiLCJmb3JSZWdFeHAiLCJkZWZpbmVQYXJhbWV0ZXJUeXBlIiwicGFyYW1ldGVyVHlwZSIsIm5hbWUiLCJoYXMiLCJjb25jYXQiLCJzZXQiLCJfYiIsIl9fdmFsdWVzIiwicmVnZXhwU3RyaW5ncyIsIl9jIiwibmV4dCIsImRvbmUiLCJ2YWx1ZSIsImV4aXN0aW5nUGFyYW1ldGVyVHlwZSIsImluZGV4T2YiLCJwdXNoIiwic29ydCIsImNvbXBhcmUiXSwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvUGFyYW1ldGVyVHlwZVJlZ2lzdHJ5LnRzIl0sInNvdXJjZXNDb250ZW50IjpbbnVsbF0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLElBQUFBLDRCQUFBLEdBQUFDLGVB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

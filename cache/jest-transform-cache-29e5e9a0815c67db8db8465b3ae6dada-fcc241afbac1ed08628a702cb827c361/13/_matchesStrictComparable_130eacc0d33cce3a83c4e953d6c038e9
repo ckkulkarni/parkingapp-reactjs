@@ -1,0 +1,22 @@
+49b48defef8155243c0ea8c460118b8d
+"use strict";
+
+/**
+ * A specialized version of `matchesProperty` for source values suitable
+ * for strict equality comparisons, i.e. `===`.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @param {*} srcValue The value to match.
+ * @returns {Function} Returns the new spec function.
+ */
+function matchesStrictComparable(key, srcValue) {
+  return function (object) {
+    if (object == null) {
+      return false;
+    }
+    return object[key] === srcValue && (srcValue !== undefined || key in Object(object));
+  };
+}
+module.exports = matchesStrictComparable;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJtYXRjaGVzU3RyaWN0Q29tcGFyYWJsZSIsImtleSIsInNyY1ZhbHVlIiwib2JqZWN0IiwidW5kZWZpbmVkIiwiT2JqZWN0IiwibW9kdWxlIiwiZXhwb3J0cyJdLCJzb3VyY2VzIjpbIl9tYXRjaGVzU3RyaWN0Q29tcGFyYWJsZS5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIEEgc3BlY2lhbGl6ZWQgdmVyc2lvbiBvZiBgbWF0Y2hlc1Byb3BlcnR5YCBmb3Igc291cmNlIHZhbHVlcyBzdWl0YWJsZVxuICogZm9yIHN0cmljdCBlcXVhbGl0eSBjb21wYXJpc29ucywgaS5lLiBgPT09YC5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQHBhcmFtIHtzdHJpbmd9IGtleSBUaGUga2V5IG9mIHRoZSBwcm9wZXJ0eSB0byBnZXQuXG4gKiBAcGFyYW0geyp9IHNyY1ZhbHVlIFRoZSB2YWx1ZSB0byBtYXRjaC5cbiAqIEByZXR1cm5zIHtGdW5jdGlvbn0gUmV0dXJucyB0aGUgbmV3IHNwZWMgZnVuY3Rpb24uXG4gKi9cbmZ1bmN0aW9uIG1hdGNoZXNTdHJpY3RDb21wYXJhYmxlKGtleSwgc3JjVmFsdWUpIHtcbiAgcmV0dXJuIGZ1bmN0aW9uKG9iamVjdCkge1xuICAgIGlmIChvYmplY3QgPT0gbnVsbCkge1xuICAgICAgcmV0dXJuIGZhbHNlO1xuICAgIH1cbiAgICByZXR1cm4gb2JqZWN0W2tleV0gPT09IHNyY1ZhbHVlICYmXG4gICAgICAoc3JjVmFsdWUgIT09IHVuZGVmaW5lZCB8fCAoa2V5IGluIE9iamVjdChvYmplY3QpKSk7XG4gIH07XG59XG5cbm1vZHVsZS5leHBvcnRzID0gbWF0Y2hlc1N0cmljdENvbXBhcmFibGU7XG4iXSwibWFwcGluZ3MiOiI7O0FBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsU0FBU0EsdUJBQXVCQSxDQUFDQyxHQUFHLEVBQUVDLFFBQVEsRUFBRTtFQUM5QyxPQUFPLFVBQVNDLE1BQU0sRUFBRTtJQUN0QixJQUFJQSxNQUFNLElBQUksSUFBSSxFQUFFO01BQ2xCLE9BQU8sS0FBSztJQUNkO0lBQ0EsT0FBT0EsTUFBTSxDQUFDRixHQUFHLENBQUMsS0FBS0MsUUFBUSxLQUM1QkEsUUFBUSxLQUFLRSxTQUFTLElBQUtILEdBQUcsSUFBSUksTUFBTSxDQUFDRixNQUFNLENBQUUsQ0FBQztFQUN2RCxDQUFDO0FBQ0g7QUFFQUcsTUFBTSxDQUFDQyxPQUFPLEdBQUdQLHVCQUF1QiJ9

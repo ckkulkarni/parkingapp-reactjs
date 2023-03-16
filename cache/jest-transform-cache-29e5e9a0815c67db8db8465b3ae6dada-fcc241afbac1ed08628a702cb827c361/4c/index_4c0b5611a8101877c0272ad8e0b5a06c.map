@@ -1,0 +1,1 @@
+{"version":3,"names":["module","exports","require"],"sources":["index.js"],"sourcesContent":["module.exports = require('./src/table');"],"mappings":";;AAAAA,MAAM,CAACC,OAAO,GAAGC,OAAO,CAAC,aAAa,CAAC"}

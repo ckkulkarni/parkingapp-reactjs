@@ -1,0 +1,5 @@
+72ee9b37c0099a2cdbabd8eea285aab2
+"use strict";
+
+module.exports = require('./register')().Promise;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJtb2R1bGUiLCJleHBvcnRzIiwicmVxdWlyZSIsIlByb21pc2UiXSwic291cmNlcyI6WyJpbmRleC5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyJtb2R1bGUuZXhwb3J0cyA9IHJlcXVpcmUoJy4vcmVnaXN0ZXInKSgpLlByb21pc2VcbiJdLCJtYXBwaW5ncyI6Ijs7QUFBQUEsTUFBTSxDQUFDQyxPQUFPLEdBQUdDLE9BQU8sQ0FBQyxZQUFZLENBQUMsRUFBRSxDQUFDQyxPQUFPIn0=

@@ -1,0 +1,81 @@
+8d0dfb2a66bb3cf443981b4588493ab0
+"use strict";
+
+module.exports = require('./loader')(global, loadImplementation);
+
+/**
+ * Node.js version of loadImplementation.
+ *
+ * Requires the given implementation and returns the registration
+ * containing {Promise, implementation}
+ *
+ * If implementation is undefined or global.Promise, loads it
+ * Otherwise uses require
+ */
+function loadImplementation(implementation) {
+  var impl = null;
+  if (shouldPreferGlobalPromise(implementation)) {
+    // if no implementation or env specified use global.Promise
+    impl = {
+      Promise: global.Promise,
+      implementation: 'global.Promise'
+    };
+  } else if (implementation) {
+    // if implementation specified, require it
+    var lib = require(implementation);
+    impl = {
+      Promise: lib.Promise || lib,
+      implementation: implementation
+    };
+  } else {
+    // try to auto detect implementation. This is non-deterministic
+    // and should prefer other branches, but this is our last chance
+    // to load something without throwing error
+    impl = tryAutoDetect();
+  }
+  if (impl === null) {
+    throw new Error('Cannot find any-promise implementation nor' + ' global.Promise. You must install polyfill or call' + ' require("any-promise/register") with your preferred' + ' implementation, e.g. require("any-promise/register/bluebird")' + ' on application load prior to any require("any-promise").');
+  }
+  return impl;
+}
+
+/**
+ * Determines if the global.Promise should be preferred if an implementation
+ * has not been registered.
+ */
+function shouldPreferGlobalPromise(implementation) {
+  if (implementation) {
+    return implementation === 'global.Promise';
+  } else if (typeof global.Promise !== 'undefined') {
+    // Load global promise if implementation not specified
+    // Versions < 0.11 did not have global Promise
+    // Do not use for version < 0.12 as version 0.11 contained buggy versions
+    var version = /v(\d+)\.(\d+)\.(\d+)/.exec(process.version);
+    return !(version && +version[1] == 0 && +version[2] < 12);
+  }
+
+  // do not have global.Promise or another implementation was specified
+  return false;
+}
+
+/**
+ * Look for common libs as last resort there is no guarantee that
+ * this will return a desired implementation or even be deterministic.
+ * The priority is also nearly arbitrary. We are only doing this
+ * for older versions of Node.js <0.12 that do not have a reasonable
+ * global.Promise implementation and we the user has not registered
+ * the preference. This preserves the behavior of any-promise <= 0.1
+ * and may be deprecated or removed in the future
+ */
+function tryAutoDetect() {
+  var libs = ["es6-promise", "promise", "native-promise-only", "bluebird", "rsvp", "when", "q", "pinkie", "lie", "vow"];
+  var i = 0,
+    len = libs.length;
+  for (; i < len; i++) {
+    try {
+      return loadImplementation(libs[i]);
+    } catch (e) {}
+  }
+  return null;
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJtb2R1bGUiLCJleHBvcnRzIiwicmVxdWlyZSIsImdsb2JhbCIsImxvYWRJbXBsZW1lbnRhdGlvbiIsImltcGxlbWVudGF0aW9uIiwiaW1wbCIsInNob3VsZFByZWZlckdsb2JhbFByb21pc2UiLCJQcm9taXNlIiwibGliIiwidHJ5QXV0b0RldGVjdCIsIkVycm9yIiwidmVyc2lvbiIsImV4ZWMiLCJwcm9jZXNzIiwibGlicyIsImkiLCJsZW4iLCJsZW5ndGgiLCJlIl0sInNvdXJjZXMiOlsicmVnaXN0ZXIuanMiXSwic291cmNlc0NvbnRlbnQiOlsiXCJ1c2Ugc3RyaWN0XCJcbm1vZHVsZS5leHBvcnRzID0gcmVxdWlyZSgnLi9sb2FkZXInKShnbG9iYWwsIGxvYWRJbXBsZW1lbnRhdGlvbik7XG5cbi8qKlxuICogTm9kZS5qcyB2ZXJzaW9uIG9mIGxvYWRJbXBsZW1lbnRhdGlvbi5cbiAqXG4gKiBSZXF1aXJlcyB0aGUgZ2l2ZW4gaW1wbGVtZW50YXRpb24gYW5kIHJldHVybnMgdGhlIHJlZ2lzdHJhdGlvblxuICogY29udGFpbmluZyB7UHJvbWlzZSwgaW1wbGVtZW50YXRpb259XG4gKlxuICogSWYgaW1wbGVtZW50YXRpb24gaXMgdW5kZWZpbmVkIG9yIGdsb2JhbC5Qcm9taXNlLCBsb2FkcyBpdFxuICogT3RoZXJ3aXNlIHVzZXMgcmVxdWlyZVxuICovXG5mdW5jdGlvbiBsb2FkSW1wbGVtZW50YXRpb24oaW1wbGVtZW50YXRpb24pe1xuICB2YXIgaW1wbCA9IG51bGxcblxuICBpZihzaG91bGRQcmVmZXJHbG9iYWxQcm9taXNlKGltcGxlbWVudGF0aW9uKSl7XG4gICAgLy8gaWYgbm8gaW1wbGVtZW50YXRpb24gb3IgZW52IHNwZWNpZmllZCB1c2UgZ2xvYmFsLlByb21pc2VcbiAgICBpbXBsID0ge1xuICAgICAgUHJvbWlzZTogZ2xvYmFsLlByb21pc2UsXG4gICAgICBpbXBsZW1lbnRhdGlvbjogJ2dsb2JhbC5Qcm9taXNlJ1xuICAgIH1cbiAgfSBlbHNlIGlmKGltcGxlbWVudGF0aW9uKXtcbiAgICAvLyBpZiBpbXBsZW1lbnRhdGlvbiBzcGVjaWZpZWQsIHJlcXVpcmUgaXRcbiAgICB2YXIgbGliID0gcmVxdWlyZShpbXBsZW1lbnRhdGlvbilcbiAgICBpbXBsID0ge1xuICAgICAgUHJvbWlzZTogbGliLlByb21pc2UgfHwgbGliLFxuICAgICAgaW1wbGVtZW50YXRpb246IGltcGxlbWVudGF0aW9uXG4gICAgfVxuICB9IGVsc2Uge1xuICAgIC8vIHRyeSB0byBhdXRvIGRldGVjdCBpbXBsZW1lbnRhdGlvbi4gVGhpcyBpcyBub24tZGV0ZXJtaW5pc3RpY1xuICAgIC8vIGFuZCBzaG91bGQgcHJlZmVyIG90aGVyIGJyYW5jaGVzLCBidXQgdGhpcyBpcyBvdXIgbGFzdCBjaGFuY2VcbiAgICAvLyB0byBsb2FkIHNvbWV0aGluZyB3aXRob3V0IHRocm93aW5nIGVycm9yXG4gICAgaW1wbCA9IHRyeUF1dG9EZXRlY3QoKVxuICB9XG5cbiAgaWYoaW1wbCA9PT0gbnVsbCl7XG4gICAgdGhyb3cgbmV3IEVycm9yKCdDYW5ub3QgZmluZCBhbnktcHJvbWlzZSBpbXBsZW1lbnRhdGlvbiBub3InK1xuICAgICAgJyBnbG9iYWwuUHJvbWlzZS4gWW91IG11c3QgaW5zdGFsbCBwb2x5ZmlsbCBvciBjYWxsJytcbiAgICAgICcgcmVxdWlyZShcImFueS1wcm9taXNlL3JlZ2lzdGVyXCIpIHdpdGggeW91ciBwcmVmZXJyZWQnK1xuICAgICAgJyBpbXBsZW1lbnRhdGlvbiwgZS5nLiByZXF1aXJlKFwiYW55LXByb21pc2UvcmVnaXN0ZXIvYmx1ZWJpcmRcIiknK1xuICAgICAgJyBvbiBhcHBsaWNhdGlvbiBsb2FkIHByaW9yIHRvIGFueSByZXF1aXJlKFwiYW55LXByb21pc2VcIikuJylcbiAgfVxuXG4gIHJldHVybiBpbXBsXG59XG5cbi8qKlxuICogRGV0ZXJtaW5lcyBpZiB0aGUgZ2xvYmFsLlByb21pc2Ugc2hvdWxkIGJlIHByZWZlcnJlZCBpZiBhbiBpbXBsZW1lbnRhdGlvblxuICogaGFzIG5vdCBiZWVuIHJlZ2lzdGVyZWQuXG4gKi9cbmZ1bmN0aW9uIHNob3VsZFByZWZlckdsb2JhbFByb21pc2UoaW1wbGVtZW50YXRpb24pe1xuICBpZihpbXBsZW1lbnRhdGlvbil7XG4gICAgcmV0dXJuIGltcGxlbWVudGF0aW9uID09PSAnZ2xvYmFsLlByb21pc2UnXG4gIH0gZWxzZSBpZih0eXBlb2YgZ2xvYmFsLlByb21pc2UgIT09ICd1bmRlZmluZWQnKXtcbiAgICAvLyBMb2FkIGdsb2JhbCBwcm9taXNlIGlmIGltcGxlbWVudGF0aW9uIG5vdCBzcGVjaWZpZWRcbiAgICAvLyBWZXJzaW9ucyA8IDAuMTEgZGlkIG5vdCBoYXZlIGdsb2JhbCBQcm9taXNlXG4gICAgLy8gRG8gbm90IHVzZSBmb3IgdmVyc2lvbiA8IDAuMTIgYXMgdmVyc2lvbiAwLjExIGNvbnRhaW5lZCBidWdneSB2ZXJzaW9uc1xuICAgIHZhciB2ZXJzaW9uID0gKC92KFxcZCspXFwuKFxcZCspXFwuKFxcZCspLykuZXhlYyhwcm9jZXNzLnZlcnNpb24pXG4gICAgcmV0dXJuICEodmVyc2lvbiAmJiArdmVyc2lvblsxXSA9PSAwICYmICt2ZXJzaW9uWzJdIDwgMTIpXG4gIH1cblxuICAvLyBkbyBub3QgaGF2ZSBnbG9iYWwuUHJvbWlzZSBvciBhbm90aGVyIGltcGxlbWVudGF0aW9uIHdhcyBzcGVjaWZpZWRcbiAgcmV0dXJuIGZhbHNlXG59XG5cbi8qKlxuICogTG9vayBmb3IgY29tbW9uIGxpYnMgYXMgbGFzdCByZXNvcnQgdGhlcmUgaXMgbm8gZ3VhcmFudGVlIHRoYXRcbiAqIHRoaXMgd2lsbCByZXR1cm4gYSBkZXNpcmVkIGltcGxlbWVudGF0aW9uIG9yIGV2ZW4gYmUgZGV0ZXJtaW5pc3RpYy5cbiAqIFRoZSBwcmlvcml0eSBpcyBhbHNvIG5lYXJseSBhcmJpdHJhcnkuIFdlIGFyZSBvbmx5IGRvaW5nIHRoaXNcbiAqIGZvciBvbGRlciB2ZXJzaW9ucyBvZiBOb2RlLmpzIDwwLjEyIHRoYXQgZG8gbm90IGhhdmUgYSByZWFzb25hYmxlXG4gKiBnbG9iYWwuUHJvbWlzZSBpbXBsZW1lbnRhdGlvbiBhbmQgd2UgdGhlIHVzZXIgaGFzIG5vdCByZWdpc3RlcmVkXG4gKiB0aGUgcHJlZmVyZW5jZS4gVGhpcyBwcmVzZXJ2ZXMgdGhlIGJlaGF2aW9yIG9mIGFueS1wcm9taXNlIDw9IDAuMVxuICogYW5kIG1heSBiZSBkZXByZWNhdGVkIG9yIHJlbW92ZWQgaW4gdGhlIGZ1dHVyZVxuICovXG5mdW5jdGlvbiB0cnlBdXRvRGV0ZWN0KCl7XG4gIHZhciBsaWJzID0gW1xuICAgICAgXCJlczYtcHJvbWlzZVwiLFxuICAgICAgXCJwcm9taXNlXCIsXG4gICAgICBcIm5hdGl2ZS1wcm9taXNlLW9ubHlcIixcbiAgICAgIFwiYmx1ZWJpcmRcIixcbiAgICAgIFwicnN2cFwiLFxuICAgICAgXCJ3aGVuXCIsXG4gICAgICBcInFcIixcbiAgICAgIFwicGlua2llXCIsXG4gICAgICBcImxpZVwiLFxuICAgICAgXCJ2b3dcIl1cbiAgdmFyIGkgPSAwLCBsZW4gPSBsaWJzLmxlbmd0aFxuICBmb3IoOyBpIDwgbGVuOyBpKyspe1xuICAgIHRyeSB7XG4gICAgICByZXR1cm4gbG9hZEltcGxlbWVudGF0aW9uKGxpYnNbaV0pXG4gICAgfSBjYXRjaChlKXt9XG4gIH1cbiAgcmV0dXJuIG51bGxcbn1cbiJdLCJtYXBwaW5ncyI6IkFBQUEsWUFBWTs7QUFDWkEsTUFBTSxDQUFDQyxPQUFPLEdBQUdDLE9BQU8sQ0FBQyxVQUFVLENBQUMsQ0FBQ0MsTUFBTSxFQUFFQyxrQkFBa0IsQ0FBQzs7QUFFaEU7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsU0FBU0Esa0JBQWtCQSxDQUFDQyxjQUFjLEVBQUM7RUFDekMsSUFBSUMsSUFBSSxHQUFHLElBQUk7RUFFZixJQUFHQyx5QkFBeUIsQ0FBQ0YsY0FBYyxDQUFDLEVBQUM7SUFDM0M7SUFDQUMsSUFBSSxHQUFHO01BQ0xFLE9BQU8sRUFBRUwsTUFBTSxDQUFDSyxPQUFPO01BQ3ZCSCxjQUFjLEVBQUU7SUFDbEIsQ0FBQztFQUNILENBQUMsTUFBTSxJQUFHQSxjQUFjLEVBQUM7SUFDdkI7SUFDQSxJQUFJSSxHQUFHLEdBQUdQLE9BQU8sQ0FBQ0csY0FBYyxDQUFDO0lBQ2pDQyxJQUFJLEdBQUc7TUFDTEUsT0FBTyxFQUFFQyxHQUFHLENBQUNELE9BQU8sSUFBSUMsR0FBRztNQUMzQkosY0FBYyxFQUFFQTtJQUNsQixDQUFDO0VBQ0gsQ0FBQyxNQUFNO0lBQ0w7SUFDQTtJQUNBO0lBQ0FDLElBQUksR0FBR0ksYUFBYSxFQUFFO0VBQ3hCO0VBRUEsSUFBR0osSUFBSSxLQUFLLElBQUksRUFBQztJQUNmLE1BQU0sSUFBSUssS0FBSyxDQUFDLDRDQUE0QyxHQUMxRCxvREFBb0QsR0FDcEQsc0RBQXNELEdBQ3RELGdFQUFnRSxHQUNoRSwyREFBMkQsQ0FBQztFQUNoRTtFQUVBLE9BQU9MLElBQUk7QUFDYjs7QUFFQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLFNBQVNDLHlCQUF5QkEsQ0FBQ0YsY0FBYyxFQUFDO0VBQ2hELElBQUdBLGNBQWMsRUFBQztJQUNoQixPQUFPQSxjQUFjLEtBQUssZ0JBQWdCO0VBQzVDLENBQUMsTUFBTSxJQUFHLE9BQU9GLE1BQU0sQ0FBQ0ssT0FBTyxLQUFLLFdBQVcsRUFBQztJQUM5QztJQUNBO0lBQ0E7SUFDQSxJQUFJSSxPQUFPLEdBQUksc0JBQXNCLENBQUVDLElBQUksQ0FBQ0MsT0FBTyxDQUFDRixPQUFPLENBQUM7SUFDNUQsT0FBTyxFQUFFQSxPQUFPLElBQUksQ0FBQ0EsT0FBTyxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDQSxPQUFPLENBQUMsQ0FBQyxDQUFDLEdBQUcsRUFBRSxDQUFDO0VBQzNEOztFQUVBO0VBQ0EsT0FBTyxLQUFLO0FBQ2Q7O0FBRUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsU0FBU0YsYUFBYUEsQ0FBQSxFQUFFO0VBQ3RCLElBQUlLLElBQUksR0FBRyxDQUNQLGFBQWEsRUFDYixTQUFTLEVBQ1QscUJBQXFCLEVBQ3JCLFVBQVUsRUFDVixNQUFNLEVBQ04sTUFBTSxFQUNOLEdBQUcsRUFDSCxRQUFRLEVBQ1IsS0FBSyxFQUNMLEtBQUssQ0FBQztFQUNWLElBQUlDLENBQUMsR0FBRyxDQUFDO0lBQUVDLEdBQUcsR0FBR0YsSUFBSSxDQUFDRyxNQUFNO0VBQzVCLE9BQU1GLENBQUMsR0FBR0MsR0FBRyxFQUFFRCxDQUFDLEVBQUUsRUFBQztJQUNqQixJQUFJO01BQ0YsT0FBT1osa0JBQWtCLENBQUNXLElBQUksQ0FBQ0MsQ0FBQyxDQUFDLENBQUM7SUFDcEMsQ0FBQyxDQUFDLE9BQU1HLENBQUMsRUFBQyxDQUFDO0VBQ2I7RUFDQSxPQUFPLElBQUk7QUFDYiJ9

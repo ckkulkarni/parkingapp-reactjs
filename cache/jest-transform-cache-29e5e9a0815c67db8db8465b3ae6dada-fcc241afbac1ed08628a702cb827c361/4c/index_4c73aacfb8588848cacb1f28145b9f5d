@@ -1,0 +1,9 @@
+7bed5aca241b5b16d8d443289f4bb1c4
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const publish_plugin_1 = require("./publish_plugin");
+exports.default = publish_plugin_1.publishPlugin;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJwdWJsaXNoX3BsdWdpbl8xIiwicmVxdWlyZSIsImV4cG9ydHMiLCJkZWZhdWx0IiwicHVibGlzaFBsdWdpbiJdLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9wdWJsaXNoL2luZGV4LnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHB1Ymxpc2hQbHVnaW4gfSBmcm9tICcuL3B1Ymxpc2hfcGx1Z2luJ1xuXG5leHBvcnQgZGVmYXVsdCBwdWJsaXNoUGx1Z2luXG4iXSwibWFwcGluZ3MiOiI7Ozs7O0FBQUEsTUFBQUEsZ0JBQUEsR0FBQUMsT0FBQTtBQUVBQyxPQUFBLENBQUFDLE9BQUEsR0FBZUgsZ0JBQUEsQ0FBQUksYUFBYSJ9

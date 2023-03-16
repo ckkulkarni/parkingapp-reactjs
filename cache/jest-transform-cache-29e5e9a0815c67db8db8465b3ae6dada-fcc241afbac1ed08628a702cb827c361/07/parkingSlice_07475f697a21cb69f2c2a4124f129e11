@@ -1,0 +1,63 @@
+761ae564c5fae450f97b124bd8b29845
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.removeParkingSpace = exports.paymentComplete = exports.parkingSlice = exports.occupyParkingLots = exports.initializeParkingLot = exports.default = exports.addToParkingSpace = void 0;
+var _toolkit = require("@reduxjs/toolkit");
+const parkingSlice = (0, _toolkit.createSlice)({
+  name: "Parking Space",
+  initialState: {
+    numSpaces: 0,
+    occupiedSpaces: 0,
+    spaces: {}
+  },
+  reducers: {
+    initializeParkingLot: (state, action) => {
+      state.numSpaces = action.payload;
+    },
+    addToParkingSpace: state => {
+      state.numSpaces += 1;
+    },
+    removeParkingSpace: state => {
+      const spaces = state.spaces;
+      delete spaces[state.numSpaces];
+      state.numSpaces -= 1;
+    },
+    occupyParkingLots: (state, action) => {
+      const {
+        spaceNum,
+        registration,
+        parkingTime
+      } = action.payload;
+      state.spaces[spaceNum] = {
+        registration,
+        parkingTime
+      };
+      state.occupiedSpaces++;
+    },
+    paymentComplete: (state, action) => {
+      const spaces = state.spaces;
+      const selected = action.payload;
+      delete spaces[selected];
+      state.occupiedSpaces--;
+    }
+  }
+});
+exports.parkingSlice = parkingSlice;
+const {
+  initializeParkingLot,
+  occupyParkingLots,
+  addToParkingSpace,
+  removeParkingSpace,
+  paymentComplete
+} = parkingSlice.actions;
+exports.paymentComplete = paymentComplete;
+exports.removeParkingSpace = removeParkingSpace;
+exports.addToParkingSpace = addToParkingSpace;
+exports.occupyParkingLots = occupyParkingLots;
+exports.initializeParkingLot = initializeParkingLot;
+var _default = parkingSlice.reducer;
+exports.default = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJfdG9vbGtpdCIsInJlcXVpcmUiLCJwYXJraW5nU2xpY2UiLCJjcmVhdGVTbGljZSIsIm5hbWUiLCJpbml0aWFsU3RhdGUiLCJudW1TcGFjZXMiLCJvY2N1cGllZFNwYWNlcyIsInNwYWNlcyIsInJlZHVjZXJzIiwiaW5pdGlhbGl6ZVBhcmtpbmdMb3QiLCJzdGF0ZSIsImFjdGlvbiIsInBheWxvYWQiLCJhZGRUb1BhcmtpbmdTcGFjZSIsInJlbW92ZVBhcmtpbmdTcGFjZSIsIm9jY3VweVBhcmtpbmdMb3RzIiwic3BhY2VOdW0iLCJyZWdpc3RyYXRpb24iLCJwYXJraW5nVGltZSIsInBheW1lbnRDb21wbGV0ZSIsInNlbGVjdGVkIiwiZXhwb3J0cyIsImFjdGlvbnMiLCJfZGVmYXVsdCIsInJlZHVjZXIiLCJkZWZhdWx0Il0sInNvdXJjZXMiOlsicGFya2luZ1NsaWNlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGNyZWF0ZVNsaWNlIH0gZnJvbSAnQHJlZHV4anMvdG9vbGtpdCc7XHJcbnR5cGUgUGF5bWVudENvbXBsZXRlQWN0aW9uID0ge1xyXG4gICAgdHlwZTogc3RyaW5nO1xyXG4gICAgcGF5bG9hZDphbnk7XHJcbiAgfTtcclxuZXhwb3J0IGNvbnN0IHBhcmtpbmdTbGljZSA9IGNyZWF0ZVNsaWNlKHtcclxuICAgIG5hbWU6IFwiUGFya2luZyBTcGFjZVwiLFxyXG4gICAgaW5pdGlhbFN0YXRlOiB7XHJcbiAgICAgICAgbnVtU3BhY2VzOiAwLFxyXG4gICAgICAgIG9jY3VwaWVkU3BhY2VzOiAwLFxyXG4gICAgICAgIHNwYWNlczoge30sXHJcbiAgICB9LFxyXG4gICAgcmVkdWNlcnM6IHtcclxuICAgICAgICBpbml0aWFsaXplUGFya2luZ0xvdDogKHN0YXRlLCBhY3Rpb24pID0+IHtcclxuICAgICAgICAgICAgc3RhdGUubnVtU3BhY2VzID0gYWN0aW9uLnBheWxvYWQ7XHJcbiAgICAgICAgfSxcclxuICAgICAgICBhZGRUb1BhcmtpbmdTcGFjZTogKHN0YXRlKSA9PiB7XHJcbiAgICAgICAgICAgIHN0YXRlLm51bVNwYWNlcys9IDE7ICBcclxuICAgICAgICB9LFxyXG4gICAgICAgIHJlbW92ZVBhcmtpbmdTcGFjZTogKHN0YXRlOiBhbnkpID0+IHtcclxuICAgICAgICAgICAgY29uc3Qgc3BhY2VzID0gc3RhdGUuc3BhY2VzO1xyXG4gICAgICAgICAgICBkZWxldGUgc3BhY2VzW3N0YXRlLm51bVNwYWNlc107XHJcbiAgICAgICAgICAgIHN0YXRlLm51bVNwYWNlcyAtPSAxXHJcbiAgICAgICAgfSxcclxuICAgICAgICBcclxuICAgICAgICBvY2N1cHlQYXJraW5nTG90czogKHN0YXRlOiBhbnksIGFjdGlvbikgPT4ge1xyXG4gICAgICAgICAgICBjb25zdCB7IHNwYWNlTnVtLCByZWdpc3RyYXRpb24sIHBhcmtpbmdUaW1lIH0gPSBhY3Rpb24ucGF5bG9hZDtcclxuICAgICAgICAgICAgc3RhdGUuc3BhY2VzW3NwYWNlTnVtXSA9IHsgcmVnaXN0cmF0aW9uLCBwYXJraW5nVGltZSB9O1xyXG4gICAgICAgICAgICBzdGF0ZS5vY2N1cGllZFNwYWNlcysrO1xyXG4gICAgICAgIH0sXHJcbiAgICAgICAgcGF5bWVudENvbXBsZXRlOiAoc3RhdGU6IGFueSwgYWN0aW9uOiBQYXltZW50Q29tcGxldGVBY3Rpb24pID0+IHtcclxuICAgICAgICAgICAgY29uc3Qgc3BhY2VzID0gc3RhdGUuc3BhY2VzO1xyXG4gICAgICAgICAgICBjb25zdCBzZWxlY3RlZCAgPSBhY3Rpb24ucGF5bG9hZDtcclxuICAgICAgICAgICAgZGVsZXRlIHNwYWNlc1tzZWxlY3RlZF07XHJcbiAgICAgICAgICAgIHN0YXRlLm9jY3VwaWVkU3BhY2VzLS07XHJcbiAgICAgICAgfVxyXG4gICAgfVxyXG59KVxyXG5leHBvcnQgY29uc3QgeyBpbml0aWFsaXplUGFya2luZ0xvdCwgb2NjdXB5UGFya2luZ0xvdHMsIGFkZFRvUGFya2luZ1NwYWNlLCByZW1vdmVQYXJraW5nU3BhY2UsIHBheW1lbnRDb21wbGV0ZX0gPSBwYXJraW5nU2xpY2UuYWN0aW9ucztcclxuZXhwb3J0IGRlZmF1bHQgcGFya2luZ1NsaWNlLnJlZHVjZXI7Il0sIm1hcHBpbmdzIjoiOzs7Ozs7QUFBQSxJQUFBQSxRQUFBLEdBQUFDLE9BQUE7QUFLTyxNQUFNQyxZQUFZLEdBQUcsSUFBQUMsb0JBQVcsRUFBQztFQUNwQ0MsSUFBSSxFQUFFLGVBQWU7RUFDckJDLFlBQVksRUFBRTtJQUNWQyxTQUFTLEVBQUUsQ0FBQztJQUNaQyxjQUFjLEVBQUUsQ0FBQztJQUNqQkMsTUFBTSxFQUFFLENBQUM7RUFDYixDQUFDO0VBQ0RDLFFBQVEsRUFBRTtJQUNOQyxvQkFBb0IsRUFBRUEsQ0FBQ0MsS0FBSyxFQUFFQyxNQUFNLEtBQUs7TUFDckNELEtBQUssQ0FBQ0wsU0FBUyxHQUFHTSxNQUFNLENBQUNDLE9BQU87SUFDcEMsQ0FBQztJQUNEQyxpQkFBaUIsRUFBR0gsS0FBSyxJQUFLO01BQzFCQSxLQUFLLENBQUNMLFNBQVMsSUFBRyxDQUFDO0lBQ3ZCLENBQUM7SUFDRFMsa0JBQWtCLEVBQUdKLEtBQVUsSUFBSztNQUNoQyxNQUFNSCxNQUFNLEdBQUdHLEtBQUssQ0FBQ0gsTUFBTTtNQUMzQixPQUFPQSxNQUFNLENBQUNHLEtBQUssQ0FBQ0wsU0FBUyxDQUFDO01BQzlCSyxLQUFLLENBQUNMLFNBQVMsSUFBSSxDQUFDO0lBQ3hCLENBQUM7SUFFRFUsaUJBQWlCLEVBQUVBLENBQUNMLEtBQVUsRUFBRUMsTUFBTSxLQUFLO01BQ3ZDLE1BQU07UUFBRUssUUFBUTtRQUFFQyxZQUFZO1FBQUVDO01BQVksQ0FBQyxHQUFHUCxNQUFNLENBQUNDLE9BQU87TUFDOURGLEtBQUssQ0FBQ0gsTUFBTSxDQUFDUyxRQUFRLENBQUMsR0FBRztRQUFFQyxZQUFZO1FBQUVDO01BQVksQ0FBQztNQUN0RFIsS0FBSyxDQUFDSixjQUFjLEVBQUU7SUFDMUIsQ0FBQztJQUNEYSxlQUFlLEVBQUVBLENBQUNULEtBQVUsRUFBRUMsTUFBNkIsS0FBSztNQUM1RCxNQUFNSixNQUFNLEdBQUdHLEtBQUssQ0FBQ0gsTUFBTTtNQUMzQixNQUFNYSxRQUFRLEdBQUlULE1BQU0sQ0FBQ0MsT0FBTztNQUNoQyxPQUFPTCxNQUFNLENBQUNhLFFBQVEsQ0FBQztNQUN2QlYsS0FBSyxDQUFDSixjQUFjLEVBQUU7SUFDMUI7RUFDSjtBQUNKLENBQUMsQ0FBQztBQUFBZSxPQUFBLENBQUFwQixZQUFBLEdBQUFBLFlBQUE7QUFDSyxNQUFNO0VBQUVRLG9CQUFvQjtFQUFFTSxpQkFBaUI7RUFBRUYsaUJBQWlCO0VBQUVDLGtCQUFrQjtFQUFFSztBQUFlLENBQUMsR0FBR2xCLFlBQVksQ0FBQ3FCLE9BQU87QUFBQ0QsT0FBQSxDQUFBRixlQUFBLEdBQUFBLGVBQUE7QUFBQUUsT0FBQSxDQUFBUCxrQkFBQSxHQUFBQSxrQkFBQTtBQUFBTyxPQUFBLENBQUFSLGlCQUFBLEdBQUFBLGlCQUFBO0FBQUFRLE9BQUEsQ0FBQU4saUJBQUEsR0FBQUEsaUJBQUE7QUFBQU0sT0FBQSxDQUFBWixvQkFBQSxHQUFBQSxvQkFBQTtBQUFBLElBQUFjLFFBQUEsR0FDeEh0QixZQUFZLENBQUN1QixPQUFPO0FBQUFILE9BQUEsQ0FBQUksT0FBQSxHQUFBRixRQUFBIn0=

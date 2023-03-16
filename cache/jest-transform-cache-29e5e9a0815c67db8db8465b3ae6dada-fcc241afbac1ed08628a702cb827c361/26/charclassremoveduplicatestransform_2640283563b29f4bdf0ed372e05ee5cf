@@ -1,0 +1,30 @@
+f138eb0940061873dae4172bdb773208
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+'use strict';
+
+/**
+ * A regexp-tree plugin to remove duplicates from character classes.
+ */
+module.exports = {
+  CharacterClass: function CharacterClass(path) {
+    var node = path.node;
+    var sources = {};
+    for (var i = 0; i < node.expressions.length; i++) {
+      var childPath = path.getChild(i);
+      var source = childPath.jsonEncode();
+      if (sources.hasOwnProperty(source)) {
+        childPath.remove();
+
+        // Since we remove the current node.
+        // TODO: make it simpler for users with a method.
+        i--;
+      }
+      sources[source] = true;
+    }
+  }
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJtb2R1bGUiLCJleHBvcnRzIiwiQ2hhcmFjdGVyQ2xhc3MiLCJwYXRoIiwibm9kZSIsInNvdXJjZXMiLCJpIiwiZXhwcmVzc2lvbnMiLCJsZW5ndGgiLCJjaGlsZFBhdGgiLCJnZXRDaGlsZCIsInNvdXJjZSIsImpzb25FbmNvZGUiLCJoYXNPd25Qcm9wZXJ0eSIsInJlbW92ZSJdLCJzb3VyY2VzIjpbImNoYXItY2xhc3MtcmVtb3ZlLWR1cGxpY2F0ZXMtdHJhbnNmb3JtLmpzIl0sInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogVGhlIE1JVCBMaWNlbnNlIChNSVQpXG4gKiBDb3B5cmlnaHQgKGMpIDIwMTctcHJlc2VudCBEbWl0cnkgU29zaG5pa292IDxkbWl0cnkuc29zaG5pa292QGdtYWlsLmNvbT5cbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbi8qKlxuICogQSByZWdleHAtdHJlZSBwbHVnaW4gdG8gcmVtb3ZlIGR1cGxpY2F0ZXMgZnJvbSBjaGFyYWN0ZXIgY2xhc3Nlcy5cbiAqL1xuXG5tb2R1bGUuZXhwb3J0cyA9IHtcbiAgQ2hhcmFjdGVyQ2xhc3M6IGZ1bmN0aW9uIENoYXJhY3RlckNsYXNzKHBhdGgpIHtcbiAgICB2YXIgbm9kZSA9IHBhdGgubm9kZTtcblxuICAgIHZhciBzb3VyY2VzID0ge307XG5cbiAgICBmb3IgKHZhciBpID0gMDsgaSA8IG5vZGUuZXhwcmVzc2lvbnMubGVuZ3RoOyBpKyspIHtcbiAgICAgIHZhciBjaGlsZFBhdGggPSBwYXRoLmdldENoaWxkKGkpO1xuICAgICAgdmFyIHNvdXJjZSA9IGNoaWxkUGF0aC5qc29uRW5jb2RlKCk7XG5cbiAgICAgIGlmIChzb3VyY2VzLmhhc093blByb3BlcnR5KHNvdXJjZSkpIHtcbiAgICAgICAgY2hpbGRQYXRoLnJlbW92ZSgpO1xuXG4gICAgICAgIC8vIFNpbmNlIHdlIHJlbW92ZSB0aGUgY3VycmVudCBub2RlLlxuICAgICAgICAvLyBUT0RPOiBtYWtlIGl0IHNpbXBsZXIgZm9yIHVzZXJzIHdpdGggYSBtZXRob2QuXG4gICAgICAgIGktLTtcbiAgICAgIH1cblxuICAgICAgc291cmNlc1tzb3VyY2VdID0gdHJ1ZTtcbiAgICB9XG4gIH1cbn07Il0sIm1hcHBpbmdzIjoiQUFBQTtBQUNBO0FBQ0E7QUFDQTs7QUFFQSxZQUFZOztBQUVaO0FBQ0E7QUFDQTtBQUVBQSxNQUFNLENBQUNDLE9BQU8sR0FBRztFQUNmQyxjQUFjLEVBQUUsU0FBU0EsY0FBY0EsQ0FBQ0MsSUFBSSxFQUFFO0lBQzVDLElBQUlDLElBQUksR0FBR0QsSUFBSSxDQUFDQyxJQUFJO0lBRXBCLElBQUlDLE9BQU8sR0FBRyxDQUFDLENBQUM7SUFFaEIsS0FBSyxJQUFJQyxDQUFDLEdBQUcsQ0FBQyxFQUFFQSxDQUFDLEdBQUdGLElBQUksQ0FBQ0csV0FBVyxDQUFDQyxNQUFNLEVBQUVGLENBQUMsRUFBRSxFQUFFO01BQ2hELElBQUlHLFNBQVMsR0FBR04sSUFBSSxDQUFDTyxRQUFRLENBQUNKLENBQUMsQ0FBQztNQUNoQyxJQUFJSyxNQUFNLEdBQUdGLFNBQVMsQ0FBQ0csVUFBVSxFQUFFO01BRW5DLElBQUlQLE9BQU8sQ0FBQ1EsY0FBYyxDQUFDRixNQUFNLENBQUMsRUFBRTtRQUNsQ0YsU0FBUyxDQUFDSyxNQUFNLEVBQUU7O1FBRWxCO1FBQ0E7UUFDQVIsQ0FBQyxFQUFFO01BQ0w7TUFFQUQsT0FBTyxDQUFDTSxNQUFNLENBQUMsR0FBRyxJQUFJO0lBQ3hCO0VBQ0Y7QUFDRixDQUFDIn0=

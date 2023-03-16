@@ -1,0 +1,15 @@
+8da2869e43a8b02d965b75b6500644c2
+"use strict";
+
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const definition_1 = __importDefault(require("./definition"));
+class TestRunHookDefinition extends definition_1.default {}
+exports.default = TestRunHookDefinition;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJkZWZpbml0aW9uXzEiLCJfX2ltcG9ydERlZmF1bHQiLCJyZXF1aXJlIiwiVGVzdFJ1bkhvb2tEZWZpbml0aW9uIiwiZGVmYXVsdCIsImV4cG9ydHMiXSwic291cmNlcyI6WyIuLi8uLi9zcmMvbW9kZWxzL3Rlc3RfcnVuX2hvb2tfZGVmaW5pdGlvbi50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgRGVmaW5pdGlvbiBmcm9tICcuL2RlZmluaXRpb24nXG5cbmV4cG9ydCBkZWZhdWx0IGNsYXNzIFRlc3RSdW5Ib29rRGVmaW5pdGlvbiBleHRlbmRzIERlZmluaXRpb24ge31cbiJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7OztBQUFBLE1BQUFBLFlBQUEsR0FBQUMsZUFBQSxDQUFBQyxPQUFBO0FBRUEsTUFBcUJDLHFCQUFzQixTQUFRSCxZQUFBLENBQUFJLE9BQVU7QUFBN0RDLE9BQUEsQ0FBQUQsT0FBQSxHQUFBRCxxQkFBQSJ9

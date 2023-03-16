@@ -1,0 +1,1 @@
+{"version":3,"names":["module","exports","require"],"sources":["index.js"],"sourcesContent":["module.exports = require('./lib/node-progress');\n"],"mappings":";;AAAAA,MAAM,CAACC,OAAO,GAAGC,OAAO,CAAC,qBAAqB,CAAC"}

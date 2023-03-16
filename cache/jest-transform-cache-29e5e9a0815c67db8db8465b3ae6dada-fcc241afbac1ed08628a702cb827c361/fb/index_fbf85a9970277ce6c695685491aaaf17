@@ -1,0 +1,67 @@
+4479dec8fc33f662b8e4d19534213976
+/*!
+ * repeat-string <https://github.com/jonschlinkert/repeat-string>
+ *
+ * Copyright (c) 2014-2015, Jon Schlinkert.
+ * Licensed under the MIT License.
+ */
+
+'use strict';
+
+/**
+ * Results cache
+ */
+var res = '';
+var cache;
+
+/**
+ * Expose `repeat`
+ */
+
+module.exports = repeat;
+
+/**
+ * Repeat the given `string` the specified `number`
+ * of times.
+ *
+ * **Example:**
+ *
+ * ```js
+ * var repeat = require('repeat-string');
+ * repeat('A', 5);
+ * //=> AAAAA
+ * ```
+ *
+ * @param {String} `string` The string to repeat
+ * @param {Number} `number` The number of times to repeat the string
+ * @return {String} Repeated string
+ * @api public
+ */
+
+function repeat(str, num) {
+  if (typeof str !== 'string') {
+    throw new TypeError('expected a string');
+  }
+
+  // cover common, quick use cases
+  if (num === 1) return str;
+  if (num === 2) return str + str;
+  var max = str.length * num;
+  if (cache !== str || typeof cache === 'undefined') {
+    cache = str;
+    res = '';
+  } else if (res.length >= max) {
+    return res.substr(0, max);
+  }
+  while (max > res.length && num > 1) {
+    if (num & 1) {
+      res += str;
+    }
+    num >>= 1;
+    str += str;
+  }
+  res += str;
+  res = res.substr(0, max);
+  return res;
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJyZXMiLCJjYWNoZSIsIm1vZHVsZSIsImV4cG9ydHMiLCJyZXBlYXQiLCJzdHIiLCJudW0iLCJUeXBlRXJyb3IiLCJtYXgiLCJsZW5ndGgiLCJzdWJzdHIiXSwic291cmNlcyI6WyJpbmRleC5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyIvKiFcbiAqIHJlcGVhdC1zdHJpbmcgPGh0dHBzOi8vZ2l0aHViLmNvbS9qb25zY2hsaW5rZXJ0L3JlcGVhdC1zdHJpbmc+XG4gKlxuICogQ29weXJpZ2h0IChjKSAyMDE0LTIwMTUsIEpvbiBTY2hsaW5rZXJ0LlxuICogTGljZW5zZWQgdW5kZXIgdGhlIE1JVCBMaWNlbnNlLlxuICovXG5cbid1c2Ugc3RyaWN0JztcblxuLyoqXG4gKiBSZXN1bHRzIGNhY2hlXG4gKi9cblxudmFyIHJlcyA9ICcnO1xudmFyIGNhY2hlO1xuXG4vKipcbiAqIEV4cG9zZSBgcmVwZWF0YFxuICovXG5cbm1vZHVsZS5leHBvcnRzID0gcmVwZWF0O1xuXG4vKipcbiAqIFJlcGVhdCB0aGUgZ2l2ZW4gYHN0cmluZ2AgdGhlIHNwZWNpZmllZCBgbnVtYmVyYFxuICogb2YgdGltZXMuXG4gKlxuICogKipFeGFtcGxlOioqXG4gKlxuICogYGBganNcbiAqIHZhciByZXBlYXQgPSByZXF1aXJlKCdyZXBlYXQtc3RyaW5nJyk7XG4gKiByZXBlYXQoJ0EnLCA1KTtcbiAqIC8vPT4gQUFBQUFcbiAqIGBgYFxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSBgc3RyaW5nYCBUaGUgc3RyaW5nIHRvIHJlcGVhdFxuICogQHBhcmFtIHtOdW1iZXJ9IGBudW1iZXJgIFRoZSBudW1iZXIgb2YgdGltZXMgdG8gcmVwZWF0IHRoZSBzdHJpbmdcbiAqIEByZXR1cm4ge1N0cmluZ30gUmVwZWF0ZWQgc3RyaW5nXG4gKiBAYXBpIHB1YmxpY1xuICovXG5cbmZ1bmN0aW9uIHJlcGVhdChzdHIsIG51bSkge1xuICBpZiAodHlwZW9mIHN0ciAhPT0gJ3N0cmluZycpIHtcbiAgICB0aHJvdyBuZXcgVHlwZUVycm9yKCdleHBlY3RlZCBhIHN0cmluZycpO1xuICB9XG5cbiAgLy8gY292ZXIgY29tbW9uLCBxdWljayB1c2UgY2FzZXNcbiAgaWYgKG51bSA9PT0gMSkgcmV0dXJuIHN0cjtcbiAgaWYgKG51bSA9PT0gMikgcmV0dXJuIHN0ciArIHN0cjtcblxuICB2YXIgbWF4ID0gc3RyLmxlbmd0aCAqIG51bTtcbiAgaWYgKGNhY2hlICE9PSBzdHIgfHwgdHlwZW9mIGNhY2hlID09PSAndW5kZWZpbmVkJykge1xuICAgIGNhY2hlID0gc3RyO1xuICAgIHJlcyA9ICcnO1xuICB9IGVsc2UgaWYgKHJlcy5sZW5ndGggPj0gbWF4KSB7XG4gICAgcmV0dXJuIHJlcy5zdWJzdHIoMCwgbWF4KTtcbiAgfVxuXG4gIHdoaWxlIChtYXggPiByZXMubGVuZ3RoICYmIG51bSA+IDEpIHtcbiAgICBpZiAobnVtICYgMSkge1xuICAgICAgcmVzICs9IHN0cjtcbiAgICB9XG5cbiAgICBudW0gPj49IDE7XG4gICAgc3RyICs9IHN0cjtcbiAgfVxuXG4gIHJlcyArPSBzdHI7XG4gIHJlcyA9IHJlcy5zdWJzdHIoMCwgbWF4KTtcbiAgcmV0dXJuIHJlcztcbn1cbiJdLCJtYXBwaW5ncyI6IkFBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOztBQUVBLFlBQVk7O0FBRVo7QUFDQTtBQUNBO0FBRUEsSUFBSUEsR0FBRyxHQUFHLEVBQUU7QUFDWixJQUFJQyxLQUFLOztBQUVUO0FBQ0E7QUFDQTs7QUFFQUMsTUFBTSxDQUFDQyxPQUFPLEdBQUdDLE1BQU07O0FBRXZCO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7O0FBRUEsU0FBU0EsTUFBTUEsQ0FBQ0MsR0FBRyxFQUFFQyxHQUFHLEVBQUU7RUFDeEIsSUFBSSxPQUFPRCxHQUFHLEtBQUssUUFBUSxFQUFFO0lBQzNCLE1BQU0sSUFBSUUsU0FBUyxDQUFDLG1CQUFtQixDQUFDO0VBQzFDOztFQUVBO0VBQ0EsSUFBSUQsR0FBRyxLQUFLLENBQUMsRUFBRSxPQUFPRCxHQUFHO0VBQ3pCLElBQUlDLEdBQUcsS0FBSyxDQUFDLEVBQUUsT0FBT0QsR0FBRyxHQUFHQSxHQUFHO0VBRS9CLElBQUlHLEdBQUcsR0FBR0gsR0FBRyxDQUFDSSxNQUFNLEdBQUdILEdBQUc7RUFDMUIsSUFBSUwsS0FBSyxLQUFLSSxHQUFHLElBQUksT0FBT0osS0FBSyxLQUFLLFdBQVcsRUFBRTtJQUNqREEsS0FBSyxHQUFHSSxHQUFHO0lBQ1hMLEdBQUcsR0FBRyxFQUFFO0VBQ1YsQ0FBQyxNQUFNLElBQUlBLEdBQUcsQ0FBQ1MsTUFBTSxJQUFJRCxHQUFHLEVBQUU7SUFDNUIsT0FBT1IsR0FBRyxDQUFDVSxNQUFNLENBQUMsQ0FBQyxFQUFFRixHQUFHLENBQUM7RUFDM0I7RUFFQSxPQUFPQSxHQUFHLEdBQUdSLEdBQUcsQ0FBQ1MsTUFBTSxJQUFJSCxHQUFHLEdBQUcsQ0FBQyxFQUFFO0lBQ2xDLElBQUlBLEdBQUcsR0FBRyxDQUFDLEVBQUU7TUFDWE4sR0FBRyxJQUFJSyxHQUFHO0lBQ1o7SUFFQUMsR0FBRyxLQUFLLENBQUM7SUFDVEQsR0FBRyxJQUFJQSxHQUFHO0VBQ1o7RUFFQUwsR0FBRyxJQUFJSyxHQUFHO0VBQ1ZMLEdBQUcsR0FBR0EsR0FBRyxDQUFDVSxNQUFNLENBQUMsQ0FBQyxFQUFFRixHQUFHLENBQUM7RUFDeEIsT0FBT1IsR0FBRztBQUNaIn0=

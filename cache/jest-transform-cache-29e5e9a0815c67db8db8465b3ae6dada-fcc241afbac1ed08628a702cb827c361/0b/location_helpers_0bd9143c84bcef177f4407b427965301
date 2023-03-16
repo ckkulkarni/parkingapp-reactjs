@@ -1,0 +1,23 @@
+576f95ce08ac57a5ddf7473e0f5967f5
+"use strict";
+
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.formatLocation = void 0;
+const path_1 = __importDefault(require("path"));
+const value_checker_1 = require("../../value_checker");
+function formatLocation(obj, cwd) {
+  let uri = obj.uri;
+  if ((0, value_checker_1.doesHaveValue)(cwd)) {
+    uri = path_1.default.relative(cwd, uri);
+  }
+  return `${uri}:${obj.line.toString()}`;
+}
+exports.formatLocation = formatLocation;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJwYXRoXzEiLCJfX2ltcG9ydERlZmF1bHQiLCJyZXF1aXJlIiwidmFsdWVfY2hlY2tlcl8xIiwiZm9ybWF0TG9jYXRpb24iLCJvYmoiLCJjd2QiLCJ1cmkiLCJkb2VzSGF2ZVZhbHVlIiwiZGVmYXVsdCIsInJlbGF0aXZlIiwibGluZSIsInRvU3RyaW5nIiwiZXhwb3J0cyJdLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9mb3JtYXR0ZXIvaGVscGVycy9sb2NhdGlvbl9oZWxwZXJzLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBwYXRoIGZyb20gJ3BhdGgnXG5pbXBvcnQgeyBkb2VzSGF2ZVZhbHVlIH0gZnJvbSAnLi4vLi4vdmFsdWVfY2hlY2tlcidcbmltcG9ydCB7IElMaW5lQW5kVXJpIH0gZnJvbSAnLi4vLi4vdHlwZXMnXG5cbmV4cG9ydCBmdW5jdGlvbiBmb3JtYXRMb2NhdGlvbihvYmo6IElMaW5lQW5kVXJpLCBjd2Q/OiBzdHJpbmcpOiBzdHJpbmcge1xuICBsZXQgdXJpID0gb2JqLnVyaVxuICBpZiAoZG9lc0hhdmVWYWx1ZShjd2QpKSB7XG4gICAgdXJpID0gcGF0aC5yZWxhdGl2ZShjd2QsIHVyaSlcbiAgfVxuICByZXR1cm4gYCR7dXJpfToke29iai5saW5lLnRvU3RyaW5nKCl9YFxufVxuIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7OztBQUFBLE1BQUFBLE1BQUEsR0FBQUMsZUFBQSxDQUFBQyxPQUFBO0FBQ0EsTUFBQUMsZUFBQSxHQUFBRCxPQUFBO0FBR0EsU0FBZ0JFLGNBQWNBLENBQUNDLEdBQWdCLEVBQUVDLEdBQVk7RUFDM0QsSUFBSUMsR0FBRyxHQUFHRixHQUFHLENBQUNFLEdBQUc7RUFDakIsSUFBSSxJQUFBSixlQUFBLENBQUFLLGFBQWEsRUFBQ0YsR0FBRyxDQUFDLEVBQUU7SUFDdEJDLEdBQUcsR0FBR1AsTUFBQSxDQUFBUyxPQUFJLENBQUNDLFFBQVEsQ0FBQ0osR0FBRyxFQUFFQyxHQUFHLENBQUM7O0VBRS9CLE9BQU8sR0FBR0EsR0FBRyxJQUFJRixHQUFHLENBQUNNLElBQUksQ0FBQ0MsUUFBUSxFQUFFLEVBQUU7QUFDeEM7QUFOQUMsT0FBQSxDQUFBVCxjQUFBLEdBQUFBLGNBQUEifQ==

@@ -1,0 +1,23 @@
+bb087871b9e2d1c8d36ef4ed15cd033f
+"use strict";
+
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.validateInstall = void 0;
+/* eslint-disable no-console */
+const is_installed_globally_1 = __importDefault(require("is-installed-globally"));
+async function validateInstall() {
+  if (is_installed_globally_1.default) console.warn(`
+      It looks like you're running Cucumber from a global installation.
+      This won't work - you need to have Cucumber installed as a local dependency in your project.
+      See https://github.com/cucumber/cucumber-js/blob/main/docs/installation.md#invalid-installations
+      `);
+}
+exports.validateInstall = validateInstall;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJpc19pbnN0YWxsZWRfZ2xvYmFsbHlfMSIsIl9faW1wb3J0RGVmYXVsdCIsInJlcXVpcmUiLCJ2YWxpZGF0ZUluc3RhbGwiLCJkZWZhdWx0IiwiY29uc29sZSIsIndhcm4iLCJleHBvcnRzIl0sInNvdXJjZXMiOlsiLi4vLi4vc3JjL2NsaS9pbnN0YWxsX3ZhbGlkYXRvci50cyJdLCJzb3VyY2VzQ29udGVudCI6WyIvKiBlc2xpbnQtZGlzYWJsZSBuby1jb25zb2xlICovXG5pbXBvcnQgaXNJbnN0YWxsZWRHbG9iYWxseSBmcm9tICdpcy1pbnN0YWxsZWQtZ2xvYmFsbHknXG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiB2YWxpZGF0ZUluc3RhbGwoKTogUHJvbWlzZTx2b2lkPiB7XG4gIGlmIChpc0luc3RhbGxlZEdsb2JhbGx5KVxuICAgIGNvbnNvbGUud2FybihcbiAgICAgIGBcbiAgICAgIEl0IGxvb2tzIGxpa2UgeW91J3JlIHJ1bm5pbmcgQ3VjdW1iZXIgZnJvbSBhIGdsb2JhbCBpbnN0YWxsYXRpb24uXG4gICAgICBUaGlzIHdvbid0IHdvcmsgLSB5b3UgbmVlZCB0byBoYXZlIEN1Y3VtYmVyIGluc3RhbGxlZCBhcyBhIGxvY2FsIGRlcGVuZGVuY3kgaW4geW91ciBwcm9qZWN0LlxuICAgICAgU2VlIGh0dHBzOi8vZ2l0aHViLmNvbS9jdWN1bWJlci9jdWN1bWJlci1qcy9ibG9iL21haW4vZG9jcy9pbnN0YWxsYXRpb24ubWQjaW52YWxpZC1pbnN0YWxsYXRpb25zXG4gICAgICBgXG4gICAgKVxufVxuIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7OztBQUFBO0FBQ0EsTUFBQUEsdUJBQUEsR0FBQUMsZUFBQSxDQUFBQyxPQUFBO0FBRU8sZUFBZUMsZUFBZUEsQ0FBQTtFQUNuQyxJQUFJSCx1QkFBQSxDQUFBSSxPQUFtQixFQUNyQkMsT0FBTyxDQUFDQyxJQUFJLENBQ1Y7Ozs7T0FJQyxDQUNGO0FBQ0w7QUFUQUMsT0FBQSxDQUFBSixlQUFBLEdBQUFBLGVBQUEifQ==

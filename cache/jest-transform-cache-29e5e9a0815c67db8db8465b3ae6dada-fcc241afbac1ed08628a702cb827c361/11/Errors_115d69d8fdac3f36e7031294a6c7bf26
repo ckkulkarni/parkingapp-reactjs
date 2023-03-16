@@ -1,0 +1,135 @@
+b17489b6feecddf9bd626347968ac45c
+"use strict";
+
+var __extends = void 0 && (void 0).__extends || function () {
+  var extendStatics = function (d, b) {
+    extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p];
+    };
+    return extendStatics(d, b);
+  };
+  return function (d, b) {
+    if (typeof b !== "function" && b !== null) throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    extendStatics(d, b);
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createUndefinedParameterType = exports.UndefinedParameterTypeError = exports.AmbiguousParameterTypeError = exports.createInvalidParameterTypeNameInNode = exports.createCantEscaped = exports.createAlternationNotAllowedInOptional = exports.createMissingEndToken = exports.createTheEndOfLIneCanNotBeEscaped = exports.createOptionalIsNotAllowedInOptional = exports.createParameterIsNotAllowedInOptional = exports.createOptionalMayNotBeEmpty = exports.createAlternativeMayNotBeEmpty = exports.createAlternativeMayNotExclusivelyContainOptionals = void 0;
+var Ast_js_1 = require("./Ast.js");
+var CucumberExpressionError_js_1 = __importDefault(require("./CucumberExpressionError.js"));
+function createAlternativeMayNotExclusivelyContainOptionals(node, expression) {
+  return new CucumberExpressionError_js_1.default(message(node.start, expression, pointAtLocated(node), 'An alternative may not exclusively contain optionals', "If you did not mean to use an optional you can use '\\(' to escape the the '('"));
+}
+exports.createAlternativeMayNotExclusivelyContainOptionals = createAlternativeMayNotExclusivelyContainOptionals;
+function createAlternativeMayNotBeEmpty(node, expression) {
+  return new CucumberExpressionError_js_1.default(message(node.start, expression, pointAtLocated(node), 'Alternative may not be empty', "If you did not mean to use an alternative you can use '\\/' to escape the the '/'"));
+}
+exports.createAlternativeMayNotBeEmpty = createAlternativeMayNotBeEmpty;
+function createOptionalMayNotBeEmpty(node, expression) {
+  return new CucumberExpressionError_js_1.default(message(node.start, expression, pointAtLocated(node), 'An optional must contain some text', "If you did not mean to use an optional you can use '\\(' to escape the the '('"));
+}
+exports.createOptionalMayNotBeEmpty = createOptionalMayNotBeEmpty;
+function createParameterIsNotAllowedInOptional(node, expression) {
+  return new CucumberExpressionError_js_1.default(message(node.start, expression, pointAtLocated(node), 'An optional may not contain a parameter type', "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'"));
+}
+exports.createParameterIsNotAllowedInOptional = createParameterIsNotAllowedInOptional;
+function createOptionalIsNotAllowedInOptional(node, expression) {
+  return new CucumberExpressionError_js_1.default(message(node.start, expression, pointAtLocated(node), 'An optional may not contain an other optional', "If you did not mean to use an optional type you can use '\\(' to escape the the '('. For more complicated expressions consider using a regular expression instead."));
+}
+exports.createOptionalIsNotAllowedInOptional = createOptionalIsNotAllowedInOptional;
+function createTheEndOfLIneCanNotBeEscaped(expression) {
+  var index = Array.from(expression).length - 1;
+  return new CucumberExpressionError_js_1.default(message(index, expression, pointAt(index), 'The end of line can not be escaped', "You can use '\\\\' to escape the the '\\'"));
+}
+exports.createTheEndOfLIneCanNotBeEscaped = createTheEndOfLIneCanNotBeEscaped;
+function createMissingEndToken(expression, beginToken, endToken, current) {
+  var beginSymbol = (0, Ast_js_1.symbolOf)(beginToken);
+  var endSymbol = (0, Ast_js_1.symbolOf)(endToken);
+  var purpose = (0, Ast_js_1.purposeOf)(beginToken);
+  return new CucumberExpressionError_js_1.default(message(current.start, expression, pointAtLocated(current), "The '".concat(beginSymbol, "' does not have a matching '").concat(endSymbol, "'"), "If you did not intend to use ".concat(purpose, " you can use '\\").concat(beginSymbol, "' to escape the ").concat(purpose)));
+}
+exports.createMissingEndToken = createMissingEndToken;
+function createAlternationNotAllowedInOptional(expression, current) {
+  return new CucumberExpressionError_js_1.default(message(current.start, expression, pointAtLocated(current), 'An alternation can not be used inside an optional', "You can use '\\/' to escape the the '/'"));
+}
+exports.createAlternationNotAllowedInOptional = createAlternationNotAllowedInOptional;
+function createCantEscaped(expression, index) {
+  return new CucumberExpressionError_js_1.default(message(index, expression, pointAt(index), "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped", "If you did mean to use an '\\' you can use '\\\\' to escape it"));
+}
+exports.createCantEscaped = createCantEscaped;
+function createInvalidParameterTypeNameInNode(token, expression) {
+  return new CucumberExpressionError_js_1.default(message(token.start, expression, pointAtLocated(token), "Parameter names may not contain '{', '}', '(', ')', '\\' or '/'", 'Did you mean to use a regular expression?'));
+}
+exports.createInvalidParameterTypeNameInNode = createInvalidParameterTypeNameInNode;
+function message(index, expression, pointer, problem, solution) {
+  return "This Cucumber Expression has a problem at column ".concat(index + 1, ":\n\n").concat(expression, "\n").concat(pointer, "\n").concat(problem, ".\n").concat(solution);
+}
+function pointAt(index) {
+  var pointer = [];
+  for (var i = 0; i < index; i++) {
+    pointer.push(' ');
+  }
+  pointer.push('^');
+  return pointer.join('');
+}
+function pointAtLocated(node) {
+  var pointer = [pointAt(node.start)];
+  if (node.start + 1 < node.end) {
+    for (var i = node.start + 1; i < node.end - 1; i++) {
+      pointer.push('-');
+    }
+    pointer.push('^');
+  }
+  return pointer.join('');
+}
+var AmbiguousParameterTypeError = /** @class */function (_super) {
+  __extends(AmbiguousParameterTypeError, _super);
+  function AmbiguousParameterTypeError() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+  AmbiguousParameterTypeError.forRegExp = function (parameterTypeRegexp, expressionRegexp, parameterTypes, generatedExpressions) {
+    return new this("Your Regular Expression ".concat(expressionRegexp, "\nmatches multiple parameter types with regexp ").concat(parameterTypeRegexp, ":\n   ").concat(this._parameterTypeNames(parameterTypes), "\n\nI couldn't decide which one to use. You have two options:\n\n1) Use a Cucumber Expression instead of a Regular Expression. Try one of these:\n   ").concat(this._expressions(generatedExpressions), "\n\n2) Make one of the parameter types preferential and continue to use a Regular Expression.\n"));
+  };
+  AmbiguousParameterTypeError._parameterTypeNames = function (parameterTypes) {
+    return parameterTypes.map(function (p) {
+      return "{".concat(p.name, "}");
+    }).join('\n   ');
+  };
+  AmbiguousParameterTypeError._expressions = function (generatedExpressions) {
+    return generatedExpressions.map(function (e) {
+      return e.source;
+    }).join('\n   ');
+  };
+  return AmbiguousParameterTypeError;
+}(CucumberExpressionError_js_1.default);
+exports.AmbiguousParameterTypeError = AmbiguousParameterTypeError;
+var UndefinedParameterTypeError = /** @class */function (_super) {
+  __extends(UndefinedParameterTypeError, _super);
+  function UndefinedParameterTypeError(undefinedParameterTypeName, message) {
+    var _this = _super.call(this, message) || this;
+    _this.undefinedParameterTypeName = undefinedParameterTypeName;
+    return _this;
+  }
+  return UndefinedParameterTypeError;
+}(CucumberExpressionError_js_1.default);
+exports.UndefinedParameterTypeError = UndefinedParameterTypeError;
+function createUndefinedParameterType(node, expression, undefinedParameterTypeName) {
+  return new UndefinedParameterTypeError(undefinedParameterTypeName, message(node.start, expression, pointAtLocated(node), "Undefined parameter type '".concat(undefinedParameterTypeName, "'"), "Please register a ParameterType for '".concat(undefinedParameterTypeName, "'")));
+}
+exports.createUndefinedParameterType = createUndefinedParameterType;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJBc3RfanNfMSIsInJlcXVpcmUiLCJDdWN1bWJlckV4cHJlc3Npb25FcnJvcl9qc18xIiwiX19pbXBvcnREZWZhdWx0IiwiY3JlYXRlQWx0ZXJuYXRpdmVNYXlOb3RFeGNsdXNpdmVseUNvbnRhaW5PcHRpb25hbHMiLCJub2RlIiwiZXhwcmVzc2lvbiIsImRlZmF1bHQiLCJtZXNzYWdlIiwic3RhcnQiLCJwb2ludEF0TG9jYXRlZCIsImV4cG9ydHMiLCJjcmVhdGVBbHRlcm5hdGl2ZU1heU5vdEJlRW1wdHkiLCJjcmVhdGVPcHRpb25hbE1heU5vdEJlRW1wdHkiLCJjcmVhdGVQYXJhbWV0ZXJJc05vdEFsbG93ZWRJbk9wdGlvbmFsIiwiY3JlYXRlT3B0aW9uYWxJc05vdEFsbG93ZWRJbk9wdGlvbmFsIiwiY3JlYXRlVGhlRW5kT2ZMSW5lQ2FuTm90QmVFc2NhcGVkIiwiaW5kZXgiLCJBcnJheSIsImZyb20iLCJsZW5ndGgiLCJwb2ludEF0IiwiY3JlYXRlTWlzc2luZ0VuZFRva2VuIiwiYmVnaW5Ub2tlbiIsImVuZFRva2VuIiwiY3VycmVudCIsImJlZ2luU3ltYm9sIiwic3ltYm9sT2YiLCJlbmRTeW1ib2wiLCJwdXJwb3NlIiwicHVycG9zZU9mIiwiY29uY2F0IiwiY3JlYXRlQWx0ZXJuYXRpb25Ob3RBbGxvd2VkSW5PcHRpb25hbCIsImNyZWF0ZUNhbnRFc2NhcGVkIiwiY3JlYXRlSW52YWxpZFBhcmFtZXRlclR5cGVOYW1lSW5Ob2RlIiwidG9rZW4iLCJwb2ludGVyIiwicHJvYmxlbSIsInNvbHV0aW9uIiwiaSIsInB1c2giLCJqb2luIiwiZW5kIiwiQW1iaWd1b3VzUGFyYW1ldGVyVHlwZUVycm9yIiwiX3N1cGVyIiwiX19leHRlbmRzIiwiZm9yUmVnRXhwIiwicGFyYW1ldGVyVHlwZVJlZ2V4cCIsImV4cHJlc3Npb25SZWdleHAiLCJwYXJhbWV0ZXJUeXBlcyIsImdlbmVyYXRlZEV4cHJlc3Npb25zIiwiX3BhcmFtZXRlclR5cGVOYW1lcyIsIl9leHByZXNzaW9ucyIsIm1hcCIsInAiLCJuYW1lIiwiZSIsInNvdXJjZSIsIlVuZGVmaW5lZFBhcmFtZXRlclR5cGVFcnJvciIsInVuZGVmaW5lZFBhcmFtZXRlclR5cGVOYW1lIiwiX3RoaXMiLCJjYWxsIiwiY3JlYXRlVW5kZWZpbmVkUGFyYW1ldGVyVHlwZSJdLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9FcnJvcnMudHMiXSwic291cmNlc0NvbnRlbnQiOltudWxsXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxJQUFBQSxRQUFBLEdBQUFDLE9BQUE7QUFDQSxJQUFBQyw0QkFBQSxHQUFBQyxlQUFBLENBQUFGLE9BQUE7QUFJQSxTQUFnQkcsa0RBQWtEQSxDQUNoRUMsSUFBVSxFQUNWQyxVQUFrQjtFQUVsQixPQUFPLElBQUlKLDRCQUFBLENBQUFLLE9BQXVCLENBQ2hDQyxPQUFPLENBQ0xILElBQUksQ0FBQ0ksS0FBSyxFQUNWSCxVQUFVLEVBQ1ZJLGNBQWMsQ0FBQ0wsSUFBSSxDQUFDLEVBQ3BCLHNEQUFzRCxFQUN0RCxnRkFBZ0YsQ0FDakYsQ0FDRjtBQUNIO0FBYkFNLE9BQUEsQ0FBQVAsa0RBQUEsR0FBQUEsa0RBQUE7QUFjQSxTQUFnQlEsOEJBQThCQSxDQUM1Q1AsSUFBVSxFQUNWQyxVQUFrQjtFQUVsQixPQUFPLElBQUlKLDRCQUFBLENBQUFLLE9BQXVCLENBQ2hDQyxPQUFPLENBQ0xILElBQUksQ0FBQ0ksS0FBSyxFQUNWSCxVQUFVLEVBQ1ZJLGNBQWMsQ0FBQ0wsSUFBSSxDQUFDLEVBQ3BCLDhCQUE4QixFQUM5QixtRkFBbUYsQ0FDcEYsQ0FDRjtBQUNIO0FBYkFNLE9BQUEsQ0FBQUMsOEJBQUEsR0FBQUEsOEJBQUE7QUFjQSxTQUFnQkMsMkJBQTJCQSxDQUN6Q1IsSUFBVSxFQUNWQyxVQUFrQjtFQUVsQixPQUFPLElBQUlKLDRCQUFBLENBQUFLLE9BQXVCLENBQ2hDQyxPQUFPLENBQ0xILElBQUksQ0FBQ0ksS0FBSyxFQUNWSCxVQUFVLEVBQ1ZJ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

@@ -1,0 +1,30 @@
+13b552fc3263ae16615a665486796811
+"use strict";
+
+var isArray = require('./isArray'),
+  isSymbol = require('./isSymbol');
+
+/** Used to match property names within property paths. */
+var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
+  reIsPlainProp = /^\w*$/;
+
+/**
+ * Checks if `value` is a property name and not a property path.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {Object} [object] The object to query keys on.
+ * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
+ */
+function isKey(value, object) {
+  if (isArray(value)) {
+    return false;
+  }
+  var type = typeof value;
+  if (type == 'number' || type == 'symbol' || type == 'boolean' || value == null || isSymbol(value)) {
+    return true;
+  }
+  return reIsPlainProp.test(value) || !reIsDeepProp.test(value) || object != null && value in Object(object);
+}
+module.exports = isKey;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJpc0FycmF5IiwicmVxdWlyZSIsImlzU3ltYm9sIiwicmVJc0RlZXBQcm9wIiwicmVJc1BsYWluUHJvcCIsImlzS2V5IiwidmFsdWUiLCJvYmplY3QiLCJ0eXBlIiwidGVzdCIsIk9iamVjdCIsIm1vZHVsZSIsImV4cG9ydHMiXSwic291cmNlcyI6WyJfaXNLZXkuanMiXSwic291cmNlc0NvbnRlbnQiOlsidmFyIGlzQXJyYXkgPSByZXF1aXJlKCcuL2lzQXJyYXknKSxcbiAgICBpc1N5bWJvbCA9IHJlcXVpcmUoJy4vaXNTeW1ib2wnKTtcblxuLyoqIFVzZWQgdG8gbWF0Y2ggcHJvcGVydHkgbmFtZXMgd2l0aGluIHByb3BlcnR5IHBhdGhzLiAqL1xudmFyIHJlSXNEZWVwUHJvcCA9IC9cXC58XFxbKD86W15bXFxdXSp8KFtcIiddKSg/Oig/IVxcMSlbXlxcXFxdfFxcXFwuKSo/XFwxKVxcXS8sXG4gICAgcmVJc1BsYWluUHJvcCA9IC9eXFx3KiQvO1xuXG4vKipcbiAqIENoZWNrcyBpZiBgdmFsdWVgIGlzIGEgcHJvcGVydHkgbmFtZSBhbmQgbm90IGEgcHJvcGVydHkgcGF0aC5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQHBhcmFtIHsqfSB2YWx1ZSBUaGUgdmFsdWUgdG8gY2hlY2suXG4gKiBAcGFyYW0ge09iamVjdH0gW29iamVjdF0gVGhlIG9iamVjdCB0byBxdWVyeSBrZXlzIG9uLlxuICogQHJldHVybnMge2Jvb2xlYW59IFJldHVybnMgYHRydWVgIGlmIGB2YWx1ZWAgaXMgYSBwcm9wZXJ0eSBuYW1lLCBlbHNlIGBmYWxzZWAuXG4gKi9cbmZ1bmN0aW9uIGlzS2V5KHZhbHVlLCBvYmplY3QpIHtcbiAgaWYgKGlzQXJyYXkodmFsdWUpKSB7XG4gICAgcmV0dXJuIGZhbHNlO1xuICB9XG4gIHZhciB0eXBlID0gdHlwZW9mIHZhbHVlO1xuICBpZiAodHlwZSA9PSAnbnVtYmVyJyB8fCB0eXBlID09ICdzeW1ib2wnIHx8IHR5cGUgPT0gJ2Jvb2xlYW4nIHx8XG4gICAgICB2YWx1ZSA9PSBudWxsIHx8IGlzU3ltYm9sKHZhbHVlKSkge1xuICAgIHJldHVybiB0cnVlO1xuICB9XG4gIHJldHVybiByZUlzUGxhaW5Qcm9wLnRlc3QodmFsdWUpIHx8ICFyZUlzRGVlcFByb3AudGVzdCh2YWx1ZSkgfHxcbiAgICAob2JqZWN0ICE9IG51bGwgJiYgdmFsdWUgaW4gT2JqZWN0KG9iamVjdCkpO1xufVxuXG5tb2R1bGUuZXhwb3J0cyA9IGlzS2V5O1xuIl0sIm1hcHBpbmdzIjoiOztBQUFBLElBQUlBLE9BQU8sR0FBR0MsT0FBTyxDQUFDLFdBQVcsQ0FBQztFQUM5QkMsUUFBUSxHQUFHRCxPQUFPLENBQUMsWUFBWSxDQUFDOztBQUVwQztBQUNBLElBQUlFLFlBQVksR0FBRyxrREFBa0Q7RUFDakVDLGFBQWEsR0FBRyxPQUFPOztBQUUzQjtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsU0FBU0MsS0FBS0EsQ0FBQ0MsS0FBSyxFQUFFQyxNQUFNLEVBQUU7RUFDNUIsSUFBSVAsT0FBTyxDQUFDTSxLQUFLLENBQUMsRUFBRTtJQUNsQixPQUFPLEtBQUs7RUFDZDtFQUNBLElBQUlFLElBQUksR0FBRyxPQUFPRixLQUFLO0VBQ3ZCLElBQUlFLElBQUksSUFBSSxRQUFRLElBQUlBLElBQUksSUFBSSxRQUFRLElBQUlBLElBQUksSUFBSSxTQUFTLElBQ3pERixLQUFLLElBQUksSUFBSSxJQUFJSixRQUFRLENBQUNJLEtBQUssQ0FBQyxFQUFFO0lBQ3BDLE9BQU8sSUFBSTtFQUNiO0VBQ0EsT0FBT0YsYUFBYSxDQUFDSyxJQUFJLENBQUNILEtBQUssQ0FBQyxJQUFJLENBQUNILFlBQVksQ0FBQ00sSUFBSSxDQUFDSCxLQUFLLENBQUMsSUFDMURDLE1BQU0sSUFBSSxJQUFJLElBQUlELEtBQUssSUFBSUksTUFBTSxDQUFDSCxNQUFNLENBQUU7QUFDL0M7QUFFQUksTUFBTSxDQUFDQyxPQUFPLEdBQUdQLEtBQUsifQ==

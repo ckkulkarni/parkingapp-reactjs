@@ -1,0 +1,95 @@
+b55b7986a826682a1214b27f19cfe891
+/*istanbul ignore start*/
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.diffWords = diffWords;
+exports.diffWordsWithSpace = diffWordsWithSpace;
+exports.wordDiff = void 0;
+
+/*istanbul ignore end*/
+var /*istanbul ignore start*/
+_base = _interopRequireDefault(require("./base"))
+/*istanbul ignore end*/;
+
+var /*istanbul ignore start*/
+_params = require("../util/params")
+/*istanbul ignore end*/;
+
+/*istanbul ignore start*/
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
+
+/*istanbul ignore end*/
+// Based on https://en.wikipedia.org/wiki/Latin_script_in_Unicode
+//
+// Ranges and exceptions:
+// Latin-1 Supplement, 0080–00FF
+//  - U+00D7  × Multiplication sign
+//  - U+00F7  ÷ Division sign
+// Latin Extended-A, 0100–017F
+// Latin Extended-B, 0180–024F
+// IPA Extensions, 0250–02AF
+// Spacing Modifier Letters, 02B0–02FF
+//  - U+02C7  ˇ &#711;  Caron
+//  - U+02D8  ˘ &#728;  Breve
+//  - U+02D9  ˙ &#729;  Dot Above
+//  - U+02DA  ˚ &#730;  Ring Above
+//  - U+02DB  ˛ &#731;  Ogonek
+//  - U+02DC  ˜ &#732;  Small Tilde
+//  - U+02DD  ˝ &#733;  Double Acute Accent
+// Latin Extended Additional, 1E00–1EFF
+var extendedWordChars = /^[A-Za-z\xC0-\u02C6\u02C8-\u02D7\u02DE-\u02FF\u1E00-\u1EFF]+$/;
+var reWhitespace = /\S/;
+var wordDiff = new /*istanbul ignore start*/
+_base
+/*istanbul ignore end*/. /*istanbul ignore start*/
+default
+/*istanbul ignore end*/();
+
+/*istanbul ignore start*/
+exports.wordDiff = wordDiff;
+
+/*istanbul ignore end*/
+wordDiff.equals = function (left, right) {
+  if (this.options.ignoreCase) {
+    left = left.toLowerCase();
+    right = right.toLowerCase();
+  }
+  return left === right || this.options.ignoreWhitespace && !reWhitespace.test(left) && !reWhitespace.test(right);
+};
+wordDiff.tokenize = function (value) {
+  var tokens = value.split(/(\s+|[()[\]{}'"]|\b)/); // Join the boundary splits that we do not consider to be boundaries. This is primarily the extended Latin character set.
+
+  for (var i = 0; i < tokens.length - 1; i++) {
+    // If we have an empty string in the next field and we have only word chars before and after, merge
+    if (!tokens[i + 1] && tokens[i + 2] && extendedWordChars.test(tokens[i]) && extendedWordChars.test(tokens[i + 2])) {
+      tokens[i] += tokens[i + 2];
+      tokens.splice(i + 1, 2);
+      i--;
+    }
+  }
+  return tokens;
+};
+function diffWords(oldStr, newStr, options) {
+  options = /*istanbul ignore start*/
+  (0, /*istanbul ignore end*/
+
+  /*istanbul ignore start*/
+  _params
+  /*istanbul ignore end*/. /*istanbul ignore start*/
+  generateOptions
+  /*istanbul ignore end*/)(options, {
+    ignoreWhitespace: true
+  });
+  return wordDiff.diff(oldStr, newStr, options);
+}
+function diffWordsWithSpace(oldStr, newStr, options) {
+  return wordDiff.diff(oldStr, newStr, options);
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJfYmFzZSIsIl9pbnRlcm9wUmVxdWlyZURlZmF1bHQiLCJyZXF1aXJlIiwiX3BhcmFtcyIsImV4dGVuZGVkV29yZENoYXJzIiwicmVXaGl0ZXNwYWNlIiwid29yZERpZmYiLCJkZWZhdWx0IiwiZXF1YWxzIiwibGVmdCIsInJpZ2h0Iiwib3B0aW9ucyIsImlnbm9yZUNhc2UiLCJ0b0xvd2VyQ2FzZSIsImlnbm9yZVdoaXRlc3BhY2UiLCJ0ZXN0IiwidG9rZW5pemUiLCJ2YWx1ZSIsInRva2VucyIsInNwbGl0IiwiaSIsImxlbmd0aCIsInNwbGljZSIsImRpZmZXb3JkcyIsIm9sZFN0ciIsIm5ld1N0ciIsImdlbmVyYXRlT3B0aW9ucyIsImRpZmYiLCJkaWZmV29yZHNXaXRoU3BhY2UiXSwic291cmNlcyI6WyIuLi8uLi9zcmMvZGlmZi93b3JkLmpzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBEaWZmIGZyb20gJy4vYmFzZSc7XG5pbXBvcnQge2dlbmVyYXRlT3B0aW9uc30gZnJvbSAnLi4vdXRpbC9wYXJhbXMnO1xuXG4vLyBCYXNlZCBvbiBodHRwczovL2VuLndpa2lwZWRpYS5vcmcvd2lraS9MYXRpbl9zY3JpcHRfaW5fVW5pY29kZVxuLy9cbi8vIFJhbmdlcyBhbmQgZXhjZXB0aW9uczpcbi8vIExhdGluLTEgU3VwcGxlbWVudCwgMDA4MOKAkzAwRkZcbi8vICAtIFUrMDBENyAgw5cgTXVsdGlwbGljYXRpb24gc2lnblxuLy8gIC0gVSswMEY3ICDDtyBEaXZpc2lvbiBzaWduXG4vLyBMYXRpbiBFeHRlbmRlZC1BLCAwMTAw4oCTMDE3RlxuLy8gTGF0aW4gRXh0ZW5kZWQtQiwgMDE4MOKAkzAyNEZcbi8vIElQQSBFeHRlbnNpb25zLCAwMjUw4oCTMDJBRlxuLy8gU3BhY2luZyBNb2RpZmllciBMZXR0ZXJzLCAwMkIw4oCTMDJGRlxuLy8gIC0gVSswMkM3ICDLhyAmIzcxMTsgIENhcm9uXG4vLyAgLSBVKzAyRDggIMuYICYjNzI4OyAgQnJldmVcbi8vICAtIFUrMDJEOSAgy5kgJiM3Mjk7ICBEb3QgQWJvdmVcbi8vICAtIFUrMDJEQSAgy5ogJiM3MzA7ICBSaW5nIEFib3ZlXG4vLyAgLSBVKzAyREIgIMubICYjNzMxOyAgT2dvbmVrXG4vLyAgLSBVKzAyREMgIMucICYjNzMyOyAgU21hbGwgVGlsZGVcbi8vICAtIFUrMDJERCAgy50gJiM3MzM7ICBEb3VibGUgQWN1dGUgQWNjZW50XG4vLyBMYXRpbiBFeHRlbmRlZCBBZGRpdGlvbmFsLCAxRTAw4oCTMUVGRlxuY29uc3QgZXh0ZW5kZWRXb3JkQ2hhcnMgPSAvXlthLXpBLVpcXHV7QzB9LVxcdXtGRn1cXHV7RDh9LVxcdXtGNn1cXHV7Rjh9LVxcdXsyQzZ9XFx1ezJDOH0tXFx1ezJEN31cXHV7MkRFfS1cXHV7MkZGfVxcdXsxRTAwfS1cXHV7MUVGRn1dKyQvdTtcblxuY29uc3QgcmVXaGl0ZXNwYWNlID0gL1xcUy87XG5cbmV4cG9ydCBjb25zdCB3b3JkRGlmZiA9IG5ldyBEaWZmKCk7XG53b3JkRGlmZi5lcXVhbHMgPSBmdW5jdGlvbihsZWZ0LCByaWdodCkge1xuICBpZiAodGhpcy5vcHRpb25zLmlnbm9yZUNhc2UpIHtcbiAgICBsZWZ0ID0gbGVmdC50b0xvd2VyQ2FzZSgpO1xuICAgIHJpZ2h0ID0gcmlnaHQudG9Mb3dlckNhc2UoKTtcbiAgfVxuICByZXR1cm4gbGVmdCA9PT0gcmlnaHQgfHwgKHRoaXMub3B0aW9ucy5pZ25vcmVXaGl0ZXNwYWNlICYmICFyZVdoaXRlc3BhY2UudGVzdChsZWZ0KSAmJiAhcmVXaGl0ZXNwYWNlLnRlc3QocmlnaHQpKTtcbn07XG53b3JkRGlmZi50b2tlbml6ZSA9IGZ1bmN0aW9uKHZhbHVlKSB7XG4gIGxldCB0b2tlbnMgPSB2YWx1ZS5zcGxpdCgvKFxccyt8WygpW1xcXXt9J1wiXXxcXGIpLyk7XG5cbiAgLy8gSm9pbiB0aGUgYm91bmRhcnkgc3BsaXRzIHRoYXQgd2UgZG8gbm90IGNvbnNpZGVyIHRvIGJlIGJvdW5kYXJpZXMuIFRoaXMgaXMgcHJpbWFyaWx5IHRoZSBleHRlbmRlZCBMYXRpbiBjaGFyYWN0ZXIgc2V0LlxuICBmb3IgKGxldCBpID0gMDsgaSA8IHRva2Vucy5sZW5ndGggLSAxOyBpKyspIHtcbiAgICAvLyBJZiB3ZSBoYXZlIGFuIGVtcHR5IHN0cmluZyBpbiB0aGUgbmV4dCBmaWVsZCBhbmQgd2UgaGF2ZSBvbmx5IHdvcmQgY2hhcnMgYmVmb3JlIGFuZCBhZnRlciwgbWVyZ2VcbiAgICBpZiAoIXRva2Vuc1tpICsgMV0gJiYgdG9rZW5zW2kgKyAyXVxuICAgICAgICAgICYmIGV4dGVuZGVkV29yZENoYXJzLnRlc3QodG9rZW5zW2ldKVxuICAgICAgICAgICYmIGV4dGVuZGVkV29yZENoYXJzLnRlc3QodG9rZW5zW2kgKyAyXSkpIHtcbiAgICAgIHRva2Vuc1tpXSArPSB0b2tlbnNbaSArIDJdO1xuICAgICAgdG9rZW5zLnNwbGljZShpICsgMSwgMik7XG4gICAgICBpLS07XG4gICAgfVxuICB9XG5cbiAgcmV0dXJuIHRva2Vucztcbn07XG5cbmV4cG9ydCBmdW5jdGlvbiBkaWZmV29yZHMob2xkU3RyLCBuZXdTdHIsIG9wdGlvbnMpIHtcbiAgb3B0aW9ucyA9IGdlbmVyYXRlT3B0aW9ucyhvcHRpb25zLCB7aWdub3JlV2hpdGVzcGFjZTogdHJ1ZX0pO1xuICByZXR1cm4gd29yZERpZmYuZGlmZihvbGRTdHIsIG5ld1N0ciwgb3B0aW9ucyk7XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkaWZmV29yZHNXaXRoU3BhY2Uob2xkU3RyLCBuZXdTdHIsIG9wdGlvbnMpIHtcbiAgcmV0dXJuIHdvcmREaWZmLmRpZmYob2xkU3RyLCBuZXdTdHIsIG9wdGlvbnMpO1xufVxuIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7OztBQUFBO0FBQUFBLEtBQUEsR0FBQUMsc0JBQUEsQ0FBQUMsT0FBQTtBQUFBOztBQUNBO0FBQUFDLE9BQUEsR0FBQUQsT0FBQTtBQUFBOzs7Ozs7Ozs7O0FBRUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsSUFBTUUsaUJBQWlCLEdBQUcsK0RBQTFCO0FBRUEsSUFBTUMsWUFBWSxHQUFHLElBQXJCO0FBRU8sSUFBTUMsUUFBUSxHQUFHLElBQUk7QUFBQU47QUFBQTtBQUFBTztBQUFKLHlCQUFqQjs7Ozs7O0FBQ1BELFFBQVEsQ0FBQ0UsTUFBVCxHQUFrQixVQUFTQyxJQUFULEVBQWVDLEtBQWYsRUFBc0I7RUFDdEMsSUFBSSxLQUFLQyxPQUFMLENBQWFDLFVBQWpCLEVBQTZCO0lBQzNCSCxJQUFJLEdBQUdBLElBQUksQ0FBQ0ksV0FBTCxFQUFQO0lBQ0FILEtBQUssR0FBR0EsS0FBSyxDQUFDRyxXQUFOLEVBQVI7RUFDRDtFQUNELE9BQU9KLElBQUksS0FBS0MsS0FBVCxJQUFtQixLQUFLQyxPQUFMLENBQWFHLGdCQUFiLElBQWlDLENBQUNULFlBQVksQ0FBQ1UsSUFBYixDQUFrQk4sSUFBbEIsQ0FBbEMsSUFBNkQsQ0FBQ0osWUFBWSxDQUFDVSxJQUFiLENBQWtCTCxLQUFsQixDQUF4RjtBQUNELENBTkQ7QUFPQUosUUFBUSxDQUFDVSxRQUFULEdBQW9CLFVBQVNDLEtBQVQsRUFBZ0I7RUFDbEMsSUFBSUMsTUFBTSxHQUFHRCxLQUFLLENBQUNFLEtBQU4sQ0FBWSxzQkFBWixDQUFiLENBRGtDLENBR2xDOztFQUNBLEtBQUssSUFBSUMsQ0FBQyxHQUFHLENBQWIsRUFBZ0JBLENBQUMsR0FBR0YsTUFBTSxDQUFDRyxNQUFQLEdBQWdCLENBQXBDLEVBQXVDRCxDQUFDLEVBQXhDLEVBQTRDO0lBQzFDO0lBQ0EsSUFBSSxDQUFDRixNQUFNLENBQUNFLENBQUMsR0FBRyxDQUFMLENBQVAsSUFBa0JGLE1BQU0sQ0FBQ0UsQ0FBQyxHQUFHLENBQUwsQ0FBeEIsSUFDS2hCLGlCQUFpQixDQUFDVyxJQUFsQixDQUF1QkcsTUFBTSxDQUFDRSxDQUFELENBQTdCLENBREwsSUFFS2hCLGlCQUFpQixDQUFDVyxJQUFsQixDQUF1QkcsTUFBTSxDQUFDRSxDQUFDLEdBQUcsQ0FBTCxDQUE3QixDQUZULEVBRWdEO01BQzlDRixNQUFNLENBQUNFLENBQUQsQ0FBTixJQUFhRixNQUFNLENBQUNFLENBQUMsR0FBRyxDQUFMLENBQW5CO01BQ0FGLE1BQU0sQ0FBQ0ksTUFBUCxDQUFjRixDQUFDLEdBQUcsQ0FBbEIsRUFBcUIsQ0FBckI7TUFDQUEsQ0FBQztJQUNGO0VBQ0Y7RUFFRCxPQUFPRixNQUFQO0FBQ0QsQ0FoQkQ7QUFrQk8sU0FBU0ssU0FBVEEsQ0FBbUJDLE1BQW5CLEVBQTJCQyxNQUEzQixFQUFtQ2QsT0FBbkMsRUFBNEM7RUFDakRBLE9BQU8sR0FBRztFQUFBOztFQUFBO0VBQUFSO0VBQUE7RUFBQXVCO0VBQUEseUJBQWdCZixPQUFoQixFQUF5QjtJQUFDRyxnQkFBZ0IsRUFBRTtFQUFuQixDQUF6QixDQUFWO0VBQ0EsT0FBT1IsUUFBUSxDQUFDcUIsSUFBVCxDQUFjSCxNQUFkLEVBQXNCQyxNQUF0QixFQUE4QmQsT0FBOUIsQ0FBUDtBQUNEO0FBRU0sU0FBU2lCLGtCQUFUQSxDQUE0QkosTUFBNUIsRUFBb0NDLE1BQXBDLEVBQTRDZCxPQUE1QyxFQUFxRDtFQUMxRCxPQUFPTCxRQUFRLENBQUNxQixJQUFULENBQWNILE1BQWQsRUFBc0JDLE1BQXRCLEVBQThCZCxPQUE5QixDQUFQO0FBQ0QifQ==

@@ -1,0 +1,37 @@
+da6f724e07e16b889a5a894feb1ffad2
+"use strict";
+
+var asciiWords = require('./_asciiWords'),
+  hasUnicodeWord = require('./_hasUnicodeWord'),
+  toString = require('./toString'),
+  unicodeWords = require('./_unicodeWords');
+
+/**
+ * Splits `string` into an array of its words.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category String
+ * @param {string} [string=''] The string to inspect.
+ * @param {RegExp|string} [pattern] The pattern to match words.
+ * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+ * @returns {Array} Returns the words of `string`.
+ * @example
+ *
+ * _.words('fred, barney, & pebbles');
+ * // => ['fred', 'barney', 'pebbles']
+ *
+ * _.words('fred, barney, & pebbles', /[^, ]+/g);
+ * // => ['fred', 'barney', '&', 'pebbles']
+ */
+function words(string, pattern, guard) {
+  string = toString(string);
+  pattern = guard ? undefined : pattern;
+  if (pattern === undefined) {
+    return hasUnicodeWord(string) ? unicodeWords(string) : asciiWords(string);
+  }
+  return string.match(pattern) || [];
+}
+module.exports = words;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJhc2NpaVdvcmRzIiwicmVxdWlyZSIsImhhc1VuaWNvZGVXb3JkIiwidG9TdHJpbmciLCJ1bmljb2RlV29yZHMiLCJ3b3JkcyIsInN0cmluZyIsInBhdHRlcm4iLCJndWFyZCIsInVuZGVmaW5lZCIsIm1hdGNoIiwibW9kdWxlIiwiZXhwb3J0cyJdLCJzb3VyY2VzIjpbIndvcmRzLmpzIl0sInNvdXJjZXNDb250ZW50IjpbInZhciBhc2NpaVdvcmRzID0gcmVxdWlyZSgnLi9fYXNjaWlXb3JkcycpLFxuICAgIGhhc1VuaWNvZGVXb3JkID0gcmVxdWlyZSgnLi9faGFzVW5pY29kZVdvcmQnKSxcbiAgICB0b1N0cmluZyA9IHJlcXVpcmUoJy4vdG9TdHJpbmcnKSxcbiAgICB1bmljb2RlV29yZHMgPSByZXF1aXJlKCcuL191bmljb2RlV29yZHMnKTtcblxuLyoqXG4gKiBTcGxpdHMgYHN0cmluZ2AgaW50byBhbiBhcnJheSBvZiBpdHMgd29yZHMuXG4gKlxuICogQHN0YXRpY1xuICogQG1lbWJlck9mIF9cbiAqIEBzaW5jZSAzLjAuMFxuICogQGNhdGVnb3J5IFN0cmluZ1xuICogQHBhcmFtIHtzdHJpbmd9IFtzdHJpbmc9JyddIFRoZSBzdHJpbmcgdG8gaW5zcGVjdC5cbiAqIEBwYXJhbSB7UmVnRXhwfHN0cmluZ30gW3BhdHRlcm5dIFRoZSBwYXR0ZXJuIHRvIG1hdGNoIHdvcmRzLlxuICogQHBhcmFtLSB7T2JqZWN0fSBbZ3VhcmRdIEVuYWJsZXMgdXNlIGFzIGFuIGl0ZXJhdGVlIGZvciBtZXRob2RzIGxpa2UgYF8ubWFwYC5cbiAqIEByZXR1cm5zIHtBcnJheX0gUmV0dXJucyB0aGUgd29yZHMgb2YgYHN0cmluZ2AuXG4gKiBAZXhhbXBsZVxuICpcbiAqIF8ud29yZHMoJ2ZyZWQsIGJhcm5leSwgJiBwZWJibGVzJyk7XG4gKiAvLyA9PiBbJ2ZyZWQnLCAnYmFybmV5JywgJ3BlYmJsZXMnXVxuICpcbiAqIF8ud29yZHMoJ2ZyZWQsIGJhcm5leSwgJiBwZWJibGVzJywgL1teLCBdKy9nKTtcbiAqIC8vID0+IFsnZnJlZCcsICdiYXJuZXknLCAnJicsICdwZWJibGVzJ11cbiAqL1xuZnVuY3Rpb24gd29yZHMoc3RyaW5nLCBwYXR0ZXJuLCBndWFyZCkge1xuICBzdHJpbmcgPSB0b1N0cmluZyhzdHJpbmcpO1xuICBwYXR0ZXJuID0gZ3VhcmQgPyB1bmRlZmluZWQgOiBwYXR0ZXJuO1xuXG4gIGlmIChwYXR0ZXJuID09PSB1bmRlZmluZWQpIHtcbiAgICByZXR1cm4gaGFzVW5pY29kZVdvcmQoc3RyaW5nKSA/IHVuaWNvZGVXb3JkcyhzdHJpbmcpIDogYXNjaWlXb3JkcyhzdHJpbmcpO1xuICB9XG4gIHJldHVybiBzdHJpbmcubWF0Y2gocGF0dGVybikgfHwgW107XG59XG5cbm1vZHVsZS5leHBvcnRzID0gd29yZHM7XG4iXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSUEsVUFBVSxHQUFHQyxPQUFPLENBQUMsZUFBZSxDQUFDO0VBQ3JDQyxjQUFjLEdBQUdELE9BQU8sQ0FBQyxtQkFBbUIsQ0FBQztFQUM3Q0UsUUFBUSxHQUFHRixPQUFPLENBQUMsWUFBWSxDQUFDO0VBQ2hDRyxZQUFZLEdBQUdILE9BQU8sQ0FBQyxpQkFBaUIsQ0FBQzs7QUFFN0M7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxTQUFTSSxLQUFLQSxDQUFDQyxNQUFNLEVBQUVDLE9BQU8sRUFBRUMsS0FBSyxFQUFFO0VBQ3JDRixNQUFNLEdBQUdILFFBQVEsQ0FBQ0csTUFBTSxDQUFDO0VBQ3pCQyxPQUFPLEdBQUdDLEtBQUssR0FBR0MsU0FBUyxHQUFHRixPQUFPO0VBRXJDLElBQUlBLE9BQU8sS0FBS0UsU0FBUyxFQUFFO0lBQ3pCLE9BQU9QLGNBQWMsQ0FBQ0ksTUFBTSxDQUFDLEdBQUdGLFlBQVksQ0FBQ0UsTUFBTSxDQUFDLEdBQUdOLFVBQVUsQ0FBQ00sTUFBTSxDQUFDO0VBQzNFO0VBQ0EsT0FBT0EsTUFBTSxDQUFDSSxLQUFLLENBQUNILE9BQU8sQ0FBQyxJQUFJLEVBQUU7QUFDcEM7QUFFQUksTUFBTSxDQUFDQyxPQUFPLEdBQUdQLEtBQUsifQ==

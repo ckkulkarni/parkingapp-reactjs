@@ -1,0 +1,23 @@
+d4a8ad17b744c4ad9cf819533bd5efcf
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+'use strict';
+
+/**
+ * A regexp-tree plugin to remove `x` flag `/foo/x` to `/foo/`.
+ *
+ * Note: other features of `x` flags (whitespace, comments) are
+ * already removed at parsing stage.
+ */
+module.exports = {
+  RegExp: function RegExp(_ref) {
+    var node = _ref.node;
+    if (node.flags.includes('x')) {
+      node.flags = node.flags.replace('x', '');
+    }
+  }
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJtb2R1bGUiLCJleHBvcnRzIiwiUmVnRXhwIiwiX3JlZiIsIm5vZGUiLCJmbGFncyIsImluY2x1ZGVzIiwicmVwbGFjZSJdLCJzb3VyY2VzIjpbImNvbXBhdC14LWZsYWctdHJhbnNmb3JtLmpzIl0sInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogVGhlIE1JVCBMaWNlbnNlIChNSVQpXG4gKiBDb3B5cmlnaHQgKGMpIDIwMTctcHJlc2VudCBEbWl0cnkgU29zaG5pa292IDxkbWl0cnkuc29zaG5pa292QGdtYWlsLmNvbT5cbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbi8qKlxuICogQSByZWdleHAtdHJlZSBwbHVnaW4gdG8gcmVtb3ZlIGB4YCBmbGFnIGAvZm9vL3hgIHRvIGAvZm9vL2AuXG4gKlxuICogTm90ZTogb3RoZXIgZmVhdHVyZXMgb2YgYHhgIGZsYWdzICh3aGl0ZXNwYWNlLCBjb21tZW50cykgYXJlXG4gKiBhbHJlYWR5IHJlbW92ZWQgYXQgcGFyc2luZyBzdGFnZS5cbiAqL1xuXG5tb2R1bGUuZXhwb3J0cyA9IHtcbiAgUmVnRXhwOiBmdW5jdGlvbiBSZWdFeHAoX3JlZikge1xuICAgIHZhciBub2RlID0gX3JlZi5ub2RlO1xuXG4gICAgaWYgKG5vZGUuZmxhZ3MuaW5jbHVkZXMoJ3gnKSkge1xuICAgICAgbm9kZS5mbGFncyA9IG5vZGUuZmxhZ3MucmVwbGFjZSgneCcsICcnKTtcbiAgICB9XG4gIH1cbn07Il0sIm1hcHBpbmdzIjoiQUFBQTtBQUNBO0FBQ0E7QUFDQTs7QUFFQSxZQUFZOztBQUVaO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUVBQSxNQUFNLENBQUNDLE9BQU8sR0FBRztFQUNmQyxNQUFNLEVBQUUsU0FBU0EsTUFBTUEsQ0FBQ0MsSUFBSSxFQUFFO0lBQzVCLElBQUlDLElBQUksR0FBR0QsSUFBSSxDQUFDQyxJQUFJO0lBRXBCLElBQUlBLElBQUksQ0FBQ0MsS0FBSyxDQUFDQyxRQUFRLENBQUMsR0FBRyxDQUFDLEVBQUU7TUFDNUJGLElBQUksQ0FBQ0MsS0FBSyxHQUFHRCxJQUFJLENBQUNDLEtBQUssQ0FBQ0UsT0FBTyxDQUFDLEdBQUcsRUFBRSxFQUFFLENBQUM7SUFDMUM7RUFDRjtBQUNGLENBQUMifQ==

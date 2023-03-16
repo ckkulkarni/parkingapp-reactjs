@@ -1,0 +1,25 @@
+97d0fe3e2cd759f14a7fc5e16a0de505
+"use strict";
+
+var castPath = require('./_castPath'),
+  toKey = require('./_toKey');
+
+/**
+ * The base implementation of `_.get` without support for default values.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path of the property to get.
+ * @returns {*} Returns the resolved value.
+ */
+function baseGet(object, path) {
+  path = castPath(path, object);
+  var index = 0,
+    length = path.length;
+  while (object != null && index < length) {
+    object = object[toKey(path[index++])];
+  }
+  return index && index == length ? object : undefined;
+}
+module.exports = baseGet;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJjYXN0UGF0aCIsInJlcXVpcmUiLCJ0b0tleSIsImJhc2VHZXQiLCJvYmplY3QiLCJwYXRoIiwiaW5kZXgiLCJsZW5ndGgiLCJ1bmRlZmluZWQiLCJtb2R1bGUiLCJleHBvcnRzIl0sInNvdXJjZXMiOlsiX2Jhc2VHZXQuanMiXSwic291cmNlc0NvbnRlbnQiOlsidmFyIGNhc3RQYXRoID0gcmVxdWlyZSgnLi9fY2FzdFBhdGgnKSxcbiAgICB0b0tleSA9IHJlcXVpcmUoJy4vX3RvS2V5Jyk7XG5cbi8qKlxuICogVGhlIGJhc2UgaW1wbGVtZW50YXRpb24gb2YgYF8uZ2V0YCB3aXRob3V0IHN1cHBvcnQgZm9yIGRlZmF1bHQgdmFsdWVzLlxuICpcbiAqIEBwcml2YXRlXG4gKiBAcGFyYW0ge09iamVjdH0gb2JqZWN0IFRoZSBvYmplY3QgdG8gcXVlcnkuXG4gKiBAcGFyYW0ge0FycmF5fHN0cmluZ30gcGF0aCBUaGUgcGF0aCBvZiB0aGUgcHJvcGVydHkgdG8gZ2V0LlxuICogQHJldHVybnMgeyp9IFJldHVybnMgdGhlIHJlc29sdmVkIHZhbHVlLlxuICovXG5mdW5jdGlvbiBiYXNlR2V0KG9iamVjdCwgcGF0aCkge1xuICBwYXRoID0gY2FzdFBhdGgocGF0aCwgb2JqZWN0KTtcblxuICB2YXIgaW5kZXggPSAwLFxuICAgICAgbGVuZ3RoID0gcGF0aC5sZW5ndGg7XG5cbiAgd2hpbGUgKG9iamVjdCAhPSBudWxsICYmIGluZGV4IDwgbGVuZ3RoKSB7XG4gICAgb2JqZWN0ID0gb2JqZWN0W3RvS2V5KHBhdGhbaW5kZXgrK10pXTtcbiAgfVxuICByZXR1cm4gKGluZGV4ICYmIGluZGV4ID09IGxlbmd0aCkgPyBvYmplY3QgOiB1bmRlZmluZWQ7XG59XG5cbm1vZHVsZS5leHBvcnRzID0gYmFzZUdldDtcbiJdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJQSxRQUFRLEdBQUdDLE9BQU8sQ0FBQyxhQUFhLENBQUM7RUFDakNDLEtBQUssR0FBR0QsT0FBTyxDQUFDLFVBQVUsQ0FBQzs7QUFFL0I7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLFNBQVNFLE9BQU9BLENBQUNDLE1BQU0sRUFBRUMsSUFBSSxFQUFFO0VBQzdCQSxJQUFJLEdBQUdMLFFBQVEsQ0FBQ0ssSUFBSSxFQUFFRCxNQUFNLENBQUM7RUFFN0IsSUFBSUUsS0FBSyxHQUFHLENBQUM7SUFDVEMsTUFBTSxHQUFHRixJQUFJLENBQUNFLE1BQU07RUFFeEIsT0FBT0gsTUFBTSxJQUFJLElBQUksSUFBSUUsS0FBSyxHQUFHQyxNQUFNLEVBQUU7SUFDdkNILE1BQU0sR0FBR0EsTUFBTSxDQUFDRixLQUFLLENBQUNHLElBQUksQ0FBQ0MsS0FBSyxFQUFFLENBQUMsQ0FBQyxDQUFDO0VBQ3ZDO0VBQ0EsT0FBUUEsS0FBSyxJQUFJQSxLQUFLLElBQUlDLE1BQU0sR0FBSUgsTUFBTSxHQUFHSSxTQUFTO0FBQ3hEO0FBRUFDLE1BQU0sQ0FBQ0MsT0FBTyxHQUFHUCxPQUFPIn0=

@@ -1,0 +1,19 @@
+39b7b9818b5339f8d3eb7f3914e2e4a2
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const messages_1 = require("@cucumber/messages");
+const defaultOptions = {
+  defaultDialect: 'en',
+  includeSource: true,
+  includeGherkinDocument: true,
+  includePickles: true,
+  newId: messages_1.IdGenerator.uuid()
+};
+function gherkinOptions(options) {
+  return Object.assign(Object.assign({}, defaultOptions), options);
+}
+exports.default = gherkinOptions;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJtZXNzYWdlc18xIiwicmVxdWlyZSIsImRlZmF1bHRPcHRpb25zIiwiZGVmYXVsdERpYWxlY3QiLCJpbmNsdWRlU291cmNlIiwiaW5jbHVkZUdoZXJraW5Eb2N1bWVudCIsImluY2x1ZGVQaWNrbGVzIiwibmV3SWQiLCJJZEdlbmVyYXRvciIsInV1aWQiLCJnaGVya2luT3B0aW9ucyIsIm9wdGlvbnMiLCJPYmplY3QiLCJhc3NpZ24iLCJleHBvcnRzIiwiZGVmYXVsdCJdLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9tYWtlR2hlcmtpbk9wdGlvbnMudHMiXSwic291cmNlc0NvbnRlbnQiOltudWxsXSwibWFwcGluZ3MiOiI7Ozs7O0FBQ0EsTUFBQUEsVUFBQSxHQUFBQyxPQUFBO0FBRUEsTUFBTUMsY0FBYyxHQUFvQjtFQUN0Q0MsY0FBYyxFQUFFLElBQUk7RUFDcEJDLGFBQWEsRUFBRSxJQUFJO0VBQ25CQyxzQkFBc0IsRUFBRSxJQUFJO0VBQzVCQyxjQUFjLEVBQUUsSUFBSTtFQUNwQkMsS0FBSyxFQUFFUCxVQUFBLENBQUFRLFdBQVcsQ0FBQ0MsSUFBSTtDQUN4QjtBQUVELFNBQXdCQyxjQUFjQSxDQUFDQyxPQUF3QjtFQUM3RCxPQUFBQyxNQUFBLENBQUFDLE1BQUEsQ0FBQUQsTUFBQSxDQUFBQyxNQUFBLEtBQVlYLGNBQWMsR0FBS1MsT0FBTztBQUN4QztBQUZBRyxPQUFBLENBQUFDLE9BQUEsR0FBQUwsY0FBQSJ9

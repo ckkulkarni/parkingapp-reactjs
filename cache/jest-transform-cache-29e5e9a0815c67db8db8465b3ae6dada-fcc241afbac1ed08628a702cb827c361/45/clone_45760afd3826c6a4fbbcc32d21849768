@@ -1,0 +1,30 @@
+a9ac31554c28fb1590a5f93eb7a347c0
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+'use strict';
+
+/**
+ * Performs a deep copy of an simple object.
+ * Only handles scalar values, arrays and objects.
+ *
+ * @param obj Object
+ */
+module.exports = function clone(obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+  var res = void 0;
+  if (Array.isArray(obj)) {
+    res = [];
+  } else {
+    res = {};
+  }
+  for (var i in obj) {
+    res[i] = clone(obj[i]);
+  }
+  return res;
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJtb2R1bGUiLCJleHBvcnRzIiwiY2xvbmUiLCJvYmoiLCJyZXMiLCJBcnJheSIsImlzQXJyYXkiLCJpIl0sInNvdXJjZXMiOlsiY2xvbmUuanMiXSwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBUaGUgTUlUIExpY2Vuc2UgKE1JVClcbiAqIENvcHlyaWdodCAoYykgMjAxNy1wcmVzZW50IERtaXRyeSBTb3Nobmlrb3YgPGRtaXRyeS5zb3Nobmlrb3ZAZ21haWwuY29tPlxuICovXG5cbid1c2Ugc3RyaWN0JztcblxuLyoqXG4gKiBQZXJmb3JtcyBhIGRlZXAgY29weSBvZiBhbiBzaW1wbGUgb2JqZWN0LlxuICogT25seSBoYW5kbGVzIHNjYWxhciB2YWx1ZXMsIGFycmF5cyBhbmQgb2JqZWN0cy5cbiAqXG4gKiBAcGFyYW0gb2JqIE9iamVjdFxuICovXG5cbm1vZHVsZS5leHBvcnRzID0gZnVuY3Rpb24gY2xvbmUob2JqKSB7XG4gIGlmIChvYmogPT09IG51bGwgfHwgdHlwZW9mIG9iaiAhPT0gJ29iamVjdCcpIHtcbiAgICByZXR1cm4gb2JqO1xuICB9XG4gIHZhciByZXMgPSB2b2lkIDA7XG4gIGlmIChBcnJheS5pc0FycmF5KG9iaikpIHtcbiAgICByZXMgPSBbXTtcbiAgfSBlbHNlIHtcbiAgICByZXMgPSB7fTtcbiAgfVxuICBmb3IgKHZhciBpIGluIG9iaikge1xuICAgIHJlc1tpXSA9IGNsb25lKG9ialtpXSk7XG4gIH1cbiAgcmV0dXJuIHJlcztcbn07Il0sIm1hcHBpbmdzIjoiQUFBQTtBQUNBO0FBQ0E7QUFDQTs7QUFFQSxZQUFZOztBQUVaO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUVBQSxNQUFNLENBQUNDLE9BQU8sR0FBRyxTQUFTQyxLQUFLQSxDQUFDQyxHQUFHLEVBQUU7RUFDbkMsSUFBSUEsR0FBRyxLQUFLLElBQUksSUFBSSxPQUFPQSxHQUFHLEtBQUssUUFBUSxFQUFFO0lBQzNDLE9BQU9BLEdBQUc7RUFDWjtFQUNBLElBQUlDLEdBQUcsR0FBRyxLQUFLLENBQUM7RUFDaEIsSUFBSUMsS0FBSyxDQUFDQyxPQUFPLENBQUNILEdBQUcsQ0FBQyxFQUFFO0lBQ3RCQyxHQUFHLEdBQUcsRUFBRTtFQUNWLENBQUMsTUFBTTtJQUNMQSxHQUFHLEdBQUcsQ0FBQyxDQUFDO0VBQ1Y7RUFDQSxLQUFLLElBQUlHLENBQUMsSUFBSUosR0FBRyxFQUFFO0lBQ2pCQyxHQUFHLENBQUNHLENBQUMsQ0FBQyxHQUFHTCxLQUFLLENBQUNDLEdBQUcsQ0FBQ0ksQ0FBQyxDQUFDLENBQUM7RUFDeEI7RUFDQSxPQUFPSCxHQUFHO0FBQ1osQ0FBQyJ9

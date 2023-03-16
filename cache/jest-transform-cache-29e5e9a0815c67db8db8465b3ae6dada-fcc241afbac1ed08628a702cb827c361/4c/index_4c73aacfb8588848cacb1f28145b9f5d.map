@@ -1,0 +1,1 @@
+{"version":3,"names":["publish_plugin_1","require","exports","default","publishPlugin"],"sources":["../../src/publish/index.ts"],"sourcesContent":["import { publishPlugin } from './publish_plugin'\n\nexport default publishPlugin\n"],"mappings":";;;;;AAAA,MAAAA,gBAAA,GAAAC,OAAA;AAEAC,OAAA,CAAAC,OAAA,GAAeH,gBAAA,CAAAI,aAAa"}

@@ -1,0 +1,87 @@
+3550ff2af4b0f1447e5b5bdb7ea003e3
+"use strict";
+
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const countSymbols_1 = __importDefault(require("./countSymbols"));
+class GherkinLine {
+  constructor(lineText, lineNumber) {
+    this.lineText = lineText;
+    this.lineNumber = lineNumber;
+    this.trimmedLineText = lineText.replace(/^\s+/g, ''); // ltrim
+    this.isEmpty = this.trimmedLineText.length === 0;
+    this.indent = (0, countSymbols_1.default)(lineText) - (0, countSymbols_1.default)(this.trimmedLineText);
+  }
+  startsWith(prefix) {
+    return this.trimmedLineText.indexOf(prefix) === 0;
+  }
+  startsWithTitleKeyword(keyword) {
+    return this.startsWith(keyword + ':'); // The C# impl is more complicated. Find out why.
+  }
+
+  match(regexp) {
+    return this.trimmedLineText.match(regexp);
+  }
+  getLineText(indentToRemove) {
+    if (indentToRemove < 0 || indentToRemove > this.indent) {
+      return this.trimmedLineText;
+    } else {
+      return this.lineText.substring(indentToRemove);
+    }
+  }
+  getRestTrimmed(length) {
+    return this.trimmedLineText.substring(length).trim();
+  }
+  getTableCells() {
+    const cells = [];
+    let col = 0;
+    let startCol = col + 1;
+    let cell = '';
+    let firstCell = true;
+    while (col < this.trimmedLineText.length) {
+      let chr = this.trimmedLineText[col];
+      col++;
+      if (chr === '|') {
+        if (firstCell) {
+          // First cell (content before the first |) is skipped
+          firstCell = false;
+        } else {
+          // Keeps newlines
+          const trimmedLeft = cell.replace(/^[ \t\v\f\r\u0085\u00A0]*/g, '');
+          const trimmed = trimmedLeft.replace(/[ \t\v\f\r\u0085\u00A0]*$/g, '');
+          const cellIndent = cell.length - trimmedLeft.length;
+          const span = {
+            column: this.indent + startCol + cellIndent,
+            text: trimmed
+          };
+          cells.push(span);
+        }
+        cell = '';
+        startCol = col + 1;
+      } else if (chr === '\\') {
+        chr = this.trimmedLineText[col];
+        col += 1;
+        if (chr === 'n') {
+          cell += '\n';
+        } else {
+          if (chr !== '|' && chr !== '\\') {
+            cell += '\\';
+          }
+          cell += chr;
+        }
+      } else {
+        cell += chr;
+      }
+    }
+    return cells;
+  }
+}
+exports.default = GherkinLine;
+module.exports = GherkinLine;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJjb3VudFN5bWJvbHNfMSIsIl9faW1wb3J0RGVmYXVsdCIsInJlcXVpcmUiLCJHaGVya2luTGluZSIsImNvbnN0cnVjdG9yIiwibGluZVRleHQiLCJsaW5lTnVtYmVyIiwidHJpbW1lZExpbmVUZXh0IiwicmVwbGFjZSIsImlzRW1wdHkiLCJsZW5ndGgiLCJpbmRlbnQiLCJkZWZhdWx0Iiwic3RhcnRzV2l0aCIsInByZWZpeCIsImluZGV4T2YiLCJzdGFydHNXaXRoVGl0bGVLZXl3b3JkIiwia2V5d29yZCIsIm1hdGNoIiwicmVnZXhwIiwiZ2V0TGluZVRleHQiLCJpbmRlbnRUb1JlbW92ZSIsInN1YnN0cmluZyIsImdldFJlc3RUcmltbWVkIiwidHJpbSIsImdldFRhYmxlQ2VsbHMiLCJjZWxscyIsImNvbCIsInN0YXJ0Q29sIiwiY2VsbCIsImZpcnN0Q2VsbCIsImNociIsInRyaW1tZWRMZWZ0IiwidHJpbW1lZCIsImNlbGxJbmRlbnQiLCJzcGFuIiwiY29sdW1uIiwidGV4dCIsInB1c2giLCJleHBvcnRzIiwibW9kdWxlIl0sInNvdXJjZXMiOlsiLi4vLi4vc3JjL0doZXJraW5MaW5lLnRzIl0sInNvdXJjZXNDb250ZW50IjpbbnVsbF0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7O0FBQUEsTUFBQUEsY0FBQSxHQUFBQyxlQUFBLENBQUFDLE9BQUE7QUFHQSxNQUFxQkMsV0FBVztFQU85QkMsWUFBNEJDLFFBQWdCLEVBQWtCQyxVQUFrQjtJQUFwRCxLQUFBRCxRQUFRLEdBQVJBLFFBQVE7SUFBMEIsS0FBQUMsVUFBVSxHQUFWQSxVQUFVO0lBQ3RFLElBQUksQ0FBQ0MsZUFBZSxHQUFHRixRQUFRLENBQUNHLE9BQU8sQ0FBQyxPQUFPLEVBQUUsRUFBRSxDQUFDLEVBQUM7SUFDckQsSUFBSSxDQUFDQyxPQUFPLEdBQUcsSUFBSSxDQUFDRixlQUFlLENBQUNHLE1BQU0sS0FBSyxDQUFDO0lBQ2hELElBQUksQ0FBQ0MsTUFBTSxHQUFHLElBQUFYLGNBQUEsQ0FBQVks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

@@ -1,0 +1,15 @@
+0575b398438772f359e28e0b0991661f
+"use strict";
+
+/**
+ * Converts an ASCII `string` to an array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the converted array.
+ */
+function asciiToArray(string) {
+  return string.split('');
+}
+module.exports = asciiToArray;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJhc2NpaVRvQXJyYXkiLCJzdHJpbmciLCJzcGxpdCIsIm1vZHVsZSIsImV4cG9ydHMiXSwic291cmNlcyI6WyJfYXNjaWlUb0FycmF5LmpzIl0sInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQ29udmVydHMgYW4gQVNDSUkgYHN0cmluZ2AgdG8gYW4gYXJyYXkuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7c3RyaW5nfSBzdHJpbmcgVGhlIHN0cmluZyB0byBjb252ZXJ0LlxuICogQHJldHVybnMge0FycmF5fSBSZXR1cm5zIHRoZSBjb252ZXJ0ZWQgYXJyYXkuXG4gKi9cbmZ1bmN0aW9uIGFzY2lpVG9BcnJheShzdHJpbmcpIHtcbiAgcmV0dXJuIHN0cmluZy5zcGxpdCgnJyk7XG59XG5cbm1vZHVsZS5leHBvcnRzID0gYXNjaWlUb0FycmF5O1xuIl0sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsU0FBU0EsWUFBWUEsQ0FBQ0MsTUFBTSxFQUFFO0VBQzVCLE9BQU9BLE1BQU0sQ0FBQ0MsS0FBSyxDQUFDLEVBQUUsQ0FBQztBQUN6QjtBQUVBQyxNQUFNLENBQUNDLE9BQU8sR0FBR0osWUFBWSJ9

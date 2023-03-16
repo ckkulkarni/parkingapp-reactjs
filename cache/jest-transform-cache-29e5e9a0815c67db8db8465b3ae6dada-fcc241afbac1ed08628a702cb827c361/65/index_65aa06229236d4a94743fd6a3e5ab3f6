@@ -1,0 +1,14 @@
+e2a10611e03c735c648d24d7147801c9
+"use strict";
+
+/**
+ * Detect Electron renderer / nwjs process, which is node, but we should
+ * treat as a browser.
+ */
+
+if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
+  module.exports = require('./browser.js');
+} else {
+  module.exports = require('./node.js');
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJwcm9jZXNzIiwidHlwZSIsImJyb3dzZXIiLCJfX253anMiLCJtb2R1bGUiLCJleHBvcnRzIiwicmVxdWlyZSJdLCJzb3VyY2VzIjpbImluZGV4LmpzIl0sInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogRGV0ZWN0IEVsZWN0cm9uIHJlbmRlcmVyIC8gbndqcyBwcm9jZXNzLCB3aGljaCBpcyBub2RlLCBidXQgd2Ugc2hvdWxkXG4gKiB0cmVhdCBhcyBhIGJyb3dzZXIuXG4gKi9cblxuaWYgKHR5cGVvZiBwcm9jZXNzID09PSAndW5kZWZpbmVkJyB8fCBwcm9jZXNzLnR5cGUgPT09ICdyZW5kZXJlcicgfHwgcHJvY2Vzcy5icm93c2VyID09PSB0cnVlIHx8IHByb2Nlc3MuX19ud2pzKSB7XG5cdG1vZHVsZS5leHBvcnRzID0gcmVxdWlyZSgnLi9icm93c2VyLmpzJyk7XG59IGVsc2Uge1xuXHRtb2R1bGUuZXhwb3J0cyA9IHJlcXVpcmUoJy4vbm9kZS5qcycpO1xufVxuIl0sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTtBQUNBOztBQUVBLElBQUksT0FBT0EsT0FBTyxLQUFLLFdBQVcsSUFBSUEsT0FBTyxDQUFDQyxJQUFJLEtBQUssVUFBVSxJQUFJRCxPQUFPLENBQUNFLE9BQU8sS0FBSyxJQUFJLElBQUlGLE9BQU8sQ0FBQ0csTUFBTSxFQUFFO0VBQ2hIQyxNQUFNLENBQUNDLE9BQU8sR0FBR0MsT0FBTyxDQUFDLGNBQWMsQ0FBQztBQUN6QyxDQUFDLE1BQU07RUFDTkYsTUFBTSxDQUFDQyxPQUFPLEdBQUdDLE9BQU8sQ0FBQyxXQUFXLENBQUM7QUFDdEMifQ==

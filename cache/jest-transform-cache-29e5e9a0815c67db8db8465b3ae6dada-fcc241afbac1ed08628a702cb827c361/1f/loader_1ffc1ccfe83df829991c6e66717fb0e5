@@ -1,0 +1,73 @@
+a692fd434d84a292ad7f5009d340d6de
+"use strict";
+
+// global key for user preferred registration
+var REGISTRATION_KEY = '@@any-promise/REGISTRATION',
+  // Prior registration (preferred or detected)
+  registered = null;
+
+/**
+ * Registers the given implementation.  An implementation must
+ * be registered prior to any call to `require("any-promise")`,
+ * typically on application load.
+ *
+ * If called with no arguments, will return registration in
+ * following priority:
+ *
+ * For Node.js:
+ *
+ * 1. Previous registration
+ * 2. global.Promise if node.js version >= 0.12
+ * 3. Auto detected promise based on first sucessful require of
+ *    known promise libraries. Note this is a last resort, as the
+ *    loaded library is non-deterministic. node.js >= 0.12 will
+ *    always use global.Promise over this priority list.
+ * 4. Throws error.
+ *
+ * For Browser:
+ *
+ * 1. Previous registration
+ * 2. window.Promise
+ * 3. Throws error.
+ *
+ * Options:
+ *
+ * Promise: Desired Promise constructor
+ * global: Boolean - Should the registration be cached in a global variable to
+ * allow cross dependency/bundle registration?  (default true)
+ */
+module.exports = function (root, loadImplementation) {
+  return function register(implementation, opts) {
+    implementation = implementation || null;
+    opts = opts || {};
+    // global registration unless explicitly  {global: false} in options (default true)
+    var registerGlobal = opts.global !== false;
+
+    // load any previous global registration
+    if (registered === null && registerGlobal) {
+      registered = root[REGISTRATION_KEY] || null;
+    }
+    if (registered !== null && implementation !== null && registered.implementation !== implementation) {
+      // Throw error if attempting to redefine implementation
+      throw new Error('any-promise already defined as "' + registered.implementation + '".  You can only register an implementation before the first ' + ' call to require("any-promise") and an implementation cannot be changed');
+    }
+    if (registered === null) {
+      // use provided implementation
+      if (implementation !== null && typeof opts.Promise !== 'undefined') {
+        registered = {
+          Promise: opts.Promise,
+          implementation: implementation
+        };
+      } else {
+        // require implementation if implementation is specified but not provided
+        registered = loadImplementation(implementation);
+      }
+      if (registerGlobal) {
+        // register preference globally in case multiple installations
+        root[REGISTRATION_KEY] = registered;
+      }
+    }
+    return registered;
+  };
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJSRUdJU1RSQVRJT05fS0VZIiwicmVnaXN0ZXJlZCIsIm1vZHVsZSIsImV4cG9ydHMiLCJyb290IiwibG9hZEltcGxlbWVudGF0aW9uIiwicmVnaXN0ZXIiLCJpbXBsZW1lbnRhdGlvbiIsIm9wdHMiLCJyZWdpc3Rlckdsb2JhbCIsImdsb2JhbCIsIkVycm9yIiwiUHJvbWlzZSJdLCJzb3VyY2VzIjpbImxvYWRlci5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyJcInVzZSBzdHJpY3RcIlxuICAgIC8vIGdsb2JhbCBrZXkgZm9yIHVzZXIgcHJlZmVycmVkIHJlZ2lzdHJhdGlvblxudmFyIFJFR0lTVFJBVElPTl9LRVkgPSAnQEBhbnktcHJvbWlzZS9SRUdJU1RSQVRJT04nLFxuICAgIC8vIFByaW9yIHJlZ2lzdHJhdGlvbiAocHJlZmVycmVkIG9yIGRldGVjdGVkKVxuICAgIHJlZ2lzdGVyZWQgPSBudWxsXG5cbi8qKlxuICogUmVnaXN0ZXJzIHRoZSBnaXZlbiBpbXBsZW1lbnRhdGlvbi4gIEFuIGltcGxlbWVudGF0aW9uIG11c3RcbiAqIGJlIHJlZ2lzdGVyZWQgcHJpb3IgdG8gYW55IGNhbGwgdG8gYHJlcXVpcmUoXCJhbnktcHJvbWlzZVwiKWAsXG4gKiB0eXBpY2FsbHkgb24gYXBwbGljYXRpb24gbG9hZC5cbiAqXG4gKiBJZiBjYWxsZWQgd2l0aCBubyBhcmd1bWVudHMsIHdpbGwgcmV0dXJuIHJlZ2lzdHJhdGlvbiBpblxuICogZm9sbG93aW5nIHByaW9yaXR5OlxuICpcbiAqIEZvciBOb2RlLmpzOlxuICpcbiAqIDEuIFByZXZpb3VzIHJlZ2lzdHJhdGlvblxuICogMi4gZ2xvYmFsLlByb21pc2UgaWYgbm9kZS5qcyB2ZXJzaW9uID49IDAuMTJcbiAqIDMuIEF1dG8gZGV0ZWN0ZWQgcHJvbWlzZSBiYXNlZCBvbiBmaXJzdCBzdWNlc3NmdWwgcmVxdWlyZSBvZlxuICogICAga25vd24gcHJvbWlzZSBsaWJyYXJpZXMuIE5vdGUgdGhpcyBpcyBhIGxhc3QgcmVzb3J0LCBhcyB0aGVcbiAqICAgIGxvYWRlZCBsaWJyYXJ5IGlzIG5vbi1kZXRlcm1pbmlzdGljLiBub2RlLmpzID49IDAuMTIgd2lsbFxuICogICAgYWx3YXlzIHVzZSBnbG9iYWwuUHJvbWlzZSBvdmVyIHRoaXMgcHJpb3JpdHkgbGlzdC5cbiAqIDQuIFRocm93cyBlcnJvci5cbiAqXG4gKiBGb3IgQnJvd3NlcjpcbiAqXG4gKiAxLiBQcmV2aW91cyByZWdpc3RyYXRpb25cbiAqIDIuIHdpbmRvdy5Qcm9taXNlXG4gKiAzLiBUaHJvd3MgZXJyb3IuXG4gKlxuICogT3B0aW9uczpcbiAqXG4gKiBQcm9taXNlOiBEZXNpcmVkIFByb21pc2UgY29uc3RydWN0b3JcbiAqIGdsb2JhbDogQm9vbGVhbiAtIFNob3VsZCB0aGUgcmVnaXN0cmF0aW9uIGJlIGNhY2hlZCBpbiBhIGdsb2JhbCB2YXJpYWJsZSB0b1xuICogYWxsb3cgY3Jvc3MgZGVwZW5kZW5jeS9idW5kbGUgcmVnaXN0cmF0aW9uPyAgKGRlZmF1bHQgdHJ1ZSlcbiAqL1xubW9kdWxlLmV4cG9ydHMgPSBmdW5jdGlvbihyb290LCBsb2FkSW1wbGVtZW50YXRpb24pe1xuICByZXR1cm4gZnVuY3Rpb24gcmVnaXN0ZXIoaW1wbGVtZW50YXRpb24sIG9wdHMpe1xuICAgIGltcGxlbWVudGF0aW9uID0gaW1wbGVtZW50YXRpb24gfHwgbnVsbFxuICAgIG9wdHMgPSBvcHRzIHx8IHt9XG4gICAgLy8gZ2xvYmFsIHJlZ2lzdHJhdGlvbiB1bmxlc3MgZXhwbGljaXRseSAge2dsb2JhbDogZmFsc2V9IGluIG9wdGlvbnMgKGRlZmF1bHQgdHJ1ZSlcbiAgICB2YXIgcmVnaXN0ZXJHbG9iYWwgPSBvcHRzLmdsb2JhbCAhPT0gZmFsc2U7XG5cbiAgICAvLyBsb2FkIGFueSBwcmV2aW91cyBnbG9iYWwgcmVnaXN0cmF0aW9uXG4gICAgaWYocmVnaXN0ZXJlZCA9PT0gbnVsbCAmJiByZWdpc3Rlckdsb2JhbCl7XG4gICAgICByZWdpc3RlcmVkID0gcm9vdFtSRUdJU1RSQVRJT05fS0VZXSB8fCBudWxsXG4gICAgfVxuXG4gICAgaWYocmVnaXN0ZXJlZCAhPT0gbnVsbFxuICAgICAgICAmJiBpbXBsZW1lbnRhdGlvbiAhPT0gbnVsbFxuICAgICAgICAmJiByZWdpc3RlcmVkLmltcGxlbWVudGF0aW9uICE9PSBpbXBsZW1lbnRhdGlvbil7XG4gICAgICAvLyBUaHJvdyBlcnJvciBpZiBhdHRlbXB0aW5nIHRvIHJlZGVmaW5lIGltcGxlbWVudGF0aW9uXG4gICAgICB0aHJvdyBuZXcgRXJyb3IoJ2FueS1wcm9taXNlIGFscmVhZHkgZGVmaW5lZCBhcyBcIicrcmVnaXN0ZXJlZC5pbXBsZW1lbnRhdGlvbitcbiAgICAgICAgJ1wiLiAgWW91IGNhbiBvbmx5IHJlZ2lzdGVyIGFuIGltcGxlbWVudGF0aW9uIGJlZm9yZSB0aGUgZmlyc3QgJytcbiAgICAgICAgJyBjYWxsIHRvIHJlcXVpcmUoXCJhbnktcHJvbWlzZVwiKSBhbmQgYW4gaW1wbGVtZW50YXRpb24gY2Fubm90IGJlIGNoYW5nZWQnKVxuICAgIH1cblxuICAgIGlmKHJlZ2lzdGVyZWQgPT09IG51bGwpe1xuICAgICAgLy8gdXNlIHByb3ZpZGVkIGltcGxlbWVudGF0aW9uXG4gICAgICBpZihpbXBsZW1lbnRhdGlvbiAhPT0gbnVsbCAmJiB0eXBlb2Ygb3B0cy5Qcm9taXNlICE9PSAndW5kZWZpbmVkJyl7XG4gICAgICAgIHJlZ2lzdGVyZWQgPSB7XG4gICAgICAgICAgUHJvbWlzZTogb3B0cy5Qcm9taXNlLFxuICAgICAgICAgIGltcGxlbWVudGF0aW9uOiBpbXBsZW1lbnRhdGlvblxuICAgICAgICB9XG4gICAgICB9IGVsc2Uge1xuICAgICAgICAvLyByZXF1aXJlIGltcGxlbWVudGF0aW9uIGlmIGltcGxlbWVudGF0aW9uIGlzIHNwZWNpZmllZCBidXQgbm90IHByb3ZpZGVkXG4gICAgICAgIHJlZ2lzdGVyZWQgPSBsb2FkSW1wbGVtZW50YXRpb24oaW1wbGVtZW50YXRpb24pXG4gICAgICB9XG5cbiAgICAgIGlmKHJlZ2lzdGVyR2xvYmFsKXtcbiAgICAgICAgLy8gcmVnaXN0ZXIgcHJlZmVyZW5jZSBnbG9iYWxseSBpbiBjYXNlIG11bHRpcGxlIGluc3RhbGxhdGlvbnNcbiAgICAgICAgcm9vdFtSRUdJU1RSQVRJT05fS0VZXSA9IHJlZ2lzdGVyZWRcbiAgICAgIH1cbiAgICB9XG5cbiAgICByZXR1cm4gcmVnaXN0ZXJlZFxuICB9XG59XG4iXSwibWFwcGluZ3MiOiJBQUFBLFlBQVk7O0FBQ1I7QUFDSixJQUFJQSxnQkFBZ0IsR0FBRyw0QkFBNEI7RUFDL0M7RUFDQUMsVUFBVSxHQUFHLElBQUk7O0FBRXJCO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBQyxNQUFNLENBQUNDLE9BQU8sR0FBRyxVQUFTQyxJQUFJLEVBQUVDLGtCQUFrQixFQUFDO0VBQ2pELE9BQU8sU0FBU0MsUUFBUUEsQ0FBQ0MsY0FBYyxFQUFFQyxJQUFJLEVBQUM7SUFDNUNELGNBQWMsR0FBR0EsY0FBYyxJQUFJLElBQUk7SUFDdkNDLElBQUksR0FBR0EsSUFBSSxJQUFJLENBQUMsQ0FBQztJQUNqQjtJQUNBLElBQUlDLGNBQWMsR0FBR0QsSUFBSSxDQUFDRSxNQUFNLEtBQUssS0FBSzs7SUFFMUM7SUFDQSxJQUFHVCxVQUFVLEtBQUssSUFBSSxJQUFJUSxjQUFjLEVBQUM7TUFDdkNSLFVBQVUsR0FBR0csSUFBSSxDQUFDSixnQkFBZ0IsQ0FBQyxJQUFJLElBQUk7SUFDN0M7SUFFQSxJQUFHQyxVQUFVLEtBQUssSUFBSSxJQUNmTSxjQUFjLEtBQUssSUFBSSxJQUN2Qk4sVUFBVSxDQUFDTSxjQUFjLEtBQUtBLGNBQWMsRUFBQztNQUNsRDtNQUNBLE1BQU0sSUFBSUksS0FBSyxDQUFDLGtDQUFrQyxHQUFDVixVQUFVLENBQUNNLGNBQWMsR0FDMUUsK0RBQStELEdBQy9ELHlFQUF5RSxDQUFDO0lBQzlFO0lBRUEsSUFBR04sVUFBVSxLQUFLLElBQUksRUFBQztNQUNyQjtNQUNBLElBQUdNLGNBQWMsS0FBSyxJQUFJLElBQUksT0FBT0MsSUFBSSxDQUFDSSxPQUFPLEtBQUssV0FBVyxFQUFDO1FBQ2hFWCxVQUFVLEdBQUc7VUFDWFcsT0FBTyxFQUFFSixJQUFJLENBQUNJLE9BQU87VUFDckJMLGNBQWMsRUFBRUE7UUFDbEIsQ0FBQztNQUNILENBQUMsTUFBTTtRQUNMO1FBQ0FOLFVBQVUsR0FBR0ksa0JBQWtCLENBQUNFLGNBQWMsQ0FBQztNQUNqRDtNQUVBLElBQUdFLGNBQWMsRUFBQztRQUNoQjtRQUNBTCxJQUFJLENBQUNKLGdCQUFnQixDQUFDLEdBQUdDLFVBQVU7TUFDckM7SUFDRjtJQUVBLE9BQU9BLFVBQVU7RUFDbkIsQ0FBQztBQUNILENBQUMifQ==

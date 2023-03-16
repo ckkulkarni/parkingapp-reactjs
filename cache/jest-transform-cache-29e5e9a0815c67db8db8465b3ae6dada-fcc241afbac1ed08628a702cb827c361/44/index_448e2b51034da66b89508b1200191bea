@@ -1,0 +1,5 @@
+9181aee8767c0bfd25990d0cf8d5f47f
+"use strict";
+
+module.exports = require('./lib/node-progress');
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJtb2R1bGUiLCJleHBvcnRzIiwicmVxdWlyZSJdLCJzb3VyY2VzIjpbImluZGV4LmpzIl0sInNvdXJjZXNDb250ZW50IjpbIm1vZHVsZS5leHBvcnRzID0gcmVxdWlyZSgnLi9saWIvbm9kZS1wcm9ncmVzcycpO1xuIl0sIm1hcHBpbmdzIjoiOztBQUFBQSxNQUFNLENBQUNDLE9BQU8sR0FBR0MsT0FBTyxDQUFDLHFCQUFxQixDQUFDIn0=

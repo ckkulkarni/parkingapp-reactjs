@@ -1,0 +1,22 @@
+393314e68f2597f36288ba299a42c166
+"use strict";
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * The base implementation of `_.has` without support for deep paths.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {Array|string} key The key to check.
+ * @returns {boolean} Returns `true` if `key` exists, else `false`.
+ */
+function baseHas(object, key) {
+  return object != null && hasOwnProperty.call(object, key);
+}
+module.exports = baseHas;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJvYmplY3RQcm90byIsIk9iamVjdCIsInByb3RvdHlwZSIsImhhc093blByb3BlcnR5IiwiYmFzZUhhcyIsIm9iamVjdCIsImtleSIsImNhbGwiLCJtb2R1bGUiLCJleHBvcnRzIl0sInNvdXJjZXMiOlsiX2Jhc2VIYXMuanMiXSwic291cmNlc0NvbnRlbnQiOlsiLyoqIFVzZWQgZm9yIGJ1aWx0LWluIG1ldGhvZCByZWZlcmVuY2VzLiAqL1xudmFyIG9iamVjdFByb3RvID0gT2JqZWN0LnByb3RvdHlwZTtcblxuLyoqIFVzZWQgdG8gY2hlY2sgb2JqZWN0cyBmb3Igb3duIHByb3BlcnRpZXMuICovXG52YXIgaGFzT3duUHJvcGVydHkgPSBvYmplY3RQcm90by5oYXNPd25Qcm9wZXJ0eTtcblxuLyoqXG4gKiBUaGUgYmFzZSBpbXBsZW1lbnRhdGlvbiBvZiBgXy5oYXNgIHdpdGhvdXQgc3VwcG9ydCBmb3IgZGVlcCBwYXRocy5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQHBhcmFtIHtPYmplY3R9IFtvYmplY3RdIFRoZSBvYmplY3QgdG8gcXVlcnkuXG4gKiBAcGFyYW0ge0FycmF5fHN0cmluZ30ga2V5IFRoZSBrZXkgdG8gY2hlY2suXG4gKiBAcmV0dXJucyB7Ym9vbGVhbn0gUmV0dXJucyBgdHJ1ZWAgaWYgYGtleWAgZXhpc3RzLCBlbHNlIGBmYWxzZWAuXG4gKi9cbmZ1bmN0aW9uIGJhc2VIYXMob2JqZWN0LCBrZXkpIHtcbiAgcmV0dXJuIG9iamVjdCAhPSBudWxsICYmIGhhc093blByb3BlcnR5LmNhbGwob2JqZWN0LCBrZXkpO1xufVxuXG5tb2R1bGUuZXhwb3J0cyA9IGJhc2VIYXM7XG4iXSwibWFwcGluZ3MiOiI7O0FBQUE7QUFDQSxJQUFJQSxXQUFXLEdBQUdDLE1BQU0sQ0FBQ0MsU0FBUzs7QUFFbEM7QUFDQSxJQUFJQyxjQUFjLEdBQUdILFdBQVcsQ0FBQ0csY0FBYzs7QUFFL0M7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLFNBQVNDLE9BQU9BLENBQUNDLE1BQU0sRUFBRUMsR0FBRyxFQUFFO0VBQzVCLE9BQU9ELE1BQU0sSUFBSSxJQUFJLElBQUlGLGNBQWMsQ0FBQ0ksSUFBSSxDQUFDRixNQUFNLEVBQUVDLEdBQUcsQ0FBQztBQUMzRDtBQUVBRSxNQUFNLENBQUNDLE9BQU8sR0FBR0wsT0FBTyJ9

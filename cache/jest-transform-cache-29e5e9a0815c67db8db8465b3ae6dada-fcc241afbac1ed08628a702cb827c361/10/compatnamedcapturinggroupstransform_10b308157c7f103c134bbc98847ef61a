@@ -1,0 +1,51 @@
+fdacf6b8bc3ade09b61162e237d8595f
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2017-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+'use strict';
+
+/**
+ * A regexp-tree plugin to translate `/(?<name>a)\k<name>/` to `/(a)\1/`.
+ */
+module.exports = {
+  // To track the names of the groups, and return them
+  // in the transform result state.
+  //
+  // A map from name to number: {foo: 2, bar: 4}
+  _groupNames: {},
+  /**
+   * Initialises the trasnform.
+   */
+  init: function init() {
+    this._groupNames = {};
+  },
+  /**
+   * Returns extra state, which eventually is returned to
+   */
+  getExtra: function getExtra() {
+    return this._groupNames;
+  },
+  Group: function Group(path) {
+    var node = path.node;
+    if (!node.name) {
+      return;
+    }
+
+    // Record group name.
+    this._groupNames[node.name] = node.number;
+    delete node.name;
+    delete node.nameRaw;
+  },
+  Backreference: function Backreference(path) {
+    var node = path.node;
+    if (node.kind !== 'name') {
+      return;
+    }
+    node.kind = 'number';
+    node.reference = node.number;
+    delete node.referenceRaw;
+  }
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJtb2R1bGUiLCJleHBvcnRzIiwiX2dyb3VwTmFtZXMiLCJpbml0IiwiZ2V0RXh0cmEiLCJHcm91cCIsInBhdGgiLCJub2RlIiwibmFtZSIsIm51bWJlciIsIm5hbWVSYXciLCJCYWNrcmVmZXJlbmNlIiwia2luZCIsInJlZmVyZW5jZSIsInJlZmVyZW5jZVJhdyJdLCJzb3VyY2VzIjpbImNvbXBhdC1uYW1lZC1jYXB0dXJpbmctZ3JvdXBzLXRyYW5zZm9ybS5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIFRoZSBNSVQgTGljZW5zZSAoTUlUKVxuICogQ29weXJpZ2h0IChjKSAyMDE3LXByZXNlbnQgRG1pdHJ5IFNvc2huaWtvdiA8ZG1pdHJ5LnNvc2huaWtvdkBnbWFpbC5jb20+XG4gKi9cblxuJ3VzZSBzdHJpY3QnO1xuXG4vKipcbiAqIEEgcmVnZXhwLXRyZWUgcGx1Z2luIHRvIHRyYW5zbGF0ZSBgLyg/PG5hbWU+YSlcXGs8bmFtZT4vYCB0byBgLyhhKVxcMS9gLlxuICovXG5cbm1vZHVsZS5leHBvcnRzID0ge1xuICAvLyBUbyB0cmFjayB0aGUgbmFtZXMgb2YgdGhlIGdyb3VwcywgYW5kIHJldHVybiB0aGVtXG4gIC8vIGluIHRoZSB0cmFuc2Zvcm0gcmVzdWx0IHN0YXRlLlxuICAvL1xuICAvLyBBIG1hcCBmcm9tIG5hbWUgdG8gbnVtYmVyOiB7Zm9vOiAyLCBiYXI6IDR9XG4gIF9ncm91cE5hbWVzOiB7fSxcblxuICAvKipcbiAgICogSW5pdGlhbGlzZXMgdGhlIHRyYXNuZm9ybS5cbiAgICovXG4gIGluaXQ6IGZ1bmN0aW9uIGluaXQoKSB7XG4gICAgdGhpcy5fZ3JvdXBOYW1lcyA9IHt9O1xuICB9LFxuXG5cbiAgLyoqXG4gICAqIFJldHVybnMgZXh0cmEgc3RhdGUsIHdoaWNoIGV2ZW50dWFsbHkgaXMgcmV0dXJuZWQgdG9cbiAgICovXG4gIGdldEV4dHJhOiBmdW5jdGlvbiBnZXRFeHRyYSgpIHtcbiAgICByZXR1cm4gdGhpcy5fZ3JvdXBOYW1lcztcbiAgfSxcbiAgR3JvdXA6IGZ1bmN0aW9uIEdyb3VwKHBhdGgpIHtcbiAgICB2YXIgbm9kZSA9IHBhdGgubm9kZTtcblxuXG4gICAgaWYgKCFub2RlLm5hbWUpIHtcbiAgICAgIHJldHVybjtcbiAgICB9XG5cbiAgICAvLyBSZWNvcmQgZ3JvdXAgbmFtZS5cbiAgICB0aGlzLl9ncm91cE5hbWVzW25vZGUubmFtZV0gPSBub2RlLm51bWJlcjtcblxuICAgIGRlbGV0ZSBub2RlLm5hbWU7XG4gICAgZGVsZXRlIG5vZGUubmFtZVJhdztcbiAgfSxcbiAgQmFja3JlZmVyZW5jZTogZnVuY3Rpb24gQmFja3JlZmVyZW5jZShwYXRoKSB7XG4gICAgdmFyIG5vZGUgPSBwYXRoLm5vZGU7XG5cblxuICAgIGlmIChub2RlLmtpbmQgIT09ICduYW1lJykge1xuICAgICAgcmV0dXJuO1xuICAgIH1cblxuICAgIG5vZGUua2luZCA9ICdudW1iZXInO1xuICAgIG5vZGUucmVmZXJlbmNlID0gbm9kZS5udW1iZXI7XG4gICAgZGVsZXRlIG5vZGUucmVmZXJlbmNlUmF3O1xuICB9XG59OyJdLCJtYXBwaW5ncyI6IkFBQUE7QUFDQTtBQUNBO0FBQ0E7O0FBRUEsWUFBWTs7QUFFWjtBQUNBO0FBQ0E7QUFFQUEsTUFBTSxDQUFDQyxPQUFPLEdBQUc7RUFDZjtFQUNBO0VBQ0E7RUFDQTtFQUNBQyxXQUFXLEVBQUUsQ0FBQyxDQUFDO0VBRWY7QUFDRjtBQUNBO0VBQ0VDLElBQUksRUFBRSxTQUFTQSxJQUFJQSxDQUFBLEVBQUc7SUFDcEIsSUFBSSxDQUFDRCxXQUFXLEdBQUcsQ0FBQyxDQUFDO0VBQ3ZCLENBQUM7RUFHRDtBQUNGO0FBQ0E7RUFDRUUsUUFBUSxFQUFFLFNBQVNBLFFBQVFBLENBQUEsRUFBRztJQUM1QixPQUFPLElBQUksQ0FBQ0YsV0FBVztFQUN6QixDQUFDO0VBQ0RHLEtBQUssRUFBRSxTQUFTQSxLQUFLQSxDQUFDQyxJQUFJLEVBQUU7SUFDMUIsSUFBSUMsSUFBSSxHQUFHRCxJQUFJLENBQUNDLElBQUk7SUFHcEIsSUFBSSxDQUFDQSxJQUFJLENBQUNDLElBQUksRUFBRTtNQUNkO0lBQ0Y7O0lBRUE7SUFDQSxJQUFJLENBQUNOLFdBQVcsQ0FBQ0ssSUFBSSxDQUFDQyxJQUFJLENBQUMsR0FBR0QsSUFBSSxDQUFDRSxNQUFNO0lBRXpDLE9BQU9GLElBQUksQ0FBQ0MsSUFBSTtJQUNoQixPQUFPRCxJQUFJLENBQUNHLE9BQU87RUFDckIsQ0FBQztFQUNEQyxhQUFhLEVBQUUsU0FBU0EsYUFBYUEsQ0FBQ0wsSUFBSSxFQUFFO0lBQzFDLElBQUlDLElBQUksR0FBR0QsSUFBSSxDQUFDQyxJQUFJO0lBR3BCLElBQUlBLElBQUksQ0FBQ0ssSUFBSSxLQUFLLE1BQU0sRUFBRTtNQUN4QjtJQUNGO0lBRUFMLElBQUksQ0FBQ0ssSUFBSSxHQUFHLFFBQVE7SUFDcEJMLElBQUksQ0FBQ00sU0FBUyxHQUFHTixJQUFJLENBQUNFLE1BQU07SUFDNUIsT0FBT0YsSUFBSSxDQUFDTyxZQUFZO0VBQzFCO0FBQ0YsQ0FBQyJ9

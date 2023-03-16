@@ -1,0 +1,13 @@
+8d56edbfea734c2ebbad41420a40d1cc
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.defaultMetadataStorage = void 0;
+const MetadataStorage_1 = require("./MetadataStorage");
+/**
+ * Default metadata storage is used as singleton and can be used to storage all metadatas.
+ */
+exports.defaultMetadataStorage = new MetadataStorage_1.MetadataStorage();
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJNZXRhZGF0YVN0b3JhZ2VfMSIsInJlcXVpcmUiLCJleHBvcnRzIiwiZGVmYXVsdE1ldGFkYXRhU3RvcmFnZSIsIk1ldGFkYXRhU3RvcmFnZSJdLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9zdG9yYWdlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IE1ldGFkYXRhU3RvcmFnZSB9IGZyb20gJy4vTWV0YWRhdGFTdG9yYWdlJztcblxuLyoqXG4gKiBEZWZhdWx0IG1ldGFkYXRhIHN0b3JhZ2UgaXMgdXNlZCBhcyBzaW5nbGV0b24gYW5kIGNhbiBiZSB1c2VkIHRvIHN0b3JhZ2UgYWxsIG1ldGFkYXRhcy5cbiAqL1xuZXhwb3J0IGNvbnN0IGRlZmF1bHRNZXRhZGF0YVN0b3JhZ2UgPSBuZXcgTWV0YWRhdGFTdG9yYWdlKCk7XG4iXSwibWFwcGluZ3MiOiI7Ozs7OztBQUFBLE1BQUFBLGlCQUFBLEdBQUFDLE9BQUE7QUFFQTs7O0FBR2FDLE9BQUEsQ0FBQUMsc0JBQXNCLEdBQUcsSUFBSUgsaUJBQUEsQ0FBQUksZUFBZSxFQUFFIn0=

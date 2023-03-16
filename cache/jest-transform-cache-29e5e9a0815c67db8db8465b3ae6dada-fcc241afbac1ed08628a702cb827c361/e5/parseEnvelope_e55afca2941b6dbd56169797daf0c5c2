@@ -1,0 +1,20 @@
+fa9132d503f32a27546b219b049074e2
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.parseEnvelope = void 0;
+var messages_js_1 = require("./messages.js");
+var class_transformer_1 = require("class-transformer");
+/**
+ * Parses JSON into an Envelope object. The difference from JSON.parse
+ * is that the resulting objects will have default values (defined in the JSON Schema)
+ * for properties that are absent from the JSON.
+ */
+function parseEnvelope(json) {
+  var plain = JSON.parse(json);
+  return (0, class_transformer_1.plainToClass)(messages_js_1.Envelope, plain);
+}
+exports.parseEnvelope = parseEnvelope;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJtZXNzYWdlc19qc18xIiwicmVxdWlyZSIsImNsYXNzX3RyYW5zZm9ybWVyXzEiLCJwYXJzZUVudmVsb3BlIiwianNvbiIsInBsYWluIiwiSlNPTiIsInBhcnNlIiwicGxhaW5Ub0NsYXNzIiwiRW52ZWxvcGUiLCJleHBvcnRzIl0sInNvdXJjZXMiOlsiLi4vLi4vLi4vc3JjL3BhcnNlRW52ZWxvcGUudHMiXSwic291cmNlc0NvbnRlbnQiOltudWxsXSwibWFwcGluZ3MiOiI7Ozs7OztBQUFBLElBQUFBLGFBQUEsR0FBQUMsT0FBQTtBQUNBLElBQUFDLG1CQUFBLEdBQUFELE9BQUE7QUFFQTs7Ozs7QUFLQSxTQUFnQkUsYUFBYUEsQ0FBQ0MsSUFBWTtFQUN4QyxJQUFNQyxLQUFLLEdBQUdDLElBQUksQ0FBQ0MsS0FBSyxDQUFDSCxJQUFJLENBQUM7RUFDOUIsT0FBTyxJQUFBRixtQkFBQSxDQUFBTSxZQUFZLEVBQUNSLGFBQUEsQ0FBQVMsUUFBUSxFQUFFSixLQUFLLENBQUM7QUFDdEM7QUFIQUssT0FBQSxDQUFBUCxhQUFBLEdBQUFBLGFBQUEifQ==

@@ -1,0 +1,1 @@
+{"version":3,"names":["detectCiEnvironment_js_1","__importDefault","require","__exportStar","exports","default"],"sources":["../../../src/index.ts"],"sourcesContent":[null],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,IAAAA,wBAAA,GAAAC,eAAA,CAAAC,OAAA;AAEAC,YAAA,CAAAD,OAAA,gBAAAE,OAAA;AACAA,OAAA,CAAAC,OAAA,GAAeL,wBAAA,CAAAK,OAAmB"}

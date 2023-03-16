@@ -1,0 +1,45 @@
+d6637bc3be72f37a7ecfe15214ff061c
+"use strict";
+
+var baseAssignValue = require('./_baseAssignValue'),
+  baseForOwn = require('./_baseForOwn'),
+  baseIteratee = require('./_baseIteratee');
+
+/**
+ * Creates an object with the same keys as `object` and values generated
+ * by running each own enumerable string keyed property of `object` thru
+ * `iteratee`. The iteratee is invoked with three arguments:
+ * (value, key, object).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Object
+ * @param {Object} object The object to iterate over.
+ * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+ * @returns {Object} Returns the new mapped object.
+ * @see _.mapKeys
+ * @example
+ *
+ * var users = {
+ *   'fred':    { 'user': 'fred',    'age': 40 },
+ *   'pebbles': { 'user': 'pebbles', 'age': 1 }
+ * };
+ *
+ * _.mapValues(users, function(o) { return o.age; });
+ * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
+ *
+ * // The `_.property` iteratee shorthand.
+ * _.mapValues(users, 'age');
+ * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
+ */
+function mapValues(object, iteratee) {
+  var result = {};
+  iteratee = baseIteratee(iteratee, 3);
+  baseForOwn(object, function (value, key, object) {
+    baseAssignValue(result, key, iteratee(value, key, object));
+  });
+  return result;
+}
+module.exports = mapValues;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJiYXNlQXNzaWduVmFsdWUiLCJyZXF1aXJlIiwiYmFzZUZvck93biIsImJhc2VJdGVyYXRlZSIsIm1hcFZhbHVlcyIsIm9iamVjdCIsIml0ZXJhdGVlIiwicmVzdWx0IiwidmFsdWUiLCJrZXkiLCJtb2R1bGUiLCJleHBvcnRzIl0sInNvdXJjZXMiOlsibWFwVmFsdWVzLmpzIl0sInNvdXJjZXNDb250ZW50IjpbInZhciBiYXNlQXNzaWduVmFsdWUgPSByZXF1aXJlKCcuL19iYXNlQXNzaWduVmFsdWUnKSxcbiAgICBiYXNlRm9yT3duID0gcmVxdWlyZSgnLi9fYmFzZUZvck93bicpLFxuICAgIGJhc2VJdGVyYXRlZSA9IHJlcXVpcmUoJy4vX2Jhc2VJdGVyYXRlZScpO1xuXG4vKipcbiAqIENyZWF0ZXMgYW4gb2JqZWN0IHdpdGggdGhlIHNhbWUga2V5cyBhcyBgb2JqZWN0YCBhbmQgdmFsdWVzIGdlbmVyYXRlZFxuICogYnkgcnVubmluZyBlYWNoIG93biBlbnVtZXJhYmxlIHN0cmluZyBrZXllZCBwcm9wZXJ0eSBvZiBgb2JqZWN0YCB0aHJ1XG4gKiBgaXRlcmF0ZWVgLiBUaGUgaXRlcmF0ZWUgaXMgaW52b2tlZCB3aXRoIHRocmVlIGFyZ3VtZW50czpcbiAqICh2YWx1ZSwga2V5LCBvYmplY3QpLlxuICpcbiAqIEBzdGF0aWNcbiAqIEBtZW1iZXJPZiBfXG4gKiBAc2luY2UgMi40LjBcbiAqIEBjYXRlZ29yeSBPYmplY3RcbiAqIEBwYXJhbSB7T2JqZWN0fSBvYmplY3QgVGhlIG9iamVjdCB0byBpdGVyYXRlIG92ZXIuXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSBbaXRlcmF0ZWU9Xy5pZGVudGl0eV0gVGhlIGZ1bmN0aW9uIGludm9rZWQgcGVyIGl0ZXJhdGlvbi5cbiAqIEByZXR1cm5zIHtPYmplY3R9IFJldHVybnMgdGhlIG5ldyBtYXBwZWQgb2JqZWN0LlxuICogQHNlZSBfLm1hcEtleXNcbiAqIEBleGFtcGxlXG4gKlxuICogdmFyIHVzZXJzID0ge1xuICogICAnZnJlZCc6ICAgIHsgJ3VzZXInOiAnZnJlZCcsICAgICdhZ2UnOiA0MCB9LFxuICogICAncGViYmxlcyc6IHsgJ3VzZXInOiAncGViYmxlcycsICdhZ2UnOiAxIH1cbiAqIH07XG4gKlxuICogXy5tYXBWYWx1ZXModXNlcnMsIGZ1bmN0aW9uKG8pIHsgcmV0dXJuIG8uYWdlOyB9KTtcbiAqIC8vID0+IHsgJ2ZyZWQnOiA0MCwgJ3BlYmJsZXMnOiAxIH0gKGl0ZXJhdGlvbiBvcmRlciBpcyBub3QgZ3VhcmFudGVlZClcbiAqXG4gKiAvLyBUaGUgYF8ucHJvcGVydHlgIGl0ZXJhdGVlIHNob3J0aGFuZC5cbiAqIF8ubWFwVmFsdWVzKHVzZXJzLCAnYWdlJyk7XG4gKiAvLyA9PiB7ICdmcmVkJzogNDAsICdwZWJibGVzJzogMSB9IChpdGVyYXRpb24gb3JkZXIgaXMgbm90IGd1YXJhbnRlZWQpXG4gKi9cbmZ1bmN0aW9uIG1hcFZhbHVlcyhvYmplY3QsIGl0ZXJhdGVlKSB7XG4gIHZhciByZXN1bHQgPSB7fTtcbiAgaXRlcmF0ZWUgPSBiYXNlSXRlcmF0ZWUoaXRlcmF0ZWUsIDMpO1xuXG4gIGJhc2VGb3JPd24ob2JqZWN0LCBmdW5jdGlvbih2YWx1ZSwga2V5LCBvYmplY3QpIHtcbiAgICBiYXNlQXNzaWduVmFsdWUocmVzdWx0LCBrZXksIGl0ZXJhdGVlKHZhbHVlLCBrZXksIG9iamVjdCkpO1xuICB9KTtcbiAgcmV0dXJuIHJlc3VsdDtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBtYXBWYWx1ZXM7XG4iXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSUEsZUFBZSxHQUFHQyxPQUFPLENBQUMsb0JBQW9CLENBQUM7RUFDL0NDLFVBQVUsR0FBR0QsT0FBTyxDQUFDLGVBQWUsQ0FBQztFQUNyQ0UsWUFBWSxHQUFHRixPQUFPLENBQUMsaUJBQWlCLENBQUM7O0FBRTdDO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsU0FBU0csU0FBU0EsQ0FBQ0MsTUFBTSxFQUFFQyxRQUFRLEVBQUU7RUFDbkMsSUFBSUMsTUFBTSxHQUFHLENBQUMsQ0FBQztFQUNmRCxRQUFRLEdBQUdILFlBQVksQ0FBQ0csUUFBUSxFQUFFLENBQUMsQ0FBQztFQUVwQ0osVUFBVSxDQUFDRyxNQUFNLEVBQUUsVUFBU0csS0FBSyxFQUFFQyxHQUFHLEVBQUVKLE1BQU0sRUFBRTtJQUM5Q0wsZUFBZSxDQUFDTyxNQUFNLEVBQUVFLEdBQUcsRUFBRUgsUUFBUSxDQUFDRSxLQUFLLEVBQUVDLEdBQUcsRUFBRUosTUFBTSxDQUFDLENBQUM7RUFDNUQsQ0FBQyxDQUFDO0VBQ0YsT0FBT0UsTUFBTTtBQUNmO0FBRUFHLE1BQU0sQ0FBQ0MsT0FBTyxHQUFHUCxTQUFTIn0=

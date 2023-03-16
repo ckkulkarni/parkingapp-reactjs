@@ -1,0 +1,26 @@
+ed3c932cd43c5d7225c7833241ebae2d
+"use strict";
+
+var toString = require('./toString'),
+  upperFirst = require('./upperFirst');
+
+/**
+ * Converts the first character of `string` to upper case and the remaining
+ * to lower case.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category String
+ * @param {string} [string=''] The string to capitalize.
+ * @returns {string} Returns the capitalized string.
+ * @example
+ *
+ * _.capitalize('FRED');
+ * // => 'Fred'
+ */
+function capitalize(string) {
+  return upperFirst(toString(string).toLowerCase());
+}
+module.exports = capitalize;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJ0b1N0cmluZyIsInJlcXVpcmUiLCJ1cHBlckZpcnN0IiwiY2FwaXRhbGl6ZSIsInN0cmluZyIsInRvTG93ZXJDYXNlIiwibW9kdWxlIiwiZXhwb3J0cyJdLCJzb3VyY2VzIjpbImNhcGl0YWxpemUuanMiXSwic291cmNlc0NvbnRlbnQiOlsidmFyIHRvU3RyaW5nID0gcmVxdWlyZSgnLi90b1N0cmluZycpLFxuICAgIHVwcGVyRmlyc3QgPSByZXF1aXJlKCcuL3VwcGVyRmlyc3QnKTtcblxuLyoqXG4gKiBDb252ZXJ0cyB0aGUgZmlyc3QgY2hhcmFjdGVyIG9mIGBzdHJpbmdgIHRvIHVwcGVyIGNhc2UgYW5kIHRoZSByZW1haW5pbmdcbiAqIHRvIGxvd2VyIGNhc2UuXG4gKlxuICogQHN0YXRpY1xuICogQG1lbWJlck9mIF9cbiAqIEBzaW5jZSAzLjAuMFxuICogQGNhdGVnb3J5IFN0cmluZ1xuICogQHBhcmFtIHtzdHJpbmd9IFtzdHJpbmc9JyddIFRoZSBzdHJpbmcgdG8gY2FwaXRhbGl6ZS5cbiAqIEByZXR1cm5zIHtzdHJpbmd9IFJldHVybnMgdGhlIGNhcGl0YWxpemVkIHN0cmluZy5cbiAqIEBleGFtcGxlXG4gKlxuICogXy5jYXBpdGFsaXplKCdGUkVEJyk7XG4gKiAvLyA9PiAnRnJlZCdcbiAqL1xuZnVuY3Rpb24gY2FwaXRhbGl6ZShzdHJpbmcpIHtcbiAgcmV0dXJuIHVwcGVyRmlyc3QodG9TdHJpbmcoc3RyaW5nKS50b0xvd2VyQ2FzZSgpKTtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBjYXBpdGFsaXplO1xuIl0sIm1hcHBpbmdzIjoiOztBQUFBLElBQUlBLFFBQVEsR0FBR0MsT0FBTyxDQUFDLFlBQVksQ0FBQztFQUNoQ0MsVUFBVSxHQUFHRCxPQUFPLENBQUMsY0FBYyxDQUFDOztBQUV4QztBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxTQUFTRSxVQUFVQSxDQUFDQyxNQUFNLEVBQUU7RUFDMUIsT0FBT0YsVUFBVSxDQUFDRixRQUFRLENBQUNJLE1BQU0sQ0FBQyxDQUFDQyxXQUFXLEVBQUUsQ0FBQztBQUNuRDtBQUVBQyxNQUFNLENBQUNDLE9BQU8sR0FBR0osVUFBVSJ9

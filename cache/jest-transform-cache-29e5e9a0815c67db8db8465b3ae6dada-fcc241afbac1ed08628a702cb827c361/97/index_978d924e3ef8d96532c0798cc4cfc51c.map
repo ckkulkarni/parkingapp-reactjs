@@ -1,0 +1,1 @@
+{"version":3,"names":["module","exports","require","Promise"],"sources":["index.js"],"sourcesContent":["module.exports = require('./register')().Promise\n"],"mappings":";;AAAAA,MAAM,CAACC,OAAO,GAAGC,OAAO,CAAC,YAAY,CAAC,EAAE,CAACC,OAAO"}

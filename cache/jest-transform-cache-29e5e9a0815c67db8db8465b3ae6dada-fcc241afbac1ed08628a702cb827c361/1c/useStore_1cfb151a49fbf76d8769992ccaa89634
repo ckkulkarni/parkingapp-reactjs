@@ -1,0 +1,47 @@
+ef80f9a9d265c80f690c11ea8fc21d30
+"use strict";
+
+exports.__esModule = true;
+exports.createStoreHook = createStoreHook;
+exports.useStore = void 0;
+var _react = require("react");
+var _Context = require("../components/Context");
+var _useReduxContext = require("./useReduxContext");
+
+/**
+ * Hook factory, which creates a `useStore` hook bound to a given context.
+ *
+ * @param {React.Context} [context=ReactReduxContext] Context passed to your `<Provider>`.
+ * @returns {Function} A `useStore` hook bound to the specified context.
+ */
+function createStoreHook(context = _Context.ReactReduxContext) {
+  const useReduxContext =
+  // @ts-ignore
+  context === _Context.ReactReduxContext ? _useReduxContext.useReduxContext : () => (0, _react.useContext)(context);
+  return function useStore() {
+    const {
+      store
+    } = useReduxContext(); // @ts-ignore
+
+    return store;
+  };
+}
+/**
+ * A hook to access the redux store.
+ *
+ * @returns {any} the redux store
+ *
+ * @example
+ *
+ * import React from 'react'
+ * import { useStore } from 'react-redux'
+ *
+ * export const ExampleComponent = () => {
+ *   const store = useStore()
+ *   return <div>{store.getState()}</div>
+ * }
+ */
+
+const useStore = /*#__PURE__*/createStoreHook();
+exports.useStore = useStore;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJleHBvcnRzIiwiX19lc01vZHVsZSIsImNyZWF0ZVN0b3JlSG9vayIsInVzZVN0b3JlIiwiX3JlYWN0IiwicmVxdWlyZSIsIl9Db250ZXh0IiwiX3VzZVJlZHV4Q29udGV4dCIsImNvbnRleHQiLCJSZWFjdFJlZHV4Q29udGV4dCIsInVzZVJlZHV4Q29udGV4dCIsInVzZUNvbnRleHQiLCJzdG9yZSJdLCJzb3VyY2VzIjpbInVzZVN0b3JlLmpzIl0sInNvdXJjZXNDb250ZW50IjpbIlwidXNlIHN0cmljdFwiO1xuXG5leHBvcnRzLl9fZXNNb2R1bGUgPSB0cnVlO1xuZXhwb3J0cy5jcmVhdGVTdG9yZUhvb2sgPSBjcmVhdGVTdG9yZUhvb2s7XG5leHBvcnRzLnVzZVN0b3JlID0gdm9pZCAwO1xuXG52YXIgX3JlYWN0ID0gcmVxdWlyZShcInJlYWN0XCIpO1xuXG52YXIgX0NvbnRleHQgPSByZXF1aXJlKFwiLi4vY29tcG9uZW50cy9Db250ZXh0XCIpO1xuXG52YXIgX3VzZVJlZHV4Q29udGV4dCA9IHJlcXVpcmUoXCIuL3VzZVJlZHV4Q29udGV4dFwiKTtcblxuLyoqXHJcbiAqIEhvb2sgZmFjdG9yeSwgd2hpY2ggY3JlYXRlcyBhIGB1c2VTdG9yZWAgaG9vayBib3VuZCB0byBhIGdpdmVuIGNvbnRleHQuXHJcbiAqXHJcbiAqIEBwYXJhbSB7UmVhY3QuQ29udGV4dH0gW2NvbnRleHQ9UmVhY3RSZWR1eENvbnRleHRdIENvbnRleHQgcGFzc2VkIHRvIHlvdXIgYDxQcm92aWRlcj5gLlxyXG4gKiBAcmV0dXJucyB7RnVuY3Rpb259IEEgYHVzZVN0b3JlYCBob29rIGJvdW5kIHRvIHRoZSBzcGVjaWZpZWQgY29udGV4dC5cclxuICovXG5mdW5jdGlvbiBjcmVhdGVTdG9yZUhvb2soY29udGV4dCA9IF9Db250ZXh0LlJlYWN0UmVkdXhDb250ZXh0KSB7XG4gIGNvbnN0IHVzZVJlZHV4Q29udGV4dCA9IC8vIEB0cy1pZ25vcmVcbiAgY29udGV4dCA9PT0gX0NvbnRleHQuUmVhY3RSZWR1eENvbnRleHQgPyBfdXNlUmVkdXhDb250ZXh0LnVzZVJlZHV4Q29udGV4dCA6ICgpID0+ICgwLCBfcmVhY3QudXNlQ29udGV4dCkoY29udGV4dCk7XG4gIHJldHVybiBmdW5jdGlvbiB1c2VTdG9yZSgpIHtcbiAgICBjb25zdCB7XG4gICAgICBzdG9yZVxuICAgIH0gPSB1c2VSZWR1eENvbnRleHQoKTsgLy8gQHRzLWlnbm9yZVxuXG4gICAgcmV0dXJuIHN0b3JlO1xuICB9O1xufVxuLyoqXHJcbiAqIEEgaG9vayB0byBhY2Nlc3MgdGhlIHJlZHV4IHN0b3JlLlxyXG4gKlxyXG4gKiBAcmV0dXJucyB7YW55fSB0aGUgcmVkdXggc3RvcmVcclxuICpcclxuICogQGV4YW1wbGVcclxuICpcclxuICogaW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0J1xyXG4gKiBpbXBvcnQgeyB1c2VTdG9yZSB9IGZyb20gJ3JlYWN0LXJlZHV4J1xyXG4gKlxyXG4gKiBleHBvcnQgY29uc3QgRXhhbXBsZUNvbXBvbmVudCA9ICgpID0+IHtcclxuICogICBjb25zdCBzdG9yZSA9IHVzZVN0b3JlKClcclxuICogICByZXR1cm4gPGRpdj57c3RvcmUuZ2V0U3RhdGUoKX08L2Rpdj5cclxuICogfVxyXG4gKi9cblxuXG5jb25zdCB1c2VTdG9yZSA9IC8qI19fUFVSRV9fKi9jcmVhdGVTdG9yZUhvb2soKTtcbmV4cG9ydHMudXNlU3RvcmUgPSB1c2VTdG9yZTsiXSwibWFwcGluZ3MiOiJBQUFBLFlBQVk7O0FBRVpBLE9BQU8sQ0FBQ0MsVUFBVSxHQUFHLElBQUk7QUFDekJELE9BQU8sQ0FBQ0UsZUFBZSxHQUFHQSxlQUFlO0FBQ3pDRixPQUFPLENBQUNHLFFBQVEsR0FBRyxLQUFLLENBQUM7QUFFekIsSUFBSUMsTUFBTSxHQUFHQyxPQUFPLENBQUMsT0FBTyxDQUFDO0FBRTdCLElBQUlDLFFBQVEsR0FBR0QsT0FBTyxDQUFDLHVCQUF1QixDQUFDO0FBRS9DLElBQUlFLGdCQUFnQixHQUFHRixPQUFPLENBQUMsbUJBQW1CLENBQUM7O0FBRW5EO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLFNBQVNILGVBQWVBLENBQUNNLE9BQU8sR0FBR0YsUUFBUSxDQUFDRyxpQkFBaUIsRUFBRTtFQUM3RCxNQUFNQyxlQUFlO0VBQUc7RUFDeEJGLE9BQU8sS0FBS0YsUUFBUSxDQUFDRyxpQkFBaUIsR0FBR0YsZ0JBQWdCLENBQUNHLGVBQWUsR0FBRyxNQUFNLENBQUMsQ0FBQyxFQUFFTixNQUFNLENBQUNPLFVBQVUsRUFBRUgsT0FBTyxDQUFDO0VBQ2pILE9BQU8sU0FBU0wsUUFBUUEsQ0FBQSxFQUFHO0lBQ3pCLE1BQU07TUFDSlM7SUFDRixDQUFDLEdBQUdGLGVBQWUsRUFBRSxDQUFDLENBQUM7O0lBRXZCLE9BQU9FLEtBQUs7RUFDZCxDQUFDO0FBQ0g7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7O0FBR0EsTUFBTVQsUUFBUSxHQUFHLGFBQWFELGVBQWUsRUFBRTtBQUMvQ0YsT0FBTyxDQUFDRyxRQUFRLEdBQUdBLFFBQVEifQ==

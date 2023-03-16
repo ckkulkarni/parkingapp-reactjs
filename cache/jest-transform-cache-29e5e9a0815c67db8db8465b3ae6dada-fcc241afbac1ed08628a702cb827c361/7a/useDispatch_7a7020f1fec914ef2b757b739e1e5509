@@ -1,0 +1,50 @@
+c3c81b2d7fea2aa3fbc4c6445ec662df
+"use strict";
+
+exports.__esModule = true;
+exports.createDispatchHook = createDispatchHook;
+exports.useDispatch = void 0;
+var _Context = require("../components/Context");
+var _useStore = require("./useStore");
+
+/**
+ * Hook factory, which creates a `useDispatch` hook bound to a given context.
+ *
+ * @param {React.Context} [context=ReactReduxContext] Context passed to your `<Provider>`.
+ * @returns {Function} A `useDispatch` hook bound to the specified context.
+ */
+function createDispatchHook(context = _Context.ReactReduxContext) {
+  const useStore =
+  // @ts-ignore
+  context === _Context.ReactReduxContext ? _useStore.useStore : (0, _useStore.createStoreHook)(context);
+  return function useDispatch() {
+    const store = useStore(); // @ts-ignore
+
+    return store.dispatch;
+  };
+}
+/**
+ * A hook to access the redux `dispatch` function.
+ *
+ * @returns {any|function} redux store's `dispatch` function
+ *
+ * @example
+ *
+ * import React, { useCallback } from 'react'
+ * import { useDispatch } from 'react-redux'
+ *
+ * export const CounterComponent = ({ value }) => {
+ *   const dispatch = useDispatch()
+ *   const increaseCounter = useCallback(() => dispatch({ type: 'increase-counter' }), [])
+ *   return (
+ *     <div>
+ *       <span>{value}</span>
+ *       <button onClick={increaseCounter}>Increase counter</button>
+ *     </div>
+ *   )
+ * }
+ */
+
+const useDispatch = /*#__PURE__*/createDispatchHook();
+exports.useDispatch = useDispatch;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJleHBvcnRzIiwiX19lc01vZHVsZSIsImNyZWF0ZURpc3BhdGNoSG9vayIsInVzZURpc3BhdGNoIiwiX0NvbnRleHQiLCJyZXF1aXJlIiwiX3VzZVN0b3JlIiwiY29udGV4dCIsIlJlYWN0UmVkdXhDb250ZXh0IiwidXNlU3RvcmUiLCJjcmVhdGVTdG9yZUhvb2siLCJzdG9yZSIsImRpc3BhdGNoIl0sInNvdXJjZXMiOlsidXNlRGlzcGF0Y2guanMiXSwic291cmNlc0NvbnRlbnQiOlsiXCJ1c2Ugc3RyaWN0XCI7XG5cbmV4cG9ydHMuX19lc01vZHVsZSA9IHRydWU7XG5leHBvcnRzLmNyZWF0ZURpc3BhdGNoSG9vayA9IGNyZWF0ZURpc3BhdGNoSG9vaztcbmV4cG9ydHMudXNlRGlzcGF0Y2ggPSB2b2lkIDA7XG5cbnZhciBfQ29udGV4dCA9IHJlcXVpcmUoXCIuLi9jb21wb25lbnRzL0NvbnRleHRcIik7XG5cbnZhciBfdXNlU3RvcmUgPSByZXF1aXJlKFwiLi91c2VTdG9yZVwiKTtcblxuLyoqXHJcbiAqIEhvb2sgZmFjdG9yeSwgd2hpY2ggY3JlYXRlcyBhIGB1c2VEaXNwYXRjaGAgaG9vayBib3VuZCB0byBhIGdpdmVuIGNvbnRleHQuXHJcbiAqXHJcbiAqIEBwYXJhbSB7UmVhY3QuQ29udGV4dH0gW2NvbnRleHQ9UmVhY3RSZWR1eENvbnRleHRdIENvbnRleHQgcGFzc2VkIHRvIHlvdXIgYDxQcm92aWRlcj5gLlxyXG4gKiBAcmV0dXJucyB7RnVuY3Rpb259IEEgYHVzZURpc3BhdGNoYCBob29rIGJvdW5kIHRvIHRoZSBzcGVjaWZpZWQgY29udGV4dC5cclxuICovXG5mdW5jdGlvbiBjcmVhdGVEaXNwYXRjaEhvb2soY29udGV4dCA9IF9Db250ZXh0LlJlYWN0UmVkdXhDb250ZXh0KSB7XG4gIGNvbnN0IHVzZVN0b3JlID0gLy8gQHRzLWlnbm9yZVxuICBjb250ZXh0ID09PSBfQ29udGV4dC5SZWFjdFJlZHV4Q29udGV4dCA/IF91c2VTdG9yZS51c2VTdG9yZSA6ICgwLCBfdXNlU3RvcmUuY3JlYXRlU3RvcmVIb29rKShjb250ZXh0KTtcbiAgcmV0dXJuIGZ1bmN0aW9uIHVzZURpc3BhdGNoKCkge1xuICAgIGNvbnN0IHN0b3JlID0gdXNlU3RvcmUoKTsgLy8gQHRzLWlnbm9yZVxuXG4gICAgcmV0dXJuIHN0b3JlLmRpc3BhdGNoO1xuICB9O1xufVxuLyoqXHJcbiAqIEEgaG9vayB0byBhY2Nlc3MgdGhlIHJlZHV4IGBkaXNwYXRjaGAgZnVuY3Rpb24uXHJcbiAqXHJcbiAqIEByZXR1cm5zIHthbnl8ZnVuY3Rpb259IHJlZHV4IHN0b3JlJ3MgYGRpc3BhdGNoYCBmdW5jdGlvblxyXG4gKlxyXG4gKiBAZXhhbXBsZVxyXG4gKlxyXG4gKiBpbXBvcnQgUmVhY3QsIHsgdXNlQ2FsbGJhY2sgfSBmcm9tICdyZWFjdCdcclxuICogaW1wb3J0IHsgdXNlRGlzcGF0Y2ggfSBmcm9tICdyZWFjdC1yZWR1eCdcclxuICpcclxuICogZXhwb3J0IGNvbnN0IENvdW50ZXJDb21wb25lbnQgPSAoeyB2YWx1ZSB9KSA9PiB7XHJcbiAqICAgY29uc3QgZGlzcGF0Y2ggPSB1c2VEaXNwYXRjaCgpXHJcbiAqICAgY29uc3QgaW5jcmVhc2VDb3VudGVyID0gdXNlQ2FsbGJhY2soKCkgPT4gZGlzcGF0Y2goeyB0eXBlOiAnaW5jcmVhc2UtY291bnRlcicgfSksIFtdKVxyXG4gKiAgIHJldHVybiAoXHJcbiAqICAgICA8ZGl2PlxyXG4gKiAgICAgICA8c3Bhbj57dmFsdWV9PC9zcGFuPlxyXG4gKiAgICAgICA8YnV0dG9uIG9uQ2xpY2s9e2luY3JlYXNlQ291bnRlcn0+SW5jcmVhc2UgY291bnRlcjwvYnV0dG9uPlxyXG4gKiAgICAgPC9kaXY+XHJcbiAqICAgKVxyXG4gKiB9XHJcbiAqL1xuXG5cbmNvbnN0IHVzZURpc3BhdGNoID0gLyojX19QVVJFX18qL2NyZWF0ZURpc3BhdGNoSG9vaygpO1xuZXhwb3J0cy51c2VEaXNwYXRjaCA9IHVzZURpc3BhdGNoOyJdLCJtYXBwaW5ncyI6IkFBQUEsWUFBWTs7QUFFWkEsT0FBTyxDQUFDQyxVQUFVLEdBQUcsSUFBSTtBQUN6QkQsT0FBTyxDQUFDRSxrQkFBa0IsR0FBR0Esa0JBQWtCO0FBQy9DRixPQUFPLENBQUNHLFdBQVcsR0FBRyxLQUFLLENBQUM7QUFFNUIsSUFBSUMsUUFBUSxHQUFHQyxPQUFPLENBQUMsdUJBQXVCLENBQUM7QUFFL0MsSUFBSUMsU0FBUyxHQUFHRCxPQUFPLENBQUMsWUFBWSxDQUFDOztBQUVyQztBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxTQUFTSCxrQkFBa0JBLENBQUNLLE9BQU8sR0FBR0gsUUFBUSxDQUFDSSxpQkFBaUIsRUFBRTtFQUNoRSxNQUFNQyxRQUFRO0VBQUc7RUFDakJGLE9BQU8sS0FBS0gsUUFBUSxDQUFDSSxpQkFBaUIsR0FBR0YsU0FBUyxDQUFDRyxRQUFRLEdBQUcsQ0FBQyxDQUFDLEVBQUVILFNBQVMsQ0FBQ0ksZUFBZSxFQUFFSCxPQUFPLENBQUM7RUFDckcsT0FBTyxTQUFTSixXQUFXQSxDQUFBLEVBQUc7SUFDNUIsTUFBTVEsS0FBSyxHQUFHRixRQUFRLEVBQUUsQ0FBQyxDQUFDOztJQUUxQixPQUFPRSxLQUFLLENBQUNDLFFBQVE7RUFDdkIsQ0FBQztBQUNIO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOztBQUdBLE1BQU1ULFdBQVcsR0FBRyxhQUFhRCxrQkFBa0IsRUFBRTtBQUNyREYsT0FBTyxDQUFDRyxXQUFXLEdBQUdBLFdBQVcifQ==

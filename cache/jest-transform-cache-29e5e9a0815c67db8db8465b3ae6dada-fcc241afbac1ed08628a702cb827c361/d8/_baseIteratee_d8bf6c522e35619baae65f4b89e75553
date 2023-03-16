@@ -1,0 +1,32 @@
+2c1457b0f2bed445be981ace3ed6e56b
+"use strict";
+
+var baseMatches = require('./_baseMatches'),
+  baseMatchesProperty = require('./_baseMatchesProperty'),
+  identity = require('./identity'),
+  isArray = require('./isArray'),
+  property = require('./property');
+
+/**
+ * The base implementation of `_.iteratee`.
+ *
+ * @private
+ * @param {*} [value=_.identity] The value to convert to an iteratee.
+ * @returns {Function} Returns the iteratee.
+ */
+function baseIteratee(value) {
+  // Don't store the `typeof` result in a variable to avoid a JIT bug in Safari 9.
+  // See https://bugs.webkit.org/show_bug.cgi?id=156034 for more details.
+  if (typeof value == 'function') {
+    return value;
+  }
+  if (value == null) {
+    return identity;
+  }
+  if (typeof value == 'object') {
+    return isArray(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value);
+  }
+  return property(value);
+}
+module.exports = baseIteratee;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJiYXNlTWF0Y2hlcyIsInJlcXVpcmUiLCJiYXNlTWF0Y2hlc1Byb3BlcnR5IiwiaWRlbnRpdHkiLCJpc0FycmF5IiwicHJvcGVydHkiLCJiYXNlSXRlcmF0ZWUiLCJ2YWx1ZSIsIm1vZHVsZSIsImV4cG9ydHMiXSwic291cmNlcyI6WyJfYmFzZUl0ZXJhdGVlLmpzIl0sInNvdXJjZXNDb250ZW50IjpbInZhciBiYXNlTWF0Y2hlcyA9IHJlcXVpcmUoJy4vX2Jhc2VNYXRjaGVzJyksXG4gICAgYmFzZU1hdGNoZXNQcm9wZXJ0eSA9IHJlcXVpcmUoJy4vX2Jhc2VNYXRjaGVzUHJvcGVydHknKSxcbiAgICBpZGVudGl0eSA9IHJlcXVpcmUoJy4vaWRlbnRpdHknKSxcbiAgICBpc0FycmF5ID0gcmVxdWlyZSgnLi9pc0FycmF5JyksXG4gICAgcHJvcGVydHkgPSByZXF1aXJlKCcuL3Byb3BlcnR5Jyk7XG5cbi8qKlxuICogVGhlIGJhc2UgaW1wbGVtZW50YXRpb24gb2YgYF8uaXRlcmF0ZWVgLlxuICpcbiAqIEBwcml2YXRlXG4gKiBAcGFyYW0geyp9IFt2YWx1ZT1fLmlkZW50aXR5XSBUaGUgdmFsdWUgdG8gY29udmVydCB0byBhbiBpdGVyYXRlZS5cbiAqIEByZXR1cm5zIHtGdW5jdGlvbn0gUmV0dXJucyB0aGUgaXRlcmF0ZWUuXG4gKi9cbmZ1bmN0aW9uIGJhc2VJdGVyYXRlZSh2YWx1ZSkge1xuICAvLyBEb24ndCBzdG9yZSB0aGUgYHR5cGVvZmAgcmVzdWx0IGluIGEgdmFyaWFibGUgdG8gYXZvaWQgYSBKSVQgYnVnIGluIFNhZmFyaSA5LlxuICAvLyBTZWUgaHR0cHM6Ly9idWdzLndlYmtpdC5vcmcvc2hvd19idWcuY2dpP2lkPTE1NjAzNCBmb3IgbW9yZSBkZXRhaWxzLlxuICBpZiAodHlwZW9mIHZhbHVlID09ICdmdW5jdGlvbicpIHtcbiAgICByZXR1cm4gdmFsdWU7XG4gIH1cbiAgaWYgKHZhbHVlID09IG51bGwpIHtcbiAgICByZXR1cm4gaWRlbnRpdHk7XG4gIH1cbiAgaWYgKHR5cGVvZiB2YWx1ZSA9PSAnb2JqZWN0Jykge1xuICAgIHJldHVybiBpc0FycmF5KHZhbHVlKVxuICAgICAgPyBiYXNlTWF0Y2hlc1Byb3BlcnR5KHZhbHVlWzBdLCB2YWx1ZVsxXSlcbiAgICAgIDogYmFzZU1hdGNoZXModmFsdWUpO1xuICB9XG4gIHJldHVybiBwcm9wZXJ0eSh2YWx1ZSk7XG59XG5cbm1vZHVsZS5leHBvcnRzID0gYmFzZUl0ZXJhdGVlO1xuIl0sIm1hcHBpbmdzIjoiOztBQUFBLElBQUlBLFdBQVcsR0FBR0MsT0FBTyxDQUFDLGdCQUFnQixDQUFDO0VBQ3ZDQyxtQkFBbUIsR0FBR0QsT0FBTyxDQUFDLHdCQUF3QixDQUFDO0VBQ3ZERSxRQUFRLEdBQUdGLE9BQU8sQ0FBQyxZQUFZLENBQUM7RUFDaENHLE9BQU8sR0FBR0gsT0FBTyxDQUFDLFdBQVcsQ0FBQztFQUM5QkksUUFBUSxHQUFHSixPQUFPLENBQUMsWUFBWSxDQUFDOztBQUVwQztBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLFNBQVNLLFlBQVlBLENBQUNDLEtBQUssRUFBRTtFQUMzQjtFQUNBO0VBQ0EsSUFBSSxPQUFPQSxLQUFLLElBQUksVUFBVSxFQUFFO0lBQzlCLE9BQU9BLEtBQUs7RUFDZDtFQUNBLElBQUlBLEtBQUssSUFBSSxJQUFJLEVBQUU7SUFDakIsT0FBT0osUUFBUTtFQUNqQjtFQUNBLElBQUksT0FBT0ksS0FBSyxJQUFJLFFBQVEsRUFBRTtJQUM1QixPQUFPSCxPQUFPLENBQUNHLEtBQUssQ0FBQyxHQUNqQkwsbUJBQW1CLENBQUNLLEtBQUssQ0FBQyxDQUFDLENBQUMsRUFBRUEsS0FBSyxDQUFDLENBQUMsQ0FBQyxDQUFDLEdBQ3ZDUCxXQUFXLENBQUNPLEtBQUssQ0FBQztFQUN4QjtFQUNBLE9BQU9GLFFBQVEsQ0FBQ0UsS0FBSyxDQUFDO0FBQ3hCO0FBRUFDLE1BQU0sQ0FBQ0MsT0FBTyxHQUFHSCxZQUFZIn0=

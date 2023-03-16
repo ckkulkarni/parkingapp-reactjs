@@ -1,0 +1,32 @@
+5e21c0aee6eae8f08e2a4c881fa35b70
+"use strict";
+
+exports.__esModule = true;
+exports.useReduxContext = useReduxContext;
+var _react = require("react");
+var _Context = require("../components/Context");
+
+/**
+ * A hook to access the value of the `ReactReduxContext`. This is a low-level
+ * hook that you should usually not need to call directly.
+ *
+ * @returns {any} the value of the `ReactReduxContext`
+ *
+ * @example
+ *
+ * import React from 'react'
+ * import { useReduxContext } from 'react-redux'
+ *
+ * export const CounterComponent = () => {
+ *   const { store } = useReduxContext()
+ *   return <div>{store.getState()}</div>
+ * }
+ */
+function useReduxContext() {
+  const contextValue = (0, _react.useContext)(_Context.ReactReduxContext);
+  if (process.env.NODE_ENV !== 'production' && !contextValue) {
+    throw new Error('could not find react-redux context value; please ensure the component is wrapped in a <Provider>');
+  }
+  return contextValue;
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJleHBvcnRzIiwiX19lc01vZHVsZSIsInVzZVJlZHV4Q29udGV4dCIsIl9yZWFjdCIsInJlcXVpcmUiLCJfQ29udGV4dCIsImNvbnRleHRWYWx1ZSIsInVzZUNvbnRleHQiLCJSZWFjdFJlZHV4Q29udGV4dCIsInByb2Nlc3MiLCJlbnYiLCJOT0RFX0VOViIsIkVycm9yIl0sInNvdXJjZXMiOlsidXNlUmVkdXhDb250ZXh0LmpzIl0sInNvdXJjZXNDb250ZW50IjpbIlwidXNlIHN0cmljdFwiO1xuXG5leHBvcnRzLl9fZXNNb2R1bGUgPSB0cnVlO1xuZXhwb3J0cy51c2VSZWR1eENvbnRleHQgPSB1c2VSZWR1eENvbnRleHQ7XG5cbnZhciBfcmVhY3QgPSByZXF1aXJlKFwicmVhY3RcIik7XG5cbnZhciBfQ29udGV4dCA9IHJlcXVpcmUoXCIuLi9jb21wb25lbnRzL0NvbnRleHRcIik7XG5cbi8qKlxyXG4gKiBBIGhvb2sgdG8gYWNjZXNzIHRoZSB2YWx1ZSBvZiB0aGUgYFJlYWN0UmVkdXhDb250ZXh0YC4gVGhpcyBpcyBhIGxvdy1sZXZlbFxyXG4gKiBob29rIHRoYXQgeW91IHNob3VsZCB1c3VhbGx5IG5vdCBuZWVkIHRvIGNhbGwgZGlyZWN0bHkuXHJcbiAqXHJcbiAqIEByZXR1cm5zIHthbnl9IHRoZSB2YWx1ZSBvZiB0aGUgYFJlYWN0UmVkdXhDb250ZXh0YFxyXG4gKlxyXG4gKiBAZXhhbXBsZVxyXG4gKlxyXG4gKiBpbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnXHJcbiAqIGltcG9ydCB7IHVzZVJlZHV4Q29udGV4dCB9IGZyb20gJ3JlYWN0LXJlZHV4J1xyXG4gKlxyXG4gKiBleHBvcnQgY29uc3QgQ291bnRlckNvbXBvbmVudCA9ICgpID0+IHtcclxuICogICBjb25zdCB7IHN0b3JlIH0gPSB1c2VSZWR1eENvbnRleHQoKVxyXG4gKiAgIHJldHVybiA8ZGl2PntzdG9yZS5nZXRTdGF0ZSgpfTwvZGl2PlxyXG4gKiB9XHJcbiAqL1xuZnVuY3Rpb24gdXNlUmVkdXhDb250ZXh0KCkge1xuICBjb25zdCBjb250ZXh0VmFsdWUgPSAoMCwgX3JlYWN0LnVzZUNvbnRleHQpKF9Db250ZXh0LlJlYWN0UmVkdXhDb250ZXh0KTtcblxuICBpZiAocHJvY2Vzcy5lbnYuTk9ERV9FTlYgIT09ICdwcm9kdWN0aW9uJyAmJiAhY29udGV4dFZhbHVlKSB7XG4gICAgdGhyb3cgbmV3IEVycm9yKCdjb3VsZCBub3QgZmluZCByZWFjdC1yZWR1eCBjb250ZXh0IHZhbHVlOyBwbGVhc2UgZW5zdXJlIHRoZSBjb21wb25lbnQgaXMgd3JhcHBlZCBpbiBhIDxQcm92aWRlcj4nKTtcbiAgfVxuXG4gIHJldHVybiBjb250ZXh0VmFsdWU7XG59Il0sIm1hcHBpbmdzIjoiQUFBQSxZQUFZOztBQUVaQSxPQUFPLENBQUNDLFVBQVUsR0FBRyxJQUFJO0FBQ3pCRCxPQUFPLENBQUNFLGVBQWUsR0FBR0EsZUFBZTtBQUV6QyxJQUFJQyxNQUFNLEdBQUdDLE9BQU8sQ0FBQyxPQUFPLENBQUM7QUFFN0IsSUFBSUMsUUFBUSxHQUFHRCxPQUFPLENBQUMsdUJBQXVCLENBQUM7O0FBRS9DO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsU0FBU0YsZUFBZUEsQ0FBQSxFQUFHO0VBQ3pCLE1BQU1JLFlBQVksR0FBRyxDQUFDLENBQUMsRUFBRUgsTUFBTSxDQUFDSSxVQUFVLEVBQUVGLFFBQVEsQ0FBQ0csaUJBQWlCLENBQUM7RUFFdkUsSUFBSUMsT0FBTyxDQUFDQyxHQUFHLENBQUNDLFFBQVEsS0FBSyxZQUFZLElBQUksQ0FBQ0wsWUFBWSxFQUFFO0lBQzFELE1BQU0sSUFBSU0sS0FBSyxDQUFDLGtHQUFrRyxDQUFDO0VBQ3JIO0VBRUEsT0FBT04sWUFBWTtBQUNyQiJ9

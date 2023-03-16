@@ -1,0 +1,64 @@
+e3b65087f586e2f28b8bc6e01a8eee31
+/*
+ * Copyright 2013 AJ O'Neal
+ * Copyright 2015 Tiancheng "Timothy" Gu
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+'use strict';
+
+/**
+ * @file
+ *
+ * Implementation of the Fisher-Yates shuffle algorithm in JavaScript, with
+ * the possibility of using a seed to ensure reproducibility.
+ *
+ * @module knuth-shuffle-seeded
+ */
+var randGen = require('seed-random');
+
+/**
+ * Shuffle an array using the Fisher-Yates shuffle algorithm, aka Knuth
+ * shuffle.
+ *
+ * Note that this function overwrites the initial array. As a result if you
+ * would like to keep the original array intact, you have to copy the initial
+ * array to a new array.
+ *
+ * Implementation derived from http://stackoverflow.com/questions/2450954/.
+ *
+ * @param {Array} array An array that is to be shuffled.
+ * @param [seed=Math.random()] Seed for the shuffling operation. If
+ *                             unspecified then a random value is used.
+ * @return {Array} The resulting array.
+ */
+module.exports = function shuffle(array, seed) {
+  var currentIndex, temporaryValue, randomIndex, rand;
+  if (seed == null) rand = randGen();else rand = randGen(seed);
+  if (array.constructor !== Array) throw new Error('Input is not an array');
+  currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(rand() * currentIndex--);
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJyYW5kR2VuIiwicmVxdWlyZSIsIm1vZHVsZSIsImV4cG9ydHMiLCJzaHVmZmxlIiwiYXJyYXkiLCJzZWVkIiwiY3VycmVudEluZGV4IiwidGVtcG9yYXJ5VmFsdWUiLCJyYW5kb21JbmRleCIsInJhbmQiLCJjb25zdHJ1Y3RvciIsIkFycmF5IiwiRXJyb3IiLCJsZW5ndGgiLCJNYXRoIiwiZmxvb3IiXSwic291cmNlcyI6WyJpbmRleC5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogQ29weXJpZ2h0IDIwMTMgQUogTydOZWFsXG4gKiBDb3B5cmlnaHQgMjAxNSBUaWFuY2hlbmcgXCJUaW1vdGh5XCIgR3VcbiAqXG4gKiBMaWNlbnNlZCB1bmRlciB0aGUgQXBhY2hlIExpY2Vuc2UsIFZlcnNpb24gMi4wICh0aGUgXCJMaWNlbnNlXCIpO1xuICogeW91IG1heSBub3QgdXNlIHRoaXMgZmlsZSBleGNlcHQgaW4gY29tcGxpYW5jZSB3aXRoIHRoZSBMaWNlbnNlLlxuICogWW91IG1heSBvYnRhaW4gYSBjb3B5IG9mIHRoZSBMaWNlbnNlIGF0XG4gKlxuICogICAgIGh0dHA6Ly93d3cuYXBhY2hlLm9yZy9saWNlbnNlcy9MSUNFTlNFLTIuMFxuICpcbiAqIFVubGVzcyByZXF1aXJlZCBieSBhcHBsaWNhYmxlIGxhdyBvciBhZ3JlZWQgdG8gaW4gd3JpdGluZywgc29mdHdhcmVcbiAqIGRpc3RyaWJ1dGVkIHVuZGVyIHRoZSBMaWNlbnNlIGlzIGRpc3RyaWJ1dGVkIG9uIGFuIFwiQVMgSVNcIiBCQVNJUyxcbiAqIFdJVEhPVVQgV0FSUkFOVElFUyBPUiBDT05ESVRJT05TIE9GIEFOWSBLSU5ELCBlaXRoZXIgZXhwcmVzcyBvciBpbXBsaWVkLlxuICogU2VlIHRoZSBMaWNlbnNlIGZvciB0aGUgc3BlY2lmaWMgbGFuZ3VhZ2UgZ292ZXJuaW5nIHBlcm1pc3Npb25zIGFuZFxuICogbGltaXRhdGlvbnMgdW5kZXIgdGhlIExpY2Vuc2UuXG4gKi9cblxuJ3VzZSBzdHJpY3QnXG5cbi8qKlxuICogQGZpbGVcbiAqXG4gKiBJbXBsZW1lbnRhdGlvbiBvZiB0aGUgRmlzaGVyLVlhdGVzIHNodWZmbGUgYWxnb3JpdGhtIGluIEphdmFTY3JpcHQsIHdpdGhcbiAqIHRoZSBwb3NzaWJpbGl0eSBvZiB1c2luZyBhIHNlZWQgdG8gZW5zdXJlIHJlcHJvZHVjaWJpbGl0eS5cbiAqXG4gKiBAbW9kdWxlIGtudXRoLXNodWZmbGUtc2VlZGVkXG4gKi9cblxudmFyIHJhbmRHZW4gPSByZXF1aXJlKCdzZWVkLXJhbmRvbScpXG5cbi8qKlxuICogU2h1ZmZsZSBhbiBhcnJheSB1c2luZyB0aGUgRmlzaGVyLVlhdGVzIHNodWZmbGUgYWxnb3JpdGhtLCBha2EgS251dGhcbiAqIHNodWZmbGUuXG4gKlxuICogTm90ZSB0aGF0IHRoaXMgZnVuY3Rpb24gb3ZlcndyaXRlcyB0aGUgaW5pdGlhbCBhcnJheS4gQXMgYSByZXN1bHQgaWYgeW91XG4gKiB3b3VsZCBsaWtlIHRvIGtlZXAgdGhlIG9yaWdpbmFsIGFycmF5IGludGFjdCwgeW91IGhhdmUgdG8gY29weSB0aGUgaW5pdGlhbFxuICogYXJyYXkgdG8gYSBuZXcgYXJyYXkuXG4gKlxuICogSW1wbGVtZW50YXRpb24gZGVyaXZlZCBmcm9tIGh0dHA6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvMjQ1MDk1NC8uXG4gKlxuICogQHBhcmFtIHtBcnJheX0gYXJyYXkgQW4gYXJyYXkgdGhhdCBpcyB0byBiZSBzaHVmZmxlZC5cbiAqIEBwYXJhbSBbc2VlZD1NYXRoLnJhbmRvbSgpXSBTZWVkIGZvciB0aGUgc2h1ZmZsaW5nIG9wZXJhdGlvbi4gSWZcbiAqICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNwZWNpZmllZCB0aGVuIGEgcmFuZG9tIHZhbHVlIGlzIHVzZWQuXG4gKiBAcmV0dXJuIHtBcnJheX0gVGhlIHJlc3VsdGluZyBhcnJheS5cbiAqL1xubW9kdWxlLmV4cG9ydHMgPSBmdW5jdGlvbiBzaHVmZmxlKGFycmF5LCBzZWVkKSB7XG4gIHZhciBjdXJyZW50SW5kZXhcbiAgICAsIHRlbXBvcmFyeVZhbHVlXG4gICAgLCByYW5kb21JbmRleFxuICAgICwgcmFuZFxuICBpZiAoc2VlZCA9PSBudWxsKSByYW5kID0gcmFuZEdlbigpXG4gIGVsc2UgICAgICAgICAgICAgIHJhbmQgPSByYW5kR2VuKHNlZWQpXG5cbiAgaWYgKGFycmF5LmNvbnN0cnVjdG9yICE9PSBBcnJheSkgdGhyb3cgbmV3IEVycm9yKCdJbnB1dCBpcyBub3QgYW4gYXJyYXknKVxuICBjdXJyZW50SW5kZXggPSBhcnJheS5sZW5ndGhcblxuICAvLyBXaGlsZSB0aGVyZSByZW1haW4gZWxlbWVudHMgdG8gc2h1ZmZsZS4uLlxuICB3aGlsZSAoMCAhPT0gY3VycmVudEluZGV4KSB7XG4gICAgLy8gUGljayBhIHJlbWFpbmluZyBlbGVtZW50Li4uXG4gICAgcmFuZG9tSW5kZXggPSBNYXRoLmZsb29yKHJhbmQoKSAqIChjdXJyZW50SW5kZXggLS0pKVxuXG4gICAgLy8gQW5kIHN3YXAgaXQgd2l0aCB0aGUgY3VycmVudCBlbGVtZW50LlxuICAgIHRlbXBvcmFyeVZhbHVlID0gYXJyYXlbY3VycmVudEluZGV4XVxuICAgIGFycmF5W2N1cnJlbnRJbmRleF0gPSBhcnJheVtyYW5kb21JbmRleF1cbiAgICBhcnJheVtyYW5kb21JbmRleF0gPSB0ZW1wb3JhcnlWYWx1ZVxuICB9XG5cbiAgcmV0dXJuIGFycmF5XG59XG4iXSwibWFwcGluZ3MiOiJBQUFBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOztBQUVBLFlBQVk7O0FBRVo7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUVBLElBQUlBLE9BQU8sR0FBR0MsT0FBTyxDQUFDLGFBQWEsQ0FBQzs7QUFFcEM7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0FDLE1BQU0sQ0FBQ0MsT0FBTyxHQUFHLFNBQVNDLE9BQU9BLENBQUNDLEtBQUssRUFBRUMsSUFBSSxFQUFFO0VBQzdDLElBQUlDLFlBQVksRUFDWkMsY0FBYyxFQUNkQyxXQUFXLEVBQ1hDLElBQUk7RUFDUixJQUFJSixJQUFJLElBQUksSUFBSSxFQUFFSSxJQUFJLEdBQUdWLE9BQU8sRUFBRSxNQUNoQlUsSUFBSSxHQUFHVixPQUFPLENBQUNNLElBQUksQ0FBQztFQUV0QyxJQUFJRCxLQUFLLENBQUNNLFdBQVcsS0FBS0MsS0FBSyxFQUFFLE1BQU0sSUFBSUMsS0FBSyxDQUFDLHVCQUF1QixDQUFDO0VBQ3pFTixZQUFZLEdBQUdGLEtBQUssQ0FBQ1MsTUFBTTs7RUFFM0I7RUFDQSxPQUFPLENBQUMsS0FBS1AsWUFBWSxFQUFFO0lBQ3pCO0lBQ0FFLFdBQVcsR0FBR00sSUFBSSxDQUFDQyxLQUFLLENBQUNOLElBQUksRUFBRSxHQUFJSCxZQUFZLEVBQUksQ0FBQzs7SUFFcEQ7SUFDQUMsY0FBYyxHQUFHSCxLQUFLLENBQUNFLFlBQVksQ0FBQztJQUNwQ0YsS0FBSyxDQUFDRSxZQUFZLENBQUMsR0FBR0YsS0FBSyxDQUFDSSxXQUFXLENBQUM7SUFDeENKLEtBQUssQ0FBQ0ksV0FBVyxDQUFDLEdBQUdELGNBQWM7RUFDckM7RUFFQSxPQUFPSCxLQUFLO0FBQ2QsQ0FBQyJ9

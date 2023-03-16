@@ -1,0 +1,20 @@
+1a7d9d7578a7177a96171931a5d35748
+"use strict";
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+/**
+ * Provides the async `import()` function to source code that needs it,
+ * without having it transpiled down to commonjs `require()` by TypeScript.
+ * See https://github.com/microsoft/TypeScript/issues/43329.
+ *
+ * @param {any} descriptor - A URL or path for the module to load
+ * @return {Promise<any>} Promise that resolves to the loaded module
+ */
+async function importer(descriptor) {
+  return await (specifier => new Promise(r => r(`${specifier}`)).then(s => _interopRequireWildcard(require(s))))(descriptor);
+}
+module.exports = {
+  importer
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJpbXBvcnRlciIsImRlc2NyaXB0b3IiLCJzcGVjaWZpZXIiLCJQcm9taXNlIiwiciIsInRoZW4iLCJzIiwiX2ludGVyb3BSZXF1aXJlV2lsZGNhcmQiLCJyZXF1aXJlIiwibW9kdWxlIiwiZXhwb3J0cyJdLCJzb3VyY2VzIjpbImltcG9ydGVyLmpzIl0sInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogUHJvdmlkZXMgdGhlIGFzeW5jIGBpbXBvcnQoKWAgZnVuY3Rpb24gdG8gc291cmNlIGNvZGUgdGhhdCBuZWVkcyBpdCxcbiAqIHdpdGhvdXQgaGF2aW5nIGl0IHRyYW5zcGlsZWQgZG93biB0byBjb21tb25qcyBgcmVxdWlyZSgpYCBieSBUeXBlU2NyaXB0LlxuICogU2VlIGh0dHBzOi8vZ2l0aHViLmNvbS9taWNyb3NvZnQvVHlwZVNjcmlwdC9pc3N1ZXMvNDMzMjkuXG4gKlxuICogQHBhcmFtIHthbnl9IGRlc2NyaXB0b3IgLSBBIFVSTCBvciBwYXRoIGZvciB0aGUgbW9kdWxlIHRvIGxvYWRcbiAqIEByZXR1cm4ge1Byb21pc2U8YW55Pn0gUHJvbWlzZSB0aGF0IHJlc29sdmVzIHRvIHRoZSBsb2FkZWQgbW9kdWxlXG4gKi9cbmFzeW5jIGZ1bmN0aW9uIGltcG9ydGVyKGRlc2NyaXB0b3IpIHtcbiAgcmV0dXJuIGF3YWl0IGltcG9ydChkZXNjcmlwdG9yKVxufVxuXG5tb2R1bGUuZXhwb3J0cyA9IHsgaW1wb3J0ZXIgfVxuIl0sIm1hcHBpbmdzIjoiOzs7O0FBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLGVBQWVBLFFBQVFBLENBQUNDLFVBQVUsRUFBRTtFQUNsQyxPQUFPLE9BQUFDLFNBQUEsUUFBQUMsT0FBQSxDQUFBQyxDQUFBLElBQUFBLENBQUEsSUFBQUYsU0FBQSxLQUFBRyxJQUFBLENBQUFDLENBQUEsSUFBQUMsdUJBQUEsQ0FBQUMsT0FBQSxDQUFBRixDQUFBLEtBQWFMLFVBQVUsQ0FBQztBQUNqQztBQUVBUSxNQUFNLENBQUNDLE9BQU8sR0FBRztFQUFFVjtBQUFTLENBQUMifQ==

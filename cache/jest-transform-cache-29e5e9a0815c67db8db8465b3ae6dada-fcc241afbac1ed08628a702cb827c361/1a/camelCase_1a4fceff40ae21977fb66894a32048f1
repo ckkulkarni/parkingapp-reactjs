@@ -1,0 +1,32 @@
+96a66b843fa6300a7ab79d5dad1fe163
+"use strict";
+
+var capitalize = require('./capitalize'),
+  createCompounder = require('./_createCompounder');
+
+/**
+ * Converts `string` to [camel case](https://en.wikipedia.org/wiki/CamelCase).
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category String
+ * @param {string} [string=''] The string to convert.
+ * @returns {string} Returns the camel cased string.
+ * @example
+ *
+ * _.camelCase('Foo Bar');
+ * // => 'fooBar'
+ *
+ * _.camelCase('--foo-bar--');
+ * // => 'fooBar'
+ *
+ * _.camelCase('__FOO_BAR__');
+ * // => 'fooBar'
+ */
+var camelCase = createCompounder(function (result, word, index) {
+  word = word.toLowerCase();
+  return result + (index ? capitalize(word) : word);
+});
+module.exports = camelCase;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJjYXBpdGFsaXplIiwicmVxdWlyZSIsImNyZWF0ZUNvbXBvdW5kZXIiLCJjYW1lbENhc2UiLCJyZXN1bHQiLCJ3b3JkIiwiaW5kZXgiLCJ0b0xvd2VyQ2FzZSIsIm1vZHVsZSIsImV4cG9ydHMiXSwic291cmNlcyI6WyJjYW1lbENhc2UuanMiXSwic291cmNlc0NvbnRlbnQiOlsidmFyIGNhcGl0YWxpemUgPSByZXF1aXJlKCcuL2NhcGl0YWxpemUnKSxcbiAgICBjcmVhdGVDb21wb3VuZGVyID0gcmVxdWlyZSgnLi9fY3JlYXRlQ29tcG91bmRlcicpO1xuXG4vKipcbiAqIENvbnZlcnRzIGBzdHJpbmdgIHRvIFtjYW1lbCBjYXNlXShodHRwczovL2VuLndpa2lwZWRpYS5vcmcvd2lraS9DYW1lbENhc2UpLlxuICpcbiAqIEBzdGF0aWNcbiAqIEBtZW1iZXJPZiBfXG4gKiBAc2luY2UgMy4wLjBcbiAqIEBjYXRlZ29yeSBTdHJpbmdcbiAqIEBwYXJhbSB7c3RyaW5nfSBbc3RyaW5nPScnXSBUaGUgc3RyaW5nIHRvIGNvbnZlcnQuXG4gKiBAcmV0dXJucyB7c3RyaW5nfSBSZXR1cm5zIHRoZSBjYW1lbCBjYXNlZCBzdHJpbmcuXG4gKiBAZXhhbXBsZVxuICpcbiAqIF8uY2FtZWxDYXNlKCdGb28gQmFyJyk7XG4gKiAvLyA9PiAnZm9vQmFyJ1xuICpcbiAqIF8uY2FtZWxDYXNlKCctLWZvby1iYXItLScpO1xuICogLy8gPT4gJ2Zvb0JhcidcbiAqXG4gKiBfLmNhbWVsQ2FzZSgnX19GT09fQkFSX18nKTtcbiAqIC8vID0+ICdmb29CYXInXG4gKi9cbnZhciBjYW1lbENhc2UgPSBjcmVhdGVDb21wb3VuZGVyKGZ1bmN0aW9uKHJlc3VsdCwgd29yZCwgaW5kZXgpIHtcbiAgd29yZCA9IHdvcmQudG9Mb3dlckNhc2UoKTtcbiAgcmV0dXJuIHJlc3VsdCArIChpbmRleCA/IGNhcGl0YWxpemUod29yZCkgOiB3b3JkKTtcbn0pO1xuXG5tb2R1bGUuZXhwb3J0cyA9IGNhbWVsQ2FzZTtcbiJdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJQSxVQUFVLEdBQUdDLE9BQU8sQ0FBQyxjQUFjLENBQUM7RUFDcENDLGdCQUFnQixHQUFHRCxPQUFPLENBQUMscUJBQXFCLENBQUM7O0FBRXJEO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxJQUFJRSxTQUFTLEdBQUdELGdCQUFnQixDQUFDLFVBQVNFLE1BQU0sRUFBRUMsSUFBSSxFQUFFQyxLQUFLLEVBQUU7RUFDN0RELElBQUksR0FBR0EsSUFBSSxDQUFDRSxXQUFXLEVBQUU7RUFDekIsT0FBT0gsTUFBTSxJQUFJRSxLQUFLLEdBQUdOLFVBQVUsQ0FBQ0ssSUFBSSxDQUFDLEdBQUdBLElBQUksQ0FBQztBQUNuRCxDQUFDLENBQUM7QUFFRkcsTUFBTSxDQUFDQyxPQUFPLEdBQUdOLFNBQVMifQ==

@@ -1,0 +1,113 @@
+4fd937fc80d6b1b09992556628760053
+"use strict";
+
+var __createBinding = void 0 && (void 0).__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+    desc = {
+      enumerable: true,
+      get: function () {
+        return m[k];
+      }
+    };
+  }
+  Object.defineProperty(o, k2, desc);
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+var __setModuleDefault = void 0 && (void 0).__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+var __importStar = void 0 && (void 0).__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  __setModuleDefault(result, mod);
+  return result;
+};
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const Parser_1 = __importDefault(require("./Parser"));
+const GherkinClassicTokenMatcher_1 = __importDefault(require("./GherkinClassicTokenMatcher"));
+const messages = __importStar(require("@cucumber/messages"));
+const compile_1 = __importDefault(require("./pickles/compile"));
+const AstBuilder_1 = __importDefault(require("./AstBuilder"));
+const makeSourceEnvelope_1 = __importDefault(require("./makeSourceEnvelope"));
+const GherkinInMarkdownTokenMatcher_1 = __importDefault(require("./GherkinInMarkdownTokenMatcher"));
+function generateMessages(data, uri, mediaType, options) {
+  let tokenMatcher;
+  switch (mediaType) {
+    case messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN:
+      tokenMatcher = new GherkinClassicTokenMatcher_1.default(options.defaultDialect);
+      break;
+    case messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_MARKDOWN:
+      tokenMatcher = new GherkinInMarkdownTokenMatcher_1.default(options.defaultDialect);
+      break;
+    default:
+      throw new Error(`Unsupported media type: ${mediaType}`);
+  }
+  const result = [];
+  try {
+    if (options.includeSource) {
+      result.push((0, makeSourceEnvelope_1.default)(data, uri));
+    }
+    if (!options.includeGherkinDocument && !options.includePickles) {
+      return result;
+    }
+    const parser = new Parser_1.default(new AstBuilder_1.default(options.newId), tokenMatcher);
+    parser.stopAtFirstError = false;
+    const gherkinDocument = parser.parse(data);
+    if (options.includeGherkinDocument) {
+      result.push({
+        gherkinDocument: {
+          ...gherkinDocument,
+          uri
+        }
+      });
+    }
+    if (options.includePickles) {
+      const pickles = (0, compile_1.default)(gherkinDocument, uri, options.newId);
+      for (const pickle of pickles) {
+        result.push({
+          pickle
+        });
+      }
+    }
+  } catch (err) {
+    const errors = err.errors || [err];
+    for (const error of errors) {
+      if (!error.location) {
+        // It wasn't a parser error - throw it (this is unexpected)
+        throw error;
+      }
+      result.push({
+        parseError: {
+          source: {
+            uri,
+            location: {
+              line: error.location.line,
+              column: error.location.column
+            }
+          },
+          message: error.message
+        }
+      });
+    }
+  }
+  return result;
+}
+exports.default = generateMessages;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJQYXJzZXJfMSIsIl9faW1wb3J0RGVmYXVsdCIsInJlcXVpcmUiLCJHaGVya2luQ2xhc3NpY1Rva2VuTWF0Y2hlcl8xIiwibWVzc2FnZXMiLCJfX2ltcG9ydFN0YXIiLCJjb21waWxlXzEiLCJBc3RCdWlsZGVyXzEiLCJtYWtlU291cmNlRW52ZWxvcGVfMSIsIkdoZXJraW5Jbk1hcmtkb3duVG9rZW5NYXRjaGVyXzEiLCJnZW5lcmF0ZU1lc3NhZ2VzIiwiZGF0YSIsInVyaSIsIm1lZGlhVHlwZSIsIm9wdGlvbnMiLCJ0b2tlbk1hdGNoZXIiLCJTb3VyY2VNZWRpYVR5cGUiLCJURVhUX1hfQ1VDVU1CRVJfR0hFUktJTl9QTEFJTiIsImRlZmF1bHQiLCJkZWZhdWx0RGlhbGVjdCIsIlRFWFRfWF9DVUNVTUJFUl9HSEVSS0lOX01BUktET1dOIiwiRXJyb3IiLCJyZXN1bHQiLCJpbmNsdWRlU291cmNlIiwicHVzaCIsImluY2x1ZGVHaGVya2luRG9jdW1lbnQiLCJpbmNsdWRlUGlja2xlcyIsInBhcnNlciIsIm5ld0lkIiwic3RvcEF0Rmlyc3RFcnJvciIsImdoZXJraW5Eb2N1bWVudCIsInBhcnNlIiwicGlja2xlcyIsInBpY2tsZSIsImVyciIsImVycm9ycyIsImVycm9yIiwibG9jYXRpb24iLCJwYXJzZUVycm9yIiwic291cmNlIiwibGluZSIsImNvbHVtbiIsIm1lc3NhZ2UiLCJleHBvcnRzIl0sInNvdXJjZXMiOlsiLi4vLi4vc3JjL2dlbmVyYXRlTWVzc2FnZXMudHMiXSwic291cmNlc0NvbnRlbnQiOltudWxsXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsTUFBQUEsUUFBQSxHQUFBQyxlQUFBLENBQUFDLE9BQUE7QUFDQSxNQUFBQyw0QkFBQSxHQUFBRixlQUFBLENBQUFDLE9BQUE7QUFDQSxNQUFBRSxRQUFBLEdBQUFDLFlBQUEsQ0FBQUgsT0FBQTtBQUNBLE1BQUFJLFNBQUEsR0FBQUwsZUFB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

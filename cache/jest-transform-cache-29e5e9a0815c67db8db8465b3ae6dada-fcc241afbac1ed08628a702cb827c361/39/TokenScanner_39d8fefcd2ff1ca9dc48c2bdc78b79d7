@@ -1,0 +1,32 @@
+2923a34dfdba82e939424da090728dc3
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * The scanner reads a gherkin doc (typically read from a .feature file) and creates a token for each line.
+ * The tokens are passed to the parser, which outputs an AST (Abstract Syntax Tree).
+ *
+ * If the scanner sees a `#` language header, it will reconfigure itself dynamically to look for
+ * Gherkin keywords for the associated language. The keywords are defined in gherkin-languages.json.
+ */
+class TokenScanner {
+  constructor(source, makeToken) {
+    this.makeToken = makeToken;
+    this.lineNumber = 0;
+    this.lines = source.split(/\r?\n/);
+    if (this.lines.length > 0 && this.lines[this.lines.length - 1].trim() === '') {
+      this.lines.pop();
+    }
+  }
+  read() {
+    const line = this.lines[this.lineNumber++];
+    const location = {
+      line: this.lineNumber
+    };
+    return this.makeToken(line, location);
+  }
+}
+exports.default = TokenScanner;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJUb2tlblNjYW5uZXIiLCJjb25zdHJ1Y3RvciIsInNvdXJjZSIsIm1ha2VUb2tlbiIsImxpbmVOdW1iZXIiLCJsaW5lcyIsInNwbGl0IiwibGVuZ3RoIiwidHJpbSIsInBvcCIsInJlYWQiLCJsaW5lIiwibG9jYXRpb24iLCJleHBvcnRzIiwiZGVmYXVsdCJdLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9Ub2tlblNjYW5uZXIudHMiXSwic291cmNlc0NvbnRlbnQiOltudWxsXSwibWFwcGluZ3MiOiI7Ozs7O0FBR0E7Ozs7Ozs7QUFPQSxNQUFxQkEsWUFBWTtFQUkvQkMsWUFDRUMsTUFBYyxFQUNHQyxTQUEyRTtJQUEzRSxLQUFBQSxTQUFTLEdBQVRBLFNBQVM7SUFMcEIsS0FBQUMsVUFBVSxHQUFHLENBQUM7SUFPcEIsSUFBSSxDQUFDQyxLQUFLLEdBQUdILE1BQU0sQ0FBQ0ksS0FBSyxDQUFDLE9BQU8sQ0FBQztJQUNsQyxJQUFJLElBQUksQ0FBQ0QsS0FBSyxDQUFDRSxNQUFNLEdBQUcsQ0FBQyxJQUFJLElBQUksQ0FBQ0YsS0FBSyxDQUFDLElBQUksQ0FBQ0EsS0FBSyxDQUFDRSxNQUFNLEdBQUcsQ0FBQyxDQUFDLENBQUNDLElBQUksRUFBRSxLQUFLLEVBQUUsRUFBRTtNQUM1RSxJQUFJLENBQUNILEtBQUssQ0FBQ0ksR0FBRyxFQUFFOztFQUVwQjtFQUVPQyxJQUFJQSxDQUFBO0lBQ1QsTUFBTUMsSUFBSSxHQUFHLElBQUksQ0FBQ04sS0FBSyxDQUFDLElBQUksQ0FBQ0QsVUFBVSxFQUFFLENBQUM7SUFDMUMsTUFBTVEsUUFBUSxHQUFHO01BQ2ZELElBQUksRUFBRSxJQUFJLENBQUNQO0tBQ1o7SUFDRCxPQUFPLElBQUksQ0FBQ0QsU0FBUyxDQUFDUSxJQUFJLEVBQUVDLFFBQVEsQ0FBQztFQUN2Qzs7QUFwQkZDLE9BQUEsQ0FBQUMsT0FBQSxHQUFBZCxZQUFBIn0=

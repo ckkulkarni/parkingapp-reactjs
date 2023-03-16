@@ -1,0 +1,48 @@
+05dbe1dc92846347baeb44c2ede8ae59
+"use strict";
+
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var CucumberExpressionError_js_1 = __importDefault(require("./CucumberExpressionError.js"));
+var Argument = /** @class */function () {
+  function Argument(group, parameterType) {
+    this.group = group;
+    this.parameterType = parameterType;
+    this.group = group;
+    this.parameterType = parameterType;
+  }
+  Argument.build = function (group, parameterTypes) {
+    var argGroups = group.children;
+    if (argGroups.length !== parameterTypes.length) {
+      throw new CucumberExpressionError_js_1.default("Group has ".concat(argGroups.length, " capture groups (").concat(argGroups.map(function (g) {
+        return g.value;
+      }), "), but there were ").concat(parameterTypes.length, " parameter types (").concat(parameterTypes.map(function (p) {
+        return p.name;
+      }), ")"));
+    }
+    return parameterTypes.map(function (parameterType, i) {
+      return new Argument(argGroups[i], parameterType);
+    });
+  };
+  /**
+   * Get the value returned by the parameter type's transformer function.
+   *
+   * @param thisObj the object in which the transformer function is applied.
+   */
+  Argument.prototype.getValue = function (thisObj) {
+    var groupValues = this.group ? this.group.values : null;
+    return this.parameterType.transform(thisObj, groupValues);
+  };
+  Argument.prototype.getParameterType = function () {
+    return this.parameterType;
+  };
+  return Argument;
+}();
+exports.default = Argument;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJDdWN1bWJlckV4cHJlc3Npb25FcnJvcl9qc18xIiwiX19pbXBvcnREZWZhdWx0IiwicmVxdWlyZSIsIkFyZ3VtZW50IiwiZ3JvdXAiLCJwYXJhbWV0ZXJUeXBlIiwiYnVpbGQiLCJwYXJhbWV0ZXJUeXBlcyIsImFyZ0dyb3VwcyIsImNoaWxkcmVuIiwibGVuZ3RoIiwiZGVmYXVsdCIsImNvbmNhdCIsIm1hcCIsImciLCJ2YWx1ZSIsInAiLCJuYW1lIiwiaSIsInByb3RvdHlwZSIsImdldFZhbHVlIiwidGhpc09iaiIsImdyb3VwVmFsdWVzIiwidmFsdWVzIiwidHJhbnNmb3JtIiwiZ2V0UGFyYW1ldGVyVHlwZSJdLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9Bcmd1bWVudC50cyJdLCJzb3VyY2VzQ29udGVudCI6W251bGxdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7OztBQUFBLElBQUFBLDRCQUFBLEdBQUFDLGVBQUEsQ0FBQUMsT0FBQTtBQUlBLElBQUFDLFFBQUE7RUFvQkUsU0FBQUEsU0FBNEJDLEtBQVksRUFBa0JDLGFBQXFDO0lBQW5FLEtBQUFELEtBQUssR0FBTEEsS0FBSztJQUF5QixLQUFBQyxhQUFhLEdBQWJBLGFBQWE7SUFDckUsSUFBSSxDQUFDRCxLQUFLLEdBQUdBLEtBQUs7SUFDbEIsSUFBSSxDQUFDQyxhQUFhLEdBQUdBLGFBQWE7RUFDcEM7RUF0QmNGLFFBQUEsQ0FBQUcsS0FBSyxHQUFuQixVQUNFRixLQUFZLEVBQ1pHLGNBQWlEO0lBRWpELElBQU1DLFNBQVMsR0FBR0osS0FBSyxDQUFDSyxRQUFRO0lBRWhDLElBQUlELFNBQVMsQ0FBQ0UsTUFBTSxLQUFLSCxjQUFjLENBQUNHLE1BQU0sRUFBRTtNQUM5QyxNQUFNLElBQUlWLDRCQUFBLENBQUFXLE9BQXVCLENBQy9CLGFBQUFDLE1BQUEsQ0FBYUosU0FBUyxDQUFDRSxNQUFNLHVCQUFBRSxNQUFBLENBQW9CSixTQUFTLENBQUNLLEdBQUcsQ0FDNUQsVUFBQ0MsQ0FBQztRQUFLLE9BQUFBLENBQUMsQ0FBQ0MsS0FBSztNQUFQLENBQU8sQ0FDZix3QkFBQUgsTUFBQSxDQUFxQkwsY0FBYyxDQUFDRyxNQUFNLHdCQUFBRSxNQUFBLENBQXFCTCxjQUFjLENBQUNNLEdBQUcsQ0FDaEYsVUFBQ0csQ0FBQztRQUFLLE9BQUFBLENBQUMsQ0FBQ0MsSUFBSTtNQUFOLENBQU0sQ0FDZCxNQUFHLENBQ0w7O0lBR0gsT0FBT1YsY0FBYyxDQUFDTSxHQUFHLENBQUMsVUFBQ1IsYUFBYSxFQUFFYSxDQUFDO01BQUssV0FBSWYsUUFBUSxDQUFDSyxTQUFTLENBQUNVLENBQUMsQ0FBQyxFQUFFYixhQUFhLENBQUM7SUFBekMsQ0FBeUMsQ0FBQztFQUM1RixDQUFDO0VBT0Q7Ozs7O0VBS09GLFFBQUEsQ0FBQWdCLFNBQUEsQ0FBQUMsUUFBUSxHQUFmLFVBQW1CQyxPQUFnQjtJQUNqQyxJQUFNQyxXQUFXLEdBQUcsSUFBSSxDQUFDbEIsS0FBSyxHQUFHLElBQUksQ0FBQ0EsS0FBSyxDQUFDbUIsTUFBTSxHQUFHLElBQUk7SUFDekQsT0FBTyxJQUFJLENBQUNsQixhQUFhLENBQUNtQixTQUFTLENBQUNILE9BQU8sRUFBRUMsV0FBVyxDQUFDO0VBQzNELENBQUM7RUFFTW5CLFFBQUEsQ0FBQWdCLFNBQUEsQ0FBQU0sZ0JBQWdCLEdBQXZCO0lBQ0UsT0FBTyxJQUFJLENBQUNwQixhQUFhO0VBQzNCLENBQUM7RUFDSCxPQUFBRixRQUFDO0FBQUQsQ0FBQyxFQXRDRCJ9

@@ -1,0 +1,24 @@
+231756e46b0995eac3ce57c9055f77c9
+"use strict";
+
+var isArray = require('./isArray'),
+  isKey = require('./_isKey'),
+  stringToPath = require('./_stringToPath'),
+  toString = require('./toString');
+
+/**
+ * Casts `value` to a path array if it's not one.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @param {Object} [object] The object to query keys on.
+ * @returns {Array} Returns the cast property path array.
+ */
+function castPath(value, object) {
+  if (isArray(value)) {
+    return value;
+  }
+  return isKey(value, object) ? [value] : stringToPath(toString(value));
+}
+module.exports = castPath;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJpc0FycmF5IiwicmVxdWlyZSIsImlzS2V5Iiwic3RyaW5nVG9QYXRoIiwidG9TdHJpbmciLCJjYXN0UGF0aCIsInZhbHVlIiwib2JqZWN0IiwibW9kdWxlIiwiZXhwb3J0cyJdLCJzb3VyY2VzIjpbIl9jYXN0UGF0aC5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgaXNBcnJheSA9IHJlcXVpcmUoJy4vaXNBcnJheScpLFxuICAgIGlzS2V5ID0gcmVxdWlyZSgnLi9faXNLZXknKSxcbiAgICBzdHJpbmdUb1BhdGggPSByZXF1aXJlKCcuL19zdHJpbmdUb1BhdGgnKSxcbiAgICB0b1N0cmluZyA9IHJlcXVpcmUoJy4vdG9TdHJpbmcnKTtcblxuLyoqXG4gKiBDYXN0cyBgdmFsdWVgIHRvIGEgcGF0aCBhcnJheSBpZiBpdCdzIG5vdCBvbmUuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7Kn0gdmFsdWUgVGhlIHZhbHVlIHRvIGluc3BlY3QuXG4gKiBAcGFyYW0ge09iamVjdH0gW29iamVjdF0gVGhlIG9iamVjdCB0byBxdWVyeSBrZXlzIG9uLlxuICogQHJldHVybnMge0FycmF5fSBSZXR1cm5zIHRoZSBjYXN0IHByb3BlcnR5IHBhdGggYXJyYXkuXG4gKi9cbmZ1bmN0aW9uIGNhc3RQYXRoKHZhbHVlLCBvYmplY3QpIHtcbiAgaWYgKGlzQXJyYXkodmFsdWUpKSB7XG4gICAgcmV0dXJuIHZhbHVlO1xuICB9XG4gIHJldHVybiBpc0tleSh2YWx1ZSwgb2JqZWN0KSA/IFt2YWx1ZV0gOiBzdHJpbmdUb1BhdGgodG9TdHJpbmcodmFsdWUpKTtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBjYXN0UGF0aDtcbiJdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJQSxPQUFPLEdBQUdDLE9BQU8sQ0FBQyxXQUFXLENBQUM7RUFDOUJDLEtBQUssR0FBR0QsT0FBTyxDQUFDLFVBQVUsQ0FBQztFQUMzQkUsWUFBWSxHQUFHRixPQUFPLENBQUMsaUJBQWlCLENBQUM7RUFDekNHLFFBQVEsR0FBR0gsT0FBTyxDQUFDLFlBQVksQ0FBQzs7QUFFcEM7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLFNBQVNJLFFBQVFBLENBQUNDLEtBQUssRUFBRUMsTUFBTSxFQUFFO0VBQy9CLElBQUlQLE9BQU8sQ0FBQ00sS0FBSyxDQUFDLEVBQUU7SUFDbEIsT0FBT0EsS0FBSztFQUNkO0VBQ0EsT0FBT0osS0FBSyxDQUFDSSxLQUFLLEVBQUVDLE1BQU0sQ0FBQyxHQUFHLENBQUNELEtBQUssQ0FBQyxHQUFHSCxZQUFZLENBQUNDLFFBQVEsQ0FBQ0UsS0FBSyxDQUFDLENBQUM7QUFDdkU7QUFFQUUsTUFBTSxDQUFDQyxPQUFPLEdBQUdKLFFBQVEifQ==

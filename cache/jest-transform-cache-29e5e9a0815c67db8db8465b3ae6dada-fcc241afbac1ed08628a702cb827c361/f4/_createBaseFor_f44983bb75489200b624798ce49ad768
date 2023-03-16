@@ -1,0 +1,27 @@
+56d969dbf5b6b6ae62e648969cc7eb74
+"use strict";
+
+/**
+ * Creates a base function for methods like `_.forIn` and `_.forOwn`.
+ *
+ * @private
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseFor(fromRight) {
+  return function (object, iteratee, keysFunc) {
+    var index = -1,
+      iterable = Object(object),
+      props = keysFunc(object),
+      length = props.length;
+    while (length--) {
+      var key = props[fromRight ? length : ++index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+module.exports = createBaseFor;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJjcmVhdGVCYXNlRm9yIiwiZnJvbVJpZ2h0Iiwib2JqZWN0IiwiaXRlcmF0ZWUiLCJrZXlzRnVuYyIsImluZGV4IiwiaXRlcmFibGUiLCJPYmplY3QiLCJwcm9wcyIsImxlbmd0aCIsImtleSIsIm1vZHVsZSIsImV4cG9ydHMiXSwic291cmNlcyI6WyJfY3JlYXRlQmFzZUZvci5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIENyZWF0ZXMgYSBiYXNlIGZ1bmN0aW9uIGZvciBtZXRob2RzIGxpa2UgYF8uZm9ySW5gIGFuZCBgXy5mb3JPd25gLlxuICpcbiAqIEBwcml2YXRlXG4gKiBAcGFyYW0ge2Jvb2xlYW59IFtmcm9tUmlnaHRdIFNwZWNpZnkgaXRlcmF0aW5nIGZyb20gcmlnaHQgdG8gbGVmdC5cbiAqIEByZXR1cm5zIHtGdW5jdGlvbn0gUmV0dXJucyB0aGUgbmV3IGJhc2UgZnVuY3Rpb24uXG4gKi9cbmZ1bmN0aW9uIGNyZWF0ZUJhc2VGb3IoZnJvbVJpZ2h0KSB7XG4gIHJldHVybiBmdW5jdGlvbihvYmplY3QsIGl0ZXJhdGVlLCBrZXlzRnVuYykge1xuICAgIHZhciBpbmRleCA9IC0xLFxuICAgICAgICBpdGVyYWJsZSA9IE9iamVjdChvYmplY3QpLFxuICAgICAgICBwcm9wcyA9IGtleXNGdW5jKG9iamVjdCksXG4gICAgICAgIGxlbmd0aCA9IHByb3BzLmxlbmd0aDtcblxuICAgIHdoaWxlIChsZW5ndGgtLSkge1xuICAgICAgdmFyIGtleSA9IHByb3BzW2Zyb21SaWdodCA/IGxlbmd0aCA6ICsraW5kZXhdO1xuICAgICAgaWYgKGl0ZXJhdGVlKGl0ZXJhYmxlW2tleV0sIGtleSwgaXRlcmFibGUpID09PSBmYWxzZSkge1xuICAgICAgICBicmVhaztcbiAgICAgIH1cbiAgICB9XG4gICAgcmV0dXJuIG9iamVjdDtcbiAgfTtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBjcmVhdGVCYXNlRm9yO1xuIl0sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsU0FBU0EsYUFBYUEsQ0FBQ0MsU0FBUyxFQUFFO0VBQ2hDLE9BQU8sVUFBU0MsTUFBTSxFQUFFQyxRQUFRLEVBQUVDLFFBQVEsRUFBRTtJQUMxQyxJQUFJQyxLQUFLLEdBQUcsQ0FBQyxDQUFDO01BQ1ZDLFFBQVEsR0FBR0MsTUFBTSxDQUFDTCxNQUFNLENBQUM7TUFDekJNLEtBQUssR0FBR0osUUFBUSxDQUFDRixNQUFNLENBQUM7TUFDeEJPLE1BQU0sR0FBR0QsS0FBSyxDQUFDQyxNQUFNO0lBRXpCLE9BQU9BLE1BQU0sRUFBRSxFQUFFO01BQ2YsSUFBSUMsR0FBRyxHQUFHRixLQUFLLENBQUNQLFNBQVMsR0FBR1EsTUFBTSxHQUFHLEVBQUVKLEtBQUssQ0FBQztNQUM3QyxJQUFJRixRQUFRLENBQUNHLFFBQVEsQ0FBQ0ksR0FBRyxDQUFDLEVBQUVBLEdBQUcsRUFBRUosUUFBUSxDQUFDLEtBQUssS0FBSyxFQUFFO1FBQ3BEO01BQ0Y7SUFDRjtJQUNBLE9BQU9KLE1BQU07RUFDZixDQUFDO0FBQ0g7QUFFQVMsTUFBTSxDQUFDQyxPQUFPLEdBQUdaLGFBQWEifQ==

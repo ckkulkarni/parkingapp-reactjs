@@ -1,0 +1,32 @@
+464119ac2cea71afa022a8f9e6c8737e
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Expose = void 0;
+const storage_1 = require("../storage");
+/**
+ * Marks the given class or property as included. By default the property is included in both
+ * constructorToPlain and plainToConstructor transformations. It can be limited to only one direction
+ * via using the `toPlainOnly` or `toClassOnly` option.
+ *
+ * Can be applied to class definitions and properties.
+ */
+function Expose(options = {}) {
+  /**
+   * NOTE: The `propertyName` property must be marked as optional because
+   * this decorator used both as a class and a property decorator and the
+   * Typescript compiler will freak out if we make it mandatory as a class
+   * decorator only receives one parameter.
+   */
+  return function (object, propertyName) {
+    storage_1.defaultMetadataStorage.addExposeMetadata({
+      target: object instanceof Function ? object : object.constructor,
+      propertyName: propertyName,
+      options
+    });
+  };
+}
+exports.Expose = Expose;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJzdG9yYWdlXzEiLCJyZXF1aXJlIiwiRXhwb3NlIiwib3B0aW9ucyIsIm9iamVjdCIsInByb3BlcnR5TmFtZSIsImRlZmF1bHRNZXRhZGF0YVN0b3JhZ2UiLCJhZGRFeHBvc2VNZXRhZGF0YSIsInRhcmdldCIsIkZ1bmN0aW9uIiwiY29uc3RydWN0b3IiLCJleHBvcnRzIl0sInNvdXJjZXMiOlsiLi4vLi4vLi4vc3JjL2RlY29yYXRvcnMvZXhwb3NlLmRlY29yYXRvci50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBkZWZhdWx0TWV0YWRhdGFTdG9yYWdlIH0gZnJvbSAnLi4vc3RvcmFnZSc7XG5pbXBvcnQgeyBFeHBvc2VPcHRpb25zIH0gZnJvbSAnLi4vaW50ZXJmYWNlcyc7XG5cbi8qKlxuICogTWFya3MgdGhlIGdpdmVuIGNsYXNzIG9yIHByb3BlcnR5IGFzIGluY2x1ZGVkLiBCeSBkZWZhdWx0IHRoZSBwcm9wZXJ0eSBpcyBpbmNsdWRlZCBpbiBib3RoXG4gKiBjb25zdHJ1Y3RvclRvUGxhaW4gYW5kIHBsYWluVG9Db25zdHJ1Y3RvciB0cmFuc2Zvcm1hdGlvbnMuIEl0IGNhbiBiZSBsaW1pdGVkIHRvIG9ubHkgb25lIGRpcmVjdGlvblxuICogdmlhIHVzaW5nIHRoZSBgdG9QbGFpbk9ubHlgIG9yIGB0b0NsYXNzT25seWAgb3B0aW9uLlxuICpcbiAqIENhbiBiZSBhcHBsaWVkIHRvIGNsYXNzIGRlZmluaXRpb25zIGFuZCBwcm9wZXJ0aWVzLlxuICovXG5leHBvcnQgZnVuY3Rpb24gRXhwb3NlKG9wdGlvbnM6IEV4cG9zZU9wdGlvbnMgPSB7fSk6IFByb3BlcnR5RGVjb3JhdG9yICYgQ2xhc3NEZWNvcmF0b3Ige1xuICAvKipcbiAgICogTk9URTogVGhlIGBwcm9wZXJ0eU5hbWVgIHByb3BlcnR5IG11c3QgYmUgbWFya2VkIGFzIG9wdGlvbmFsIGJlY2F1c2VcbiAgICogdGhpcyBkZWNvcmF0b3IgdXNlZCBib3RoIGFzIGEgY2xhc3MgYW5kIGEgcHJvcGVydHkgZGVjb3JhdG9yIGFuZCB0aGVcbiAgICogVHlwZXNjcmlwdCBjb21waWxlciB3aWxsIGZyZWFrIG91dCBpZiB3ZSBtYWtlIGl0IG1hbmRhdG9yeSBhcyBhIGNsYXNzXG4gICAqIGRlY29yYXRvciBvbmx5IHJlY2VpdmVzIG9uZSBwYXJhbWV0ZXIuXG4gICAqL1xuICByZXR1cm4gZnVuY3Rpb24gKG9iamVjdDogYW55LCBwcm9wZXJ0eU5hbWU/OiBzdHJpbmcgfCBTeW1ib2wpOiB2b2lkIHtcbiAgICBkZWZhdWx0TWV0YWRhdGFTdG9yYWdlLmFkZEV4cG9zZU1ldGFkYXRhKHtcbiAgICAgIHRhcmdldDogb2JqZWN0IGluc3RhbmNlb2YgRnVuY3Rpb24gPyBvYmplY3QgOiBvYmplY3QuY29uc3RydWN0b3IsXG4gICAgICBwcm9wZXJ0eU5hbWU6IHByb3BlcnR5TmFtZSBhcyBzdHJpbmcsXG4gICAgICBvcHRpb25zLFxuICAgIH0pO1xuICB9O1xufVxuIl0sIm1hcHBpbmdzIjoiOzs7Ozs7QUFBQSxNQUFBQSxTQUFBLEdBQUFDLE9BQUE7QUFHQTs7Ozs7OztBQU9BLFNBQWdCQyxNQUFNQSxDQUFDQyxPQUFBLEdBQXlCLEVBQUU7RUFDaEQ7Ozs7OztFQU1BLE9BQU8sVUFBVUMsTUFBVyxFQUFFQyxZQUE4QjtJQUMxREwsU0FBQSxDQUFBTSxzQkFBc0IsQ0FBQ0MsaUJBQWlCLENBQUM7TUFDdkNDLE1BQU0sRUFBRUosTUFBTSxZQUFZSyxRQUFRLEdBQUdMLE1BQU0sR0FBR0EsTUFBTSxDQUFDTSxXQUFXO01BQ2hFTCxZQUFZLEVBQUVBLFlBQXNCO01BQ3BDRjtLQUNELENBQUM7RUFDSixDQUFDO0FBQ0g7QUFkQVEsT0FBQSxDQUFBVCxNQUFBLEdBQUFBLE1BQUEifQ==

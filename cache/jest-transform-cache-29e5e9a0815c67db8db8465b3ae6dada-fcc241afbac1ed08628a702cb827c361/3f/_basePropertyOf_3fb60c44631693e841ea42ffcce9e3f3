@@ -1,0 +1,17 @@
+ce3fbe474f67300f7e253f8afc0c1a36
+"use strict";
+
+/**
+ * The base implementation of `_.propertyOf` without support for deep paths.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Function} Returns the new accessor function.
+ */
+function basePropertyOf(object) {
+  return function (key) {
+    return object == null ? undefined : object[key];
+  };
+}
+module.exports = basePropertyOf;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJiYXNlUHJvcGVydHlPZiIsIm9iamVjdCIsImtleSIsInVuZGVmaW5lZCIsIm1vZHVsZSIsImV4cG9ydHMiXSwic291cmNlcyI6WyJfYmFzZVByb3BlcnR5T2YuanMiXSwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBUaGUgYmFzZSBpbXBsZW1lbnRhdGlvbiBvZiBgXy5wcm9wZXJ0eU9mYCB3aXRob3V0IHN1cHBvcnQgZm9yIGRlZXAgcGF0aHMuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7T2JqZWN0fSBvYmplY3QgVGhlIG9iamVjdCB0byBxdWVyeS5cbiAqIEByZXR1cm5zIHtGdW5jdGlvbn0gUmV0dXJucyB0aGUgbmV3IGFjY2Vzc29yIGZ1bmN0aW9uLlxuICovXG5mdW5jdGlvbiBiYXNlUHJvcGVydHlPZihvYmplY3QpIHtcbiAgcmV0dXJuIGZ1bmN0aW9uKGtleSkge1xuICAgIHJldHVybiBvYmplY3QgPT0gbnVsbCA/IHVuZGVmaW5lZCA6IG9iamVjdFtrZXldO1xuICB9O1xufVxuXG5tb2R1bGUuZXhwb3J0cyA9IGJhc2VQcm9wZXJ0eU9mO1xuIl0sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsU0FBU0EsY0FBY0EsQ0FBQ0MsTUFBTSxFQUFFO0VBQzlCLE9BQU8sVUFBU0MsR0FBRyxFQUFFO0lBQ25CLE9BQU9ELE1BQU0sSUFBSSxJQUFJLEdBQUdFLFNBQVMsR0FBR0YsTUFBTSxDQUFDQyxHQUFHLENBQUM7RUFDakQsQ0FBQztBQUNIO0FBRUFFLE1BQU0sQ0FBQ0MsT0FBTyxHQUFHTCxjQUFjIn0=

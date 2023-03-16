@@ -1,0 +1,19 @@
+64b0b70d2571644d1ef2e0697ff99bc9
+"use strict";
+
+var baseFor = require('./_baseFor'),
+  keys = require('./keys');
+
+/**
+ * The base implementation of `_.forOwn` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Object} Returns `object`.
+ */
+function baseForOwn(object, iteratee) {
+  return object && baseFor(object, iteratee, keys);
+}
+module.exports = baseForOwn;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJiYXNlRm9yIiwicmVxdWlyZSIsImtleXMiLCJiYXNlRm9yT3duIiwib2JqZWN0IiwiaXRlcmF0ZWUiLCJtb2R1bGUiLCJleHBvcnRzIl0sInNvdXJjZXMiOlsiX2Jhc2VGb3JPd24uanMiXSwic291cmNlc0NvbnRlbnQiOlsidmFyIGJhc2VGb3IgPSByZXF1aXJlKCcuL19iYXNlRm9yJyksXG4gICAga2V5cyA9IHJlcXVpcmUoJy4va2V5cycpO1xuXG4vKipcbiAqIFRoZSBiYXNlIGltcGxlbWVudGF0aW9uIG9mIGBfLmZvck93bmAgd2l0aG91dCBzdXBwb3J0IGZvciBpdGVyYXRlZSBzaG9ydGhhbmRzLlxuICpcbiAqIEBwcml2YXRlXG4gKiBAcGFyYW0ge09iamVjdH0gb2JqZWN0IFRoZSBvYmplY3QgdG8gaXRlcmF0ZSBvdmVyLlxuICogQHBhcmFtIHtGdW5jdGlvbn0gaXRlcmF0ZWUgVGhlIGZ1bmN0aW9uIGludm9rZWQgcGVyIGl0ZXJhdGlvbi5cbiAqIEByZXR1cm5zIHtPYmplY3R9IFJldHVybnMgYG9iamVjdGAuXG4gKi9cbmZ1bmN0aW9uIGJhc2VGb3JPd24ob2JqZWN0LCBpdGVyYXRlZSkge1xuICByZXR1cm4gb2JqZWN0ICYmIGJhc2VGb3Iob2JqZWN0LCBpdGVyYXRlZSwga2V5cyk7XG59XG5cbm1vZHVsZS5leHBvcnRzID0gYmFzZUZvck93bjtcbiJdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJQSxPQUFPLEdBQUdDLE9BQU8sQ0FBQyxZQUFZLENBQUM7RUFDL0JDLElBQUksR0FBR0QsT0FBTyxDQUFDLFFBQVEsQ0FBQzs7QUFFNUI7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLFNBQVNFLFVBQVVBLENBQUNDLE1BQU0sRUFBRUMsUUFBUSxFQUFFO0VBQ3BDLE9BQU9ELE1BQU0sSUFBSUosT0FBTyxDQUFDSSxNQUFNLEVBQUVDLFFBQVEsRUFBRUgsSUFBSSxDQUFDO0FBQ2xEO0FBRUFJLE1BQU0sQ0FBQ0MsT0FBTyxHQUFHSixVQUFVIn0=

@@ -1,0 +1,114 @@
+e07f18f98c1869824cd06e0f4c0fafa2
+"use strict";
+
+var __read = void 0 && (void 0).__read || function (o, n) {
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o),
+    r,
+    ar = [],
+    e;
+  try {
+    while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+  } catch (error) {
+    e = {
+      error: error
+    };
+  } finally {
+    try {
+      if (r && !r.done && (m = i["return"])) m.call(i);
+    } finally {
+      if (e) throw e.error;
+    }
+  }
+  return ar;
+};
+var __spreadArray = void 0 && (void 0).__spreadArray || function (to, from, pack) {
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+    if (ar || !(i in from)) {
+      if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+      ar[i] = from[i];
+    }
+  }
+  return to.concat(ar || Array.prototype.slice.call(from));
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var GeneratedExpression = /** @class */function () {
+  function GeneratedExpression(expressionTemplate, parameterTypes) {
+    this.expressionTemplate = expressionTemplate;
+    this.parameterTypes = parameterTypes;
+  }
+  Object.defineProperty(GeneratedExpression.prototype, "source", {
+    get: function () {
+      return format.apply(void 0, __spreadArray([this.expressionTemplate], __read(this.parameterTypes.map(function (t) {
+        return t.name || '';
+      })), false));
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(GeneratedExpression.prototype, "parameterNames", {
+    /**
+     * Returns an array of parameter names to use in generated function/method signatures
+     *
+     * @returns {ReadonlyArray.<String>}
+     */
+    get: function () {
+      return this.parameterInfos.map(function (i) {
+        return "".concat(i.name).concat(i.count === 1 ? '' : i.count.toString());
+      });
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(GeneratedExpression.prototype, "parameterInfos", {
+    /**
+     * Returns an array of ParameterInfo to use in generated function/method signatures
+     */
+    get: function () {
+      var usageByTypeName = {};
+      return this.parameterTypes.map(function (t) {
+        return getParameterInfo(t, usageByTypeName);
+      });
+    },
+    enumerable: false,
+    configurable: true
+  });
+  return GeneratedExpression;
+}();
+exports.default = GeneratedExpression;
+function getParameterInfo(parameterType, usageByName) {
+  var name = parameterType.name || '';
+  var counter = usageByName[name];
+  counter = counter ? counter + 1 : 1;
+  usageByName[name] = counter;
+  var type;
+  if (parameterType.type) {
+    if (typeof parameterType.type === 'string') {
+      type = parameterType.type;
+    } else if ('name' in parameterType.type) {
+      type = parameterType.type.name;
+    } else {
+      type = null;
+    }
+  } else {
+    type = null;
+  }
+  return {
+    type: type,
+    name: name,
+    count: counter
+  };
+}
+function format(pattern) {
+  var args = [];
+  for (var _i = 1; _i < arguments.length; _i++) {
+    args[_i - 1] = arguments[_i];
+  }
+  return pattern.replace(/{(\d+)}/g, function (match, number) {
+    return args[number];
+  });
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJHZW5lcmF0ZWRFeHByZXNzaW9uIiwiZXhwcmVzc2lvblRlbXBsYXRlIiwicGFyYW1ldGVyVHlwZXMiLCJPYmplY3QiLCJkZWZpbmVQcm9wZXJ0eSIsInByb3RvdHlwZSIsImdldCIsImZvcm1hdCIsImFwcGx5IiwiX19zcHJlYWRBcnJheSIsIl9fcmVhZCIsIm1hcCIsInQiLCJuYW1lIiwicGFyYW1ldGVySW5mb3MiLCJpIiwiY29uY2F0IiwiY291bnQiLCJ0b1N0cmluZyIsInVzYWdlQnlUeXBlTmFtZSIsImdldFBhcmFtZXRlckluZm8iLCJwYXJhbWV0ZXJUeXBlIiwidXNhZ2VCeU5hbWUiLCJjb3VudGVyIiwidHlwZSIsInBhdHRlcm4iLCJhcmdzIiwiX2kiLCJhcmd1bWVudHMiLCJsZW5ndGgiLCJyZXBsYWNlIiwibWF0Y2giLCJudW1iZXIiXSwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvR2VuZXJhdGVkRXhwcmVzc2lvbi50cyJdLCJzb3VyY2VzQ29udGVudCI6W251bGxdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBR0EsSUFBQUEsbUJBQUE7RUFDRSxTQUFBQSxvQkFDbUJDLGtCQUEwQixFQUMzQkMsY0FBaUQ7SUFEaEQsS0FBQUQsa0JBQWtCLEdBQWxCQSxrQkFBa0I7SUFDbkIsS0FBQUMsY0FBYyxHQUFkQSxjQUFjO0VBQzdCO0VBRUhDLE1BQUEsQ0FBQUMsY0FBQSxDQUFJSixtQkFBQSxDQUFBSyxTQUFBLFVBQU07U0FBVixTQUFBQyxDQUFBO01BQ0UsT0FBT0MsTUFBTSxDQUFBQyxLQUFBLFNBQUFDLGFBQUEsRUFBQyxJQUFJLENBQUNSLGtCQUFrQixHQUFBUyxNQUFBLENBQUssSUFBSSxDQUFDUixjQUFjLENBQUNTLEdBQUcsQ0FBQyxVQUFDQyxDQUFDO1FBQUssT0FBQUEsQ0FBQyxDQUFDQyxJQUFJLElBQUksRUFBRTtNQUFaLENBQVksQ0FBQztJQUN4RixDQUFDOzs7O0VBT0RWLE1BQUEsQ0FBQUMsY0FBQSxDQUFJSixtQkFBQSxDQUFBSyxTQUFBLGtCQUFjO0lBTGxCOzs7OztTQUtBLFNBQUFDLENBQUE7TUFDRSxPQUFPLElBQUksQ0FBQ1EsY0FBYyxDQUFDSCxHQUFHLENBQUMsVUFBQ0ksQ0FBQztRQUFLLFVBQUFDLE1BQUEsQ0FBR0QsQ0FBQyxDQUFDRixJQUFJLEVBQUFHLE1BQUEsQ0FBR0QsQ0FBQyxDQUFDRSxLQUFLLEtBQUssQ0FBQyxHQUFHLEVBQUUsR0FBR0YsQ0FBQyxDQUFDRSxLQUFLLENBQUNDLFFBQVEsRUFBRSxDQUFFO01BQXJELENBQXFELENBQUM7SUFDOUYsQ0FBQzs7OztFQUtEZixNQUFBLENBQUFDLGNBQUEsQ0FBSUosbUJBQUEsQ0FBQUssU0FBQSxrQkFBYztJQUhsQjs7O1NBR0EsU0FBQUMsQ0FBQTtNQUNFLElBQU1hLGVBQWUsR0FBOEIsRUFBRTtNQUNyRCxPQUFPLElBQUksQ0FBQ2pCLGNBQWMsQ0FBQ1MsR0FBRyxDQUFDLFVBQUNDLENBQUM7UUFBSyxPQUFBUSxnQkFBZ0IsQ0FBQ1IsQ0FBQyxFQUFFTyxlQUFlLENBQUM7TUFBcEMsQ0FBb0MsQ0FBQztJQUM3RSxDQUFDOzs7O0VBQ0gsT0FBQW5CLG1CQUFDO0FBQUQsQ0FBQyxFQTFCRDs7QUE0QkEsU0FBU29CLGdCQUFnQkEsQ0FDdkJDLGFBQXFDLEVBQ3JDQyxXQUFzQztFQUV0QyxJQUFNVCxJQUFJLEdBQUdRLGFBQWEsQ0FBQ1IsSUFBSSxJQUFJLEVBQUU7RUFDckMsSUFBSVUsT0FBTyxHQUFHRCxXQUFXLENBQUNULElBQUksQ0FBQztFQUMvQlUsT0FBTyxHQUFHQSxPQUFPLEdBQUdBLE9BQU8sR0FBRyxDQUFDLEdBQUcsQ0FBQztFQUNuQ0QsV0FBVyxDQUFDVCxJQUFJLENBQUMsR0FBR1UsT0FBTztFQUMzQixJQUFJQyxJQUFtQjtFQUN2QixJQUFJSCxhQUFhLENBQUNHLElBQUksRUFBRTtJQUN0QixJQUFJLE9BQU9ILGFBQWEsQ0FBQ0csSUFBSSxLQUFLLFFBQVEsRUFBRTtNQUMxQ0EsSUFBSSxHQUFHSCxhQUFhLENBQUNHLElBQUk7S0FDMUIsTUFBTSxJQUFJLE1BQU0sSUFBSUgsYUFBYSxDQUFDRyxJQUFJLEVBQUU7TUFDdkNBLElBQUksR0FBR0gsYUFBYSxDQUFDRyxJQUFJLENBQUNYLElBQUk7S0FDL0IsTUFBTTtNQUNMVyxJQUFJLEdBQUcsSUFBSTs7R0FFZCxNQUFNO0lBQ0xBLElBQUksR0FBRyxJQUFJOztFQUViLE9BQU87SUFDTEEsSUFBSSxFQUFBQSxJQUFBO0lBQ0pYLElBQUksRUFBQUEsSUFBQTtJQUNKSSxLQUFLLEVBQUVNO0dBQ1I7QUFDSDtBQUVBLFNBQVNoQixNQUFNQSxDQUFDa0IsT0FBZTtFQUFFLElBQUFDLElBQUE7T0FBQSxJQUFBQyxFQUFBLElBQTBCLEVBQTFCQSxFQUFBLEdBQUFDLFNBQUEsQ0FBQUMsTUFBMEIsRUFBMUJGLEVBQUEsRUFBMEI7SUFBMUJELElBQUEsQ0FBQUMsRUFBQSxRQUFBQyxTQUFBLENBQUFELEVBQUE7O0VBQy9CLE9BQU9GLE9BQU8sQ0FBQ0ssT0FBTyxDQUFDLFVBQVUsRUFBRSxVQUFDQyxLQUFLLEVBQUVDLE1BQU07SUFBSyxPQUFBTixJQUFJLENBQUNNLE1BQU0sQ0FBQztFQUFaLENBQVksQ0FBQztBQUNyRSJ9

@@ -1,0 +1,63 @@
+2a27ed6a812e29cfb40a03a2b4fbd362
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.NoSuchLanguageException = exports.AstBuilderException = exports.CompositeParserException = exports.ParserException = exports.GherkinException = void 0;
+class GherkinException extends Error {
+  constructor(message) {
+    super(message);
+    const actualProto = new.target.prototype;
+    // https://stackoverflow.com/questions/41102060/typescript-extending-error-class
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(this, actualProto);
+    } else {
+      // @ts-ignore
+      this.__proto__ = actualProto;
+    }
+  }
+  static _create(message, location) {
+    const column = location != null ? location.column || 0 : -1;
+    const line = location != null ? location.line || 0 : -1;
+    const m = `(${line}:${column}): ${message}`;
+    const err = new this(m);
+    err.location = location;
+    return err;
+  }
+}
+exports.GherkinException = GherkinException;
+class ParserException extends GherkinException {
+  static create(message, line, column) {
+    const err = new this(`(${line}:${column}): ${message}`);
+    err.location = {
+      line,
+      column
+    };
+    return err;
+  }
+}
+exports.ParserException = ParserException;
+class CompositeParserException extends GherkinException {
+  static create(errors) {
+    const message = 'Parser errors:\n' + errors.map(e => e.message).join('\n');
+    const err = new this(message);
+    err.errors = errors;
+    return err;
+  }
+}
+exports.CompositeParserException = CompositeParserException;
+class AstBuilderException extends GherkinException {
+  static create(message, location) {
+    return this._create(message, location);
+  }
+}
+exports.AstBuilderException = AstBuilderException;
+class NoSuchLanguageException extends GherkinException {
+  static create(language, location) {
+    const message = 'Language not supported: ' + language;
+    return this._create(message, location);
+  }
+}
+exports.NoSuchLanguageException = NoSuchLanguageException;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJHaGVya2luRXhjZXB0aW9uIiwiRXJyb3IiLCJjb25zdHJ1Y3RvciIsIm1lc3NhZ2UiLCJhY3R1YWxQcm90byIsIm5ldyIsInRhcmdldCIsInByb3RvdHlwZSIsIk9iamVjdCIsInNldFByb3RvdHlwZU9mIiwiX19wcm90b19fIiwiX2NyZWF0ZSIsImxvY2F0aW9uIiwiY29sdW1uIiwibGluZSIsIm0iLCJlcnIiLCJleHBvcnRzIiwiUGFyc2VyRXhjZXB0aW9uIiwiY3JlYXRlIiwiQ29tcG9zaXRlUGFyc2VyRXhjZXB0aW9uIiwiZXJyb3JzIiwibWFwIiwiZSIsImpvaW4iLCJBc3RCdWlsZGVyRXhjZXB0aW9uIiwiTm9TdWNoTGFuZ3VhZ2VFeGNlcHRpb24iLCJsYW5ndWFnZSJdLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9FcnJvcnMudHMiXSwic291cmNlc0NvbnRlbnQiOltudWxsXSwibWFwcGluZ3MiOiI7Ozs7OztBQUVBLE1BQWFBLGdCQUFpQixTQUFRQyxLQUFLO0VBSXpDQyxZQUFZQyxPQUFlO0lBQ3pCLEtBQUssQ0FBQ0EsT0FBTyxDQUFDO0lBRWQsTUFBTUMsV0FBVyxHQUFHQyxHQUFHLENBQUNDLE1BQU0sQ0FBQ0MsU0FBUztJQUV4QztJQUNBLElBQUlDLE1BQU0sQ0FBQ0MsY0FBYyxFQUFFO01BQ3pCRCxNQUFNLENBQUNDLGNBQWMsQ0FBQyxJQUFJLEVBQUVMLFdBQVcsQ0FBQztLQUN6QyxNQUFNO01BQ0w7TUFDQSxJQUFJLENBQUNNLFNBQVMsR0FBR04sV0FBVzs7RUFFaEM7RUFFVSxPQUFPTyxPQUFPQSxDQUFDUixPQUFlLEVBQUVTLFFBQTRCO0lBQ3BFLE1BQU1DLE1BQU0sR0FBR0QsUUFBUSxJQUFJLElBQUksR0FBR0EsUUFBUSxDQUFDQyxNQUFNLElBQUksQ0FBQyxHQUFHLENBQUMsQ0FBQztJQUMzRCxNQUFNQyxJQUFJLEdBQUdGLFFBQVEsSUFBSSxJQUFJLEdBQUdBLFFBQVEsQ0FBQ0UsSUFBSSxJQUFJLENBQUMsR0FBRyxDQUFDLENBQUM7SUFDdkQsTUFBTUMsQ0FBQyxHQUFHLElBQUlELElBQUksSUFBSUQsTUFBTSxNQUFNVixPQUFPLEVBQUU7SUFDM0MsTUFBTWEsR0FBRyxHQUFHLElBQUksSUFBSSxDQUFDRCxDQUFDLENBQUM7SUFDdkJDLEdBQUcsQ0FBQ0osUUFBUSxHQUFHQSxRQUFRO0lBQ3ZCLE9BQU9JLEdBQUc7RUFDWjs7QUF6QkZDLE9BQUEsQ0FBQWpCLGdCQUFBLEdBQUFBLGdCQUFBO0FBNEJBLE1BQWFrQixlQUFnQixTQUFRbEIsZ0JBQWdCO0VBQzVDLE9BQU9tQixNQUFNQSxDQUFDaEIsT0FBZSxFQUFFVyxJQUFZLEVBQUVELE1BQWM7SUFDaEUsTUFBTUcsR0FBRyxHQUFHLElBQUksSUFBSSxDQUFDLElBQUlGLElBQUksSUFBSUQsTUFBTSxNQUFNVixPQUFPLEVBQUUsQ0FBQztJQUN2RGEsR0FBRyxDQUFDSixRQUFRLEdBQUc7TUFBRUUsSUFBSTtNQUFFRDtJQUFNLENBQUU7SUFDL0IsT0FBT0csR0FBRztFQUNaOztBQUxGQyxPQUFBLENBQUFDLGVBQUEsR0FBQUEsZUFBQTtBQVFBLE1BQWFFLHdCQUF5QixTQUFRcEIsZ0JBQWdCO0VBQ3JELE9BQU9tQixNQUFNQSxDQUFDRSxNQUFlO0lBQ2xDLE1BQU1sQixPQUFPLEdBQUcsa0JBQWtCLEdBQUdrQixNQUFNLENBQUNDLEdBQUcsQ0FBRUMsQ0FBQyxJQUFLQSxDQUFDLENBQUNwQixPQUFPLENBQUMsQ0FBQ3FCLElBQUksQ0FBQyxJQUFJLENBQUM7SUFDNUUsTUFBTVIsR0FBRyxHQUFHLElBQUksSUFBSSxDQUFDYixPQUFPLENBQUM7SUFDN0JhLEdBQUcsQ0FBQ0ssTUFBTSxHQUFHQSxNQUFNO0lBQ25CLE9BQU9MLEdBQUc7RUFDWjs7QUFORkMsT0FBQSxDQUFBRyx3QkFBQSxHQUFBQSx3QkFBQTtBQVNBLE1BQWFLLG1CQUFvQixTQUFRekIsZ0JBQWdCO0VBQ2hELE9BQU9tQixNQUFNQSxDQUFDaEIsT0FBZSxFQUFFUyxRQUEyQjtJQUMvRCxPQUFPLElBQUksQ0FBQ0QsT0FBTyxDQUFDUixPQUFPLEVBQUVTLFFBQVEsQ0FBQztFQUN4Qzs7QUFIRkssT0FBQSxDQUFBUSxtQkFBQSxHQUFBQSxtQkFBQTtBQU1BLE1BQWFDLHVCQUF3QixTQUFRMUIsZ0JBQWdCO0VBQ3BELE9BQU9tQixNQUFNQSxDQUFDUSxRQUFnQixFQUFFZixRQUE0QjtJQUNqRSxNQUFNVCxPQUFPLEdBQUcsMEJBQTBCLEdBQUd3QixRQUFRO0lBQ3JELE9BQU8sSUFBSSxDQUFDaEIsT0FBTyxDQUFDUixPQUFPLEVBQUVTLFFBQVEsQ0FBQztFQUN4Qzs7QUFKRkssT0FBQSxDQUFBUyx1QkFBQSxHQUFBQSx1QkFBQSJ9

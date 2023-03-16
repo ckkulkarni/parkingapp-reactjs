@@ -1,0 +1,137 @@
+9af9a2e4cb1909196325ac4625340cf5
+"use strict";
+
+var __values = void 0 && (void 0).__values || function (o) {
+  var s = typeof Symbol === "function" && Symbol.iterator,
+    m = s && o[s],
+    i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+    next: function () {
+      if (o && i >= o.length) o = void 0;
+      return {
+        value: o && o[i++],
+        done: !o
+      };
+    }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var CucumberExpressionError_js_1 = __importDefault(require("./CucumberExpressionError.js"));
+var ILLEGAL_PARAMETER_NAME_PATTERN = /([[\]()$.|?*+])/;
+var UNESCAPE_PATTERN = function () {
+  return /(\\([[$.|?*+\]]))/g;
+};
+var ParameterType = /** @class */function () {
+  /**
+   * @param name {String} the name of the type
+   * @param regexps {Array.<RegExp | String>,RegExp,String} that matche the type
+   * @param type {Function} the prototype (constructor) of the type. May be null.
+   * @param transform {Function} function transforming string to another type. May be null.
+   * @param useForSnippets {boolean} true if this should be used for snippets. Defaults to true.
+   * @param preferForRegexpMatch {boolean} true if this is a preferential type. Defaults to false.
+   * @param builtin whether or not this is a built-in type
+   */
+  function ParameterType(name, regexps, type, transform, useForSnippets, preferForRegexpMatch, builtin) {
+    this.name = name;
+    this.type = type;
+    this.useForSnippets = useForSnippets;
+    this.preferForRegexpMatch = preferForRegexpMatch;
+    this.builtin = builtin;
+    if (transform === undefined) {
+      transform = function (s) {
+        return s;
+      };
+    }
+    if (useForSnippets === undefined) {
+      this.useForSnippets = true;
+    }
+    if (preferForRegexpMatch === undefined) {
+      this.preferForRegexpMatch = false;
+    }
+    if (name) {
+      ParameterType.checkParameterTypeName(name);
+    }
+    this.regexpStrings = stringArray(regexps);
+    this.transformFn = transform;
+  }
+  ParameterType.compare = function (pt1, pt2) {
+    if (pt1.preferForRegexpMatch && !pt2.preferForRegexpMatch) {
+      return -1;
+    }
+    if (pt2.preferForRegexpMatch && !pt1.preferForRegexpMatch) {
+      return 1;
+    }
+    return (pt1.name || '').localeCompare(pt2.name || '');
+  };
+  ParameterType.checkParameterTypeName = function (typeName) {
+    if (!this.isValidParameterTypeName(typeName)) {
+      throw new CucumberExpressionError_js_1.default("Illegal character in parameter name {".concat(typeName, "}. Parameter names may not contain '{', '}', '(', ')', '\\' or '/'"));
+    }
+  };
+  ParameterType.isValidParameterTypeName = function (typeName) {
+    var unescapedTypeName = typeName.replace(UNESCAPE_PATTERN(), '$2');
+    return !unescapedTypeName.match(ILLEGAL_PARAMETER_NAME_PATTERN);
+  };
+  ParameterType.prototype.transform = function (thisObj, groupValues) {
+    return this.transformFn.apply(thisObj, groupValues);
+  };
+  return ParameterType;
+}();
+exports.default = ParameterType;
+function stringArray(regexps) {
+  var array = Array.isArray(regexps) ? regexps : [regexps];
+  return array.map(function (r) {
+    return r instanceof RegExp ? regexpSource(r) : r;
+  });
+}
+function regexpSource(regexp) {
+  var e_1, _a;
+  var flags = regexpFlags(regexp);
+  try {
+    for (var _b = __values(['g', 'i', 'm', 'y']), _c = _b.next(); !_c.done; _c = _b.next()) {
+      var flag = _c.value;
+      if (flags.indexOf(flag) !== -1) {
+        throw new CucumberExpressionError_js_1.default("ParameterType Regexps can't use flag '".concat(flag, "'"));
+      }
+    }
+  } catch (e_1_1) {
+    e_1 = {
+      error: e_1_1
+    };
+  } finally {
+    try {
+      if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+    } finally {
+      if (e_1) throw e_1.error;
+    }
+  }
+  return regexp.source;
+}
+// Backport RegExp.flags for Node 4.x
+// https://github.com/nodejs/node/issues/8390
+function regexpFlags(regexp) {
+  var flags = regexp.flags;
+  if (flags === undefined) {
+    flags = '';
+    if (regexp.ignoreCase) {
+      flags += 'i';
+    }
+    if (regexp.global) {
+      flags += 'g';
+    }
+    if (regexp.multiline) {
+      flags += 'm';
+    }
+  }
+  return flags;
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJDdWN1bWJlckV4cHJlc3Npb25FcnJvcl9qc18xIiwiX19pbXBvcnREZWZhdWx0IiwicmVxdWlyZSIsIklMTEVHQUxfUEFSQU1FVEVSX05BTUVfUEFUVEVSTiIsIlVORVNDQVBFX1BBVFRFUk4iLCJQYXJhbWV0ZXJUeXBlIiwibmFtZSIsInJlZ2V4cHMiLCJ0eXBlIiwidHJhbnNmb3JtIiwidXNlRm9yU25pcHBldHMiLCJwcmVmZXJGb3JSZWdleHBNYXRjaCIsImJ1aWx0aW4iLCJ1bmRlZmluZWQiLCJzIiwiY2hlY2tQYXJhbWV0ZXJUeXBlTmFtZSIsInJlZ2V4cFN0cmluZ3MiLCJzdHJpbmdBcnJheSIsInRyYW5zZm9ybUZuIiwiY29tcGFyZSIsInB0MSIsInB0MiIsImxvY2FsZUNvbXBhcmUiLCJ0eXBlTmFtZSIsImlzVmFsaWRQYXJhbWV0ZXJUeXBlTmFtZSIsImRlZmF1bHQiLCJjb25jYXQiLCJ1bmVzY2FwZWRUeXBlTmFtZSIsInJlcGxhY2UiLCJtYXRjaCIsInByb3RvdHlwZSIsInRoaXNPYmoiLCJncm91cFZhbHVlcyIsImFwcGx5IiwiYXJyYXkiLCJBcnJheSIsImlzQXJyYXkiLCJtYXAiLCJyIiwiUmVnRXhwIiwicmVnZXhwU291cmNlIiwicmVnZXhwIiwiZmxhZ3MiLCJyZWdleHBGbGFncyIsIl9iIiwiX192YWx1ZXMiLCJfYyIsIm5leHQiLCJkb25lIiwiZmxhZyIsInZhbHVlIiwiaW5kZXhPZiIsInNvdXJjZSIsImlnbm9yZUNhc2UiLCJnbG9iYWwiLCJtdWx0aWxpbmUiXSwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvUGFyYW1ldGVyVHlwZS50cyJdLCJzb3VyY2VzQ29udGVudCI6W251bGxdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxJQUFBQSw0QkFBQSxHQUFBQyxlQUFBLENBQUFDLE9BQUE7QUFFQSxJQUFNQyw4QkFBOEIsR0FBRyxpQkFBaUI7QUFDeEQsSUFBTUMsZ0JBQWdCLEdBQUcsU0FBQUEsQ0FBQTtFQUFNLDJCQUFvQjtBQUFwQixDQUFvQjtBQWFuRCxJQUFBQyxhQUFBO0VBNEJFOzs7Ozs7Ozs7RUFTQSxTQUFBQSxjQUNrQkMsSUFBd0IsRUFDeENDLE9BQWdCLEVBQ0FDLElBQXdDLEVBQ3hEQyxTQUFzRCxFQUN0Q0MsY0FBd0IsRUFDeEJDLG9CQUE4QixFQUM5QkMsT0FBaUI7SUFOakIsS0FBQU4sSUFBSSxHQUFKQSxJQUFJO0lBRUosS0FBQUUsSUFBSSxHQUFKQSxJQUFJO0lBRUosS0FBQUUsY0FBYyxHQUFkQSxjQUFjO0lBQ2QsS0FBQUMsb0JBQW9CLEdBQXBCQSxvQkFBb0I7SUFDcEIsS0FBQUMsT0FBTyxHQUFQQSxPQUFPO0lBRXZCLElBQUlILFNBQVMsS0FBS0ksU0FBUyxFQUFFO01BQzNCSixTQUFTLEdBQUcsU0FBQUEsQ0FBQ0ssQ0FBQztRQUFLLE9BQUFBLENBQWlCO01BQWpCLENBQWlCOztJQUV0QyxJQUFJSixjQUFjLEtBQUtHLFNBQVMsRUFBRTtNQUNoQyxJQUFJLENBQUNILGNBQWMsR0FBRyxJQUFJOztJQUU1QixJQUFJQyxvQkFBb0IsS0FBS0UsU0FBUyxFQUFFO01BQ3RDLElBQUksQ0FBQ0Ysb0JBQW9CLEdBQUcsS0FBSzs7SUFHbkMsSUFBSUwsSUFBSSxFQUFFO01BQ1JELGFBQWEsQ0FBQ1Usc0JBQXNCLENBQUNULElBQUksQ0FBQzs7SUFHNUMsSUFBSSxDQUFDVSxhQUFhLEdBQUdDLFdBQVcsQ0FBQ1YsT0FBTyxDQUFDO0lBQ3pDLElBQUksQ0FBQ1csV0FBVyxHQUFHVCxTQUFTO0VBQzlCO0VBM0RjSixhQUFBLENBQUFjLE9BQU8sR0FBckIsVUFBc0JDLEdBQTJCLEVBQUVDLEdBQTJCO0lBQzVFLElBQUlELEdBQUcsQ0FBQ1Qsb0JBQW9CLElBQUksQ0FBQ1UsR0FBRyxDQUFDVixvQkFBb0IsRUFBRTtNQUN6RCxPQUFPLENBQUMsQ0FBQzs7SUFFWCxJQUFJVSxHQUFHLENBQUNWLG9CQUFvQixJQUFJLENBQUNTLEdBQUcsQ0FBQ1Qsb0JBQW9CLEVBQUU7TUFDekQsT0FBTyxDQUFDOztJQUVWLE9BQU8sQ0FBQ1MsR0FBRyxDQUFDZCxJQUFJLElBQUksRUFBRSxFQUFFZ0IsYUFBYSxDQUFDRCxHQUFHLENBQUNmLElBQUksSUFBSSxFQUFFLENBQUM7RUFDdkQsQ0FBQztFQUVhRCxhQUFBLENBQUFVLHNCQUFzQixHQUFwQyxVQUFxQ1EsUUFBZ0I7SUFDbkQsSUFBSSxDQUFDLElBQUksQ0FBQ0Msd0JBQXdCLENBQUNELFFBQVEsQ0FBQyxFQUFFO01BQzVDLE1BQU0sSUFBSXZCLDRCQUFBLENBQUF5QixPQUF1QixDQUMvQix3Q0FBQUMsTUFBQSxDQUF3Q0gsUUFBUSx1RUFBb0UsQ0FDckg7O0VBRUwsQ0FBQztFQUVhbEIsYUFBQSxDQUFBbUIsd0JBQXdCLEdBQXRDLFVBQXVDRCxRQUFnQjtJQUNyRCxJQUFNSSxpQkFBaUIsR0FBR0osUUFBUSxDQUFDSyxPQUFPLENBQUN4QixnQkFBZ0IsRUFBRSxFQUFFLElBQUksQ0FBQztJQUNwRSxPQUFPLENBQUN1QixpQkFBaUIsQ0FBQ0UsS0FBSyxDQUFDMUIsOEJBQThCLENBQUM7RUFDakUsQ0FBQztFQXdDTUUsYUFBQSxDQUFBeUIsU0FBQSxDQUFBckIsU0FBUyxHQUFoQixVQUFpQnNCLE9BQWdCLEVBQUVDLFdBQTRCO0lBQzdELE9BQU8sSUFBSSxDQUFDZCxXQUFXLENBQUNlLEtBQUssQ0FBQ0YsT0FBTyxFQUFFQyxXQUFXLENBQUM7RUFDckQsQ0FBQztFQUNILE9BQUEzQixhQUFDO0FBQUQsQ0FBQyxFQW5FRDs7QUFxRUEsU0FBU1ksV0FBV0EsQ0FBQ1YsT0FBZ0I7RUFDbkMsSUFBTTJCLEtBQUssR0FBcUJDLEtBQUssQ0FBQ0MsT0FBTyxDQUFDN0IsT0FBTyxDQUFDLEdBQUdBLE9BQU8sR0FBRyxDQUFDQSxPQUFPLENBQUM7RUFDNUUsT0FBTzJCLEtBQUssQ0FBQ0csR0FBRyxDQUFDLFVBQUNDLENBQUM7SUFBSyxPQUFDQSxDQUFDLFlBQVlDLE1BQU0sR0FBR0MsWUFBWSxDQUFDRixDQUFDLENBQUMsR0FBR0EsQ0FBQztFQUExQyxDQUEyQyxDQUFDO0FBQ3RFO0FBRUEsU0FBU0UsWUFBWUEsQ0FBQ0MsTUFBYzs7RUFDbEMsSUFBTUMsS0FBSyxHQUFHQyxXQUFXLENBQUNGLE1BQU0sQ0FBQzs7SUFFakMsS0FBbUIsSUFBQUcsRUFBQSxHQUFBQyxRQUFBLEVBQUMsR0FBRyxFQUFFLEdBQUcsRUFBRSxHQUFHLEVBQUUsR0FBRyxDQUFDLEdBQUFDLEVBQUEsR0FBQUYsRUFBQSxDQUFBRyxJQUFBLEtBQUFELEVBQUEsQ0FBQUUsSUFBQSxFQUFBRixFQUFBLEdBQUFGLEVBQUEsQ0FBQUcsSUFBQSxJQUFFO01BQXBDLElBQU1FLElBQUksR0FBQUgsRUFBQSxDQUFBSSxLQUFBO01BQ2IsSUFBSVIsS0FBSyxDQUFDUyxPQUFPLENBQUNGLElBQUksQ0FBQyxLQUFLLENBQUMsQ0FBQyxFQUFFO1FBQzlCLE1BQU0sSUFBSWpELDRCQUFBLENBQUF5QixPQUF1QixDQUFDLHlDQUFBQyxNQUFBLENBQXlDdUIsSUFBSSxNQUFHLENBQUM7Ozs7Ozs7Ozs7Ozs7O0VBR3ZGLE9BQU9SLE1BQU0sQ0FBQ1csTUFBTTtBQUN0QjtBQUVBO0FBQ0E7QUFDQSxTQUFTVCxXQUFXQSxDQUFDRixNQUFjO0VBQ2pDLElBQUlDLEtBQUssR0FBR0QsTUFBTSxDQUFDQyxLQUFLO0VBQ3hCLElBQUlBLEtBQUssS0FBSzdCLFNBQVMsRUFBRTtJQUN2QjZCLEtBQUssR0FBRyxFQUFFO0lBQ1YsSUFBSUQsTUFBTSxDQUFDWSxVQUFVLEVBQUU7TUFDckJYLEtBQUssSUFBSSxHQUFHOztJQUVkLElBQUlELE1BQU0sQ0FBQ2EsTUFBTSxFQUFFO01BQ2pCWixLQUFLLElBQUksR0FBRzs7SUFFZCxJQUFJRCxNQUFNLENBQUNjLFNBQVMsRUFBRTtNQUNwQmIsS0FBSyxJQUFJLEdBQUc7OztFQUdoQixPQUFPQSxLQUFLO0FBQ2QifQ==

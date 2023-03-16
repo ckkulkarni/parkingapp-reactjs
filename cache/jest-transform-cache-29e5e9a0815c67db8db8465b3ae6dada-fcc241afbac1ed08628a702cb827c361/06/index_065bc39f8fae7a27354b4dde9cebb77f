@@ -1,0 +1,15 @@
+bd6a0a15314d1719d83c2d51453deebd
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.upperCaseFirst = void 0;
+/**
+ * Upper case the first character of an input string.
+ */
+function upperCaseFirst(input) {
+  return input.charAt(0).toUpperCase() + input.substr(1);
+}
+exports.upperCaseFirst = upperCaseFirst;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJ1cHBlckNhc2VGaXJzdCIsImlucHV0IiwiY2hhckF0IiwidG9VcHBlckNhc2UiLCJzdWJzdHIiLCJleHBvcnRzIl0sInNvdXJjZXMiOlsiLi4vc3JjL2luZGV4LnRzIl0sInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogVXBwZXIgY2FzZSB0aGUgZmlyc3QgY2hhcmFjdGVyIG9mIGFuIGlucHV0IHN0cmluZy5cbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIHVwcGVyQ2FzZUZpcnN0KGlucHV0OiBzdHJpbmcpIHtcbiAgcmV0dXJuIGlucHV0LmNoYXJBdCgwKS50b1VwcGVyQ2FzZSgpICsgaW5wdXQuc3Vic3RyKDEpO1xufVxuIl0sIm1hcHBpbmdzIjoiOzs7Ozs7QUFBQTs7O0FBR0EsU0FBZ0JBLGNBQWNBLENBQUNDLEtBQWE7RUFDMUMsT0FBT0EsS0FBSyxDQUFDQyxNQUFNLENBQUMsQ0FBQyxDQUFDLENBQUNDLFdBQVcsRUFBRSxHQUFHRixLQUFLLENBQUNHLE1BQU0sQ0FBQyxDQUFDLENBQUM7QUFDeEQ7QUFGQUMsT0FBQSxDQUFBTCxjQUFBLEdBQUFBLGNBQUEifQ==

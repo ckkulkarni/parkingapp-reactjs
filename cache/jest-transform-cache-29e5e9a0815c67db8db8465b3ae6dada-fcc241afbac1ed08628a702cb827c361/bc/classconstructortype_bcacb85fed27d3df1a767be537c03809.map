@@ -1,0 +1,1 @@
+{"version":3,"names":[],"sources":["../../../src/interfaces/class-constructor.type.ts"],"sourcesContent":["export type ClassConstructor<T> = {\n  new (...args: any[]): T;\n};\n"],"mappings":""}

@@ -1,0 +1,192 @@
+1f467c1eed698aa10e54b17cf17e248f
+"use strict";
+
+var __values = void 0 && (void 0).__values || function (o) {
+  var s = typeof Symbol === "function" && Symbol.iterator,
+    m = s && o[s],
+    i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+    next: function () {
+      if (o && i >= o.length) o = void 0;
+      return {
+        value: o && o[i++],
+        done: !o
+      };
+    }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var Argument_js_1 = __importDefault(require("./Argument.js"));
+var Ast_js_1 = require("./Ast.js");
+var CucumberExpressionParser_js_1 = __importDefault(require("./CucumberExpressionParser.js"));
+var Errors_js_1 = require("./Errors.js");
+var TreeRegexp_js_1 = __importDefault(require("./TreeRegexp.js"));
+var ESCAPE_PATTERN = function () {
+  return /([\\^[({$.|?*+})\]])/g;
+};
+var CucumberExpression = /** @class */function () {
+  /**
+   * @param expression
+   * @param parameterTypeRegistry
+   */
+  function CucumberExpression(expression, parameterTypeRegistry) {
+    this.expression = expression;
+    this.parameterTypeRegistry = parameterTypeRegistry;
+    this.parameterTypes = [];
+    var parser = new CucumberExpressionParser_js_1.default();
+    this.ast = parser.parse(expression);
+    var pattern = this.rewriteToRegex(this.ast);
+    this.treeRegexp = new TreeRegexp_js_1.default(pattern);
+  }
+  CucumberExpression.prototype.rewriteToRegex = function (node) {
+    switch (node.type) {
+      case Ast_js_1.NodeType.text:
+        return CucumberExpression.escapeRegex(node.text());
+      case Ast_js_1.NodeType.optional:
+        return this.rewriteOptional(node);
+      case Ast_js_1.NodeType.alternation:
+        return this.rewriteAlternation(node);
+      case Ast_js_1.NodeType.alternative:
+        return this.rewriteAlternative(node);
+      case Ast_js_1.NodeType.parameter:
+        return this.rewriteParameter(node);
+      case Ast_js_1.NodeType.expression:
+        return this.rewriteExpression(node);
+      default:
+        // Can't happen as long as the switch case is exhaustive
+        throw new Error(node.type);
+    }
+  };
+  CucumberExpression.escapeRegex = function (expression) {
+    return expression.replace(ESCAPE_PATTERN(), '\\$1');
+  };
+  CucumberExpression.prototype.rewriteOptional = function (node) {
+    var _this = this;
+    this.assertNoParameters(node, function (astNode) {
+      return (0, Errors_js_1.createParameterIsNotAllowedInOptional)(astNode, _this.expression);
+    });
+    this.assertNoOptionals(node, function (astNode) {
+      return (0, Errors_js_1.createOptionalIsNotAllowedInOptional)(astNode, _this.expression);
+    });
+    this.assertNotEmpty(node, function (astNode) {
+      return (0, Errors_js_1.createOptionalMayNotBeEmpty)(astNode, _this.expression);
+    });
+    var regex = (node.nodes || []).map(function (node) {
+      return _this.rewriteToRegex(node);
+    }).join('');
+    return "(?:".concat(regex, ")?");
+  };
+  CucumberExpression.prototype.rewriteAlternation = function (node) {
+    var e_1, _a;
+    var _this = this;
+    try {
+      // Make sure the alternative parts aren't empty and don't contain parameter types
+      for (var _b = __values(node.nodes || []), _c = _b.next(); !_c.done; _c = _b.next()) {
+        var alternative = _c.value;
+        if (!alternative.nodes || alternative.nodes.length == 0) {
+          throw (0, Errors_js_1.createAlternativeMayNotBeEmpty)(alternative, this.expression);
+        }
+        this.assertNotEmpty(alternative, function (astNode) {
+          return (0, Errors_js_1.createAlternativeMayNotExclusivelyContainOptionals)(astNode, _this.expression);
+        });
+      }
+    } catch (e_1_1) {
+      e_1 = {
+        error: e_1_1
+      };
+    } finally {
+      try {
+        if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+      } finally {
+        if (e_1) throw e_1.error;
+      }
+    }
+    var regex = (node.nodes || []).map(function (node) {
+      return _this.rewriteToRegex(node);
+    }).join('|');
+    return "(?:".concat(regex, ")");
+  };
+  CucumberExpression.prototype.rewriteAlternative = function (node) {
+    var _this = this;
+    return (node.nodes || []).map(function (lastNode) {
+      return _this.rewriteToRegex(lastNode);
+    }).join('');
+  };
+  CucumberExpression.prototype.rewriteParameter = function (node) {
+    var name = node.text();
+    var parameterType = this.parameterTypeRegistry.lookupByTypeName(name);
+    if (!parameterType) {
+      throw (0, Errors_js_1.createUndefinedParameterType)(node, this.expression, name);
+    }
+    this.parameterTypes.push(parameterType);
+    var regexps = parameterType.regexpStrings;
+    if (regexps.length == 1) {
+      return "(".concat(regexps[0], ")");
+    }
+    return "((?:".concat(regexps.join(')|(?:'), "))");
+  };
+  CucumberExpression.prototype.rewriteExpression = function (node) {
+    var _this = this;
+    var regex = (node.nodes || []).map(function (node) {
+      return _this.rewriteToRegex(node);
+    }).join('');
+    return "^".concat(regex, "$");
+  };
+  CucumberExpression.prototype.assertNotEmpty = function (node, createNodeWasNotEmptyException) {
+    var textNodes = (node.nodes || []).filter(function (astNode) {
+      return Ast_js_1.NodeType.text == astNode.type;
+    });
+    if (textNodes.length == 0) {
+      throw createNodeWasNotEmptyException(node);
+    }
+  };
+  CucumberExpression.prototype.assertNoParameters = function (node, createNodeContainedAParameterError) {
+    var parameterNodes = (node.nodes || []).filter(function (astNode) {
+      return Ast_js_1.NodeType.parameter == astNode.type;
+    });
+    if (parameterNodes.length > 0) {
+      throw createNodeContainedAParameterError(parameterNodes[0]);
+    }
+  };
+  CucumberExpression.prototype.assertNoOptionals = function (node, createNodeContainedAnOptionalError) {
+    var parameterNodes = (node.nodes || []).filter(function (astNode) {
+      return Ast_js_1.NodeType.optional == astNode.type;
+    });
+    if (parameterNodes.length > 0) {
+      throw createNodeContainedAnOptionalError(parameterNodes[0]);
+    }
+  };
+  CucumberExpression.prototype.match = function (text) {
+    var group = this.treeRegexp.match(text);
+    if (!group) {
+      return null;
+    }
+    return Argument_js_1.default.build(group, this.parameterTypes);
+  };
+  Object.defineProperty(CucumberExpression.prototype, "regexp", {
+    get: function () {
+      return this.treeRegexp.regexp;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(CucumberExpression.prototype, "source", {
+    get: function () {
+      return this.expression;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  return CucumberExpression;
+}();
+exports.default = CucumberExpression;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJBcmd1bWVudF9qc18xIiwiX19pbXBvcnREZWZhdWx0IiwicmVxdWlyZSIsIkFzdF9qc18xIiwiQ3VjdW1iZXJFeHByZXNzaW9uUGFyc2VyX2pzXzEiLCJFcnJvcnNfanNfMSIsIlRyZWVSZWdleHBfanNfMSIsIkVTQ0FQRV9QQVRURVJOIiwiQ3VjdW1iZXJFeHByZXNzaW9uIiwiZXhwcmVzc2lvbiIsInBhcmFtZXRlclR5cGVSZWdpc3RyeSIsInBhcmFtZXRlclR5cGVzIiwicGFyc2VyIiwiZGVmYXVsdCIsImFzdCIsInBhcnNlIiwicGF0dGVybiIsInJld3JpdGVUb1JlZ2V4IiwidHJlZVJlZ2V4cCIsInByb3RvdHlwZSIsIm5vZGUiLCJ0eXBlIiwiTm9kZVR5cGUiLCJ0ZXh0IiwiZXNjYXBlUmVnZXgiLCJvcHRpb25hbCIsInJld3JpdGVPcHRpb25hbCIsImFsdGVybmF0aW9uIiwicmV3cml0ZUFsdGVybmF0aW9uIiwiYWx0ZXJuYXRpdmUiLCJyZXdyaXRlQWx0ZXJuYXRpdmUiLCJwYXJhbWV0ZXIiLCJyZXdyaXRlUGFyYW1ldGVyIiwicmV3cml0ZUV4cHJlc3Npb24iLCJFcnJvciIsInJlcGxhY2UiLCJfdGhpcyIsImFzc2VydE5vUGFyYW1ldGVycyIsImFzdE5vZGUiLCJjcmVhdGVQYXJhbWV0ZXJJc05vdEFsbG93ZWRJbk9wdGlvbmFsIiwiYXNzZXJ0Tm9PcHRpb25hbHMiLCJjcmVhdGVPcHRpb25hbElzTm90QWxsb3dlZEluT3B0aW9uYWwiLCJhc3NlcnROb3RFbXB0eSIsImNyZWF0ZU9wdGlvbmFsTWF5Tm90QmVFbXB0eSIsInJlZ2V4Iiwibm9kZXMiLCJtYXAiLCJqb2luIiwiY29uY2F0IiwiX2IiLCJfX3ZhbHVlcyIsIl9jIiwibmV4dCIsImRvbmUiLCJ2YWx1ZSIsImxlbmd0aCIsImNyZWF0ZUFsdGVybmF0aXZlTWF5Tm90QmVFbXB0eSIsImNyZWF0ZUFsdGVybmF0aXZlTWF5Tm90RXhjbHVzaXZlbHlDb250YWluT3B0aW9uYWxzIiwibGFzdE5vZGUiLCJuYW1lIiwicGFyYW1ldGVyVHlwZSIsImxvb2t1cEJ5VHlwZU5hbWUiLCJjcmVhdGVVbmRlZmluZWRQYXJhbWV0ZXJUeXBlIiwicHVzaCIsInJlZ2V4cHMiLCJyZWdleHBTdHJpbmdzIiwiY3JlYXRlTm9kZVdhc05vdEVtcHR5RXhjZXB0aW9uIiwidGV4dE5vZGVzIiwiZmlsdGVyIiwiY3JlYXRlTm9kZUNvbnRhaW5lZEFQYXJhbWV0ZXJFcnJvciIsInBhcmFtZXRlck5vZGVzIiwiY3JlYXRlTm9kZUNvbnRhaW5lZEFuT3B0aW9uYWxFcnJvciIsIm1hdGNoIiwiZ3JvdXAiLCJidWlsZCIsIk9iamVjdCIsImRlZmluZVByb3BlcnR5IiwiZ2V0IiwicmVnZXhwIl0sInNvdXJjZXMiOlsiLi4vLi4vLi4vc3JjL0N1Y3VtYmVyRXhwcmVzc2lvbi50cyJdLCJzb3VyY2VzQ29udGVudCI6W251bGxdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxJQUFBQSxhQUFBLEdBQUFDLGVBQUEsQ0FBQUMsT0FBQTtBQUNBLElBQUFDLFFBQUEsR0FBQUQsT0FBQTtBQUVBLElBQUFFLDZCQUFBLEdBQUFILGVBQUEsQ0FBQUMsT0FBQTtBQUNBLElBQUFHLFdBQUEsR0FBQUgsT0FBQTtBQVVBLElBQUFJLGVBQUEsR0FBQUwsZUFBQSxDQUFBQyxPQUFBO0FBR0EsSUFBTUssY0FBYyxHQUFHLFNBQUFBLENBQUE7RUFBTSw4QkFBdUI7QUFBdkIsQ0FBdUI7QUFFcEQsSUFBQUMsa0JBQUE7RUFLRTs7OztFQUlBLFNBQUFBLG1CQUNtQkMsVUFBa0IsRUFDbEJDLHFCQUE0QztJQUQ1QyxLQUFBRCxVQUFVLEdBQVZBLFVBQVU7SUFDVixLQUFBQyxxQkFBcUIsR0FBckJBLHFCQUFxQjtJQVZ2QixLQUFBQyxjQUFjLEdBQWtDLEVBQUU7SUFZakUsSUFBTUMsTUFBTSxHQUFHLElBQUlSLDZCQUFBLENBQUFTLE9BQXdCLEVBQUU7SUFDN0MsSUFBSSxDQUFDQyxHQUFHLEdBQUdGLE1BQU0sQ0FBQ0cs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

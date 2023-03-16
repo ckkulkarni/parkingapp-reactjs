@@ -1,0 +1,129 @@
+11bb0e14bf3a5781d809519596606e97
+"use strict";
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+    return t;
+  };
+  return __assign.apply(this, arguments);
+};
+var __values = void 0 && (void 0).__values || function (o) {
+  var s = typeof Symbol === "function" && Symbol.iterator,
+    m = s && o[s],
+    i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+    next: function () {
+      if (o && i >= o.length) o = void 0;
+      return {
+        value: o && o[i++],
+        done: !o
+      };
+    }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.removeUserInfoFromUrl = void 0;
+var fs_1 = require("fs");
+var CiEnvironments_js_1 = require("./CiEnvironments.js");
+var evaluateVariableExpression_js_1 = __importDefault(require("./evaluateVariableExpression.js"));
+function detectCiEnvironment(env) {
+  var e_1, _a;
+  try {
+    for (var CiEnvironments_1 = __values(CiEnvironments_js_1.CiEnvironments), CiEnvironments_1_1 = CiEnvironments_1.next(); !CiEnvironments_1_1.done; CiEnvironments_1_1 = CiEnvironments_1.next()) {
+      var ciEnvironment = CiEnvironments_1_1.value;
+      var detected = detect(ciEnvironment, env);
+      if (detected) {
+        return detected;
+      }
+    }
+  } catch (e_1_1) {
+    e_1 = {
+      error: e_1_1
+    };
+  } finally {
+    try {
+      if (CiEnvironments_1_1 && !CiEnvironments_1_1.done && (_a = CiEnvironments_1.return)) _a.call(CiEnvironments_1);
+    } finally {
+      if (e_1) throw e_1.error;
+    }
+  }
+}
+exports.default = detectCiEnvironment;
+function removeUserInfoFromUrl(value) {
+  if (!value) return value;
+  try {
+    var url = new URL(value);
+    url.password = '';
+    url.username = '';
+    return url.toString();
+  } catch (ignore) {
+    return value;
+  }
+}
+exports.removeUserInfoFromUrl = removeUserInfoFromUrl;
+function detectGit(ciEnvironment, env) {
+  var _a, _b, _c;
+  var revision = detectRevision(ciEnvironment, env);
+  if (!revision) {
+    return undefined;
+  }
+  var remote = (0, evaluateVariableExpression_js_1.default)((_a = ciEnvironment.git) === null || _a === void 0 ? void 0 : _a.remote, env);
+  if (!remote) {
+    return undefined;
+  }
+  var tag = (0, evaluateVariableExpression_js_1.default)((_b = ciEnvironment.git) === null || _b === void 0 ? void 0 : _b.tag, env);
+  var branch = (0, evaluateVariableExpression_js_1.default)((_c = ciEnvironment.git) === null || _c === void 0 ? void 0 : _c.branch, env);
+  return __assign(__assign({
+    revision: revision,
+    remote: removeUserInfoFromUrl(remote)
+  }, tag && {
+    tag: tag
+  }), branch && {
+    branch: branch
+  });
+}
+function detectRevision(ciEnvironment, env) {
+  var _a, _b, _c;
+  if (env.GITHUB_EVENT_NAME === 'pull_request') {
+    if (!env.GITHUB_EVENT_PATH) throw new Error('GITHUB_EVENT_PATH not set');
+    var json = (0, fs_1.readFileSync)(env.GITHUB_EVENT_PATH, 'utf-8');
+    var event_1 = JSON.parse(json);
+    var revision = (_b = (_a = event_1.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.sha;
+    if (!revision) {
+      throw new Error("Could not find .pull_request.head.sha in ".concat(env.GITHUB_EVENT_PATH, ":\n").concat(JSON.stringify(event_1, null, 2)));
+    }
+    return revision;
+  }
+  return (0, evaluateVariableExpression_js_1.default)((_c = ciEnvironment.git) === null || _c === void 0 ? void 0 : _c.revision, env);
+}
+function detect(ciEnvironment, env) {
+  var url = (0, evaluateVariableExpression_js_1.default)(ciEnvironment.url, env);
+  if (url === undefined) {
+    // The url is what consumers will use as the primary key for a build
+    // If this cannot be determined, we return nothing.
+    return undefined;
+  }
+  var buildNumber = (0, evaluateVariableExpression_js_1.default)(ciEnvironment.buildNumber, env);
+  var git = detectGit(ciEnvironment, env);
+  return __assign({
+    name: ciEnvironment.name,
+    url: url,
+    buildNumber: buildNumber
+  }, git && {
+    git: git
+  });
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJmc18xIiwicmVxdWlyZSIsIkNpRW52aXJvbm1lbnRzX2pzXzEiLCJldmFsdWF0ZVZhcmlhYmxlRXhwcmVzc2lvbl9qc18xIiwiX19pbXBvcnREZWZhdWx0IiwiZGV0ZWN0Q2lFbnZpcm9ubWVudCIsImVudiIsIkNpRW52aXJvbm1lbnRzXzEiLCJfX3ZhbHVlcyIsIkNpRW52aXJvbm1lbnRzIiwiQ2lFbnZpcm9ubWVudHNfMV8xIiwibmV4dCIsImRvbmUiLCJjaUVudmlyb25tZW50IiwidmFsdWUiLCJkZXRlY3RlZCIsImRldGVjdCIsImV4cG9ydHMiLCJkZWZhdWx0IiwicmVtb3ZlVXNlckluZm9Gcm9tVXJsIiwidXJsIiwiVVJMIiwicGFzc3dvcmQiLCJ1c2VybmFtZSIsInRvU3RyaW5nIiwiaWdub3JlIiwiZGV0ZWN0R2l0IiwicmV2aXNpb24iLCJkZXRlY3RSZXZpc2lvbiIsInVuZGVmaW5lZCIsInJlbW90ZSIsIl9hIiwiZ2l0IiwidGFnIiwiX2IiLCJicmFuY2giLCJfYyIsIl9fYXNzaWduIiwiR0lUSFVCX0VWRU5UX05BTUUiLCJHSVRIVUJfRVZFTlRfUEFUSCIsIkVycm9yIiwianNvbiIsInJlYWRGaWxlU3luYyIsImV2ZW50XzEiLCJKU09OIiwicGFyc2UiLCJwdWxsX3JlcXVlc3QiLCJoZWFkIiwic2hhIiwiY29uY2F0Iiwic3RyaW5naWZ5IiwiYnVpbGROdW1iZXIiLCJuYW1lIl0sInNvdXJjZXMiOlsiLi4vLi4vLi4vc3JjL2RldGVjdENpRW52aXJvbm1lbnQudHMiXSwic291cmNlc0NvbnRlbnQiOltudWxsXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxJQUFBQSxJQUFBLEdBQUFDLE9BQUE7QUFFQSxJQUFBQyxtQkFBQSxHQUFBRCxPQUFBO0FBQ0EsSUFBQUUsK0JBQUEsR0FBQUMsZUFBQSxDQUFBSCxPQUFBO0FBR0EsU0FBd0JJLG1CQUFtQkEsQ0FBQ0MsR0FBUTs7O0lBQ2xELEtBQTRC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

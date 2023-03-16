@@ -1,0 +1,47 @@
+4c76645e753cc930706d0a04566dc72f
+"use strict";
+
+exports.__esModule = true;
+function parseArgsStringToArgv(value, env, file) {
+  // ([^\s'"]([^\s'"]*(['"])([^\3]*?)\3)+[^\s'"]*) Matches nested quotes until the first space outside of quotes
+  // [^\s'"]+ or Match if not a space ' or "
+  // (['"])([^\5]*?)\5 or Match "quoted text" without quotes
+  // `\3` and `\5` are a backreference to the quote style (' or ") captured
+  var myRegexp = /([^\s'"]([^\s'"]*(['"])([^\3]*?)\3)+[^\s'"]*)|[^\s'"]+|(['"])([^\5]*?)\5/gi;
+  var myString = value;
+  var myArray = [];
+  if (env) {
+    myArray.push(env);
+  }
+  if (file) {
+    myArray.push(file);
+  }
+  var match;
+  do {
+    // Each call to exec returns the next regex match as an array
+    match = myRegexp.exec(myString);
+    if (match !== null) {
+      // Index 1 in the array is the captured group if it exists
+      // Index 0 is the matched text, which we use if no captured group exists
+      myArray.push(firstString(match[1], match[6], match[0]));
+    }
+  } while (match !== null);
+  return myArray;
+}
+exports["default"] = parseArgsStringToArgv;
+exports.parseArgsStringToArgv = parseArgsStringToArgv;
+// Accepts any number of arguments, and returns the first one that is a string
+// (even an empty string)
+function firstString() {
+  var args = [];
+  for (var _i = 0; _i < arguments.length; _i++) {
+    args[_i] = arguments[_i];
+  }
+  for (var i = 0; i < args.length; i++) {
+    var arg = args[i];
+    if (typeof arg === "string") {
+      return arg;
+    }
+  }
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJleHBvcnRzIiwiX19lc01vZHVsZSIsInBhcnNlQXJnc1N0cmluZ1RvQXJndiIsInZhbHVlIiwiZW52IiwiZmlsZSIsIm15UmVnZXhwIiwibXlTdHJpbmciLCJteUFycmF5IiwicHVzaCIsIm1hdGNoIiwiZXhlYyIsImZpcnN0U3RyaW5nIiwiYXJncyIsIl9pIiwiYXJndW1lbnRzIiwibGVuZ3RoIiwiaSIsImFyZyJdLCJzb3VyY2VzIjpbImluZGV4LmpzIl0sInNvdXJjZXNDb250ZW50IjpbIlwidXNlIHN0cmljdFwiO1xyXG5leHBvcnRzLl9fZXNNb2R1bGUgPSB0cnVlO1xyXG5mdW5jdGlvbiBwYXJzZUFyZ3NTdHJpbmdUb0FyZ3YodmFsdWUsIGVudiwgZmlsZSkge1xyXG4gICAgLy8gKFteXFxzJ1wiXShbXlxccydcIl0qKFsnXCJdKShbXlxcM10qPylcXDMpK1teXFxzJ1wiXSopIE1hdGNoZXMgbmVzdGVkIHF1b3RlcyB1bnRpbCB0aGUgZmlyc3Qgc3BhY2Ugb3V0c2lkZSBvZiBxdW90ZXNcclxuICAgIC8vIFteXFxzJ1wiXSsgb3IgTWF0Y2ggaWYgbm90IGEgc3BhY2UgJyBvciBcIlxyXG4gICAgLy8gKFsnXCJdKShbXlxcNV0qPylcXDUgb3IgTWF0Y2ggXCJxdW90ZWQgdGV4dFwiIHdpdGhvdXQgcXVvdGVzXHJcbiAgICAvLyBgXFwzYCBhbmQgYFxcNWAgYXJlIGEgYmFja3JlZmVyZW5jZSB0byB0aGUgcXVvdGUgc3R5bGUgKCcgb3IgXCIpIGNhcHR1cmVkXHJcbiAgICB2YXIgbXlSZWdleHAgPSAvKFteXFxzJ1wiXShbXlxccydcIl0qKFsnXCJdKShbXlxcM10qPylcXDMpK1teXFxzJ1wiXSopfFteXFxzJ1wiXSt8KFsnXCJdKShbXlxcNV0qPylcXDUvZ2k7XHJcbiAgICB2YXIgbXlTdHJpbmcgPSB2YWx1ZTtcclxuICAgIHZhciBteUFycmF5ID0gW107XHJcbiAgICBpZiAoZW52KSB7XHJcbiAgICAgICAgbXlBcnJheS5wdXNoKGVudik7XHJcbiAgICB9XHJcbiAgICBpZiAoZmlsZSkge1xyXG4gICAgICAgIG15QXJyYXkucHVzaChmaWxlKTtcclxuICAgIH1cclxuICAgIHZhciBtYXRjaDtcclxuICAgIGRvIHtcclxuICAgICAgICAvLyBFYWNoIGNhbGwgdG8gZXhlYyByZXR1cm5zIHRoZSBuZXh0IHJlZ2V4IG1hdGNoIGFzIGFuIGFycmF5XHJcbiAgICAgICAgbWF0Y2ggPSBteVJlZ2V4cC5leGVjKG15U3RyaW5nKTtcclxuICAgICAgICBpZiAobWF0Y2ggIT09IG51bGwpIHtcclxuICAgICAgICAgICAgLy8gSW5kZXggMSBpbiB0aGUgYXJyYXkgaXMgdGhlIGNhcHR1cmVkIGdyb3VwIGlmIGl0IGV4aXN0c1xyXG4gICAgICAgICAgICAvLyBJbmRleCAwIGlzIHRoZSBtYXRjaGVkIHRleHQsIHdoaWNoIHdlIHVzZSBpZiBubyBjYXB0dXJlZCBncm91cCBleGlzdHNcclxuICAgICAgICAgICAgbXlBcnJheS5wdXNoKGZpcnN0U3RyaW5nKG1hdGNoWzFdLCBtYXRjaFs2XSwgbWF0Y2hbMF0pKTtcclxuICAgICAgICB9XHJcbiAgICB9IHdoaWxlIChtYXRjaCAhPT0gbnVsbCk7XHJcbiAgICByZXR1cm4gbXlBcnJheTtcclxufVxyXG5leHBvcnRzW1wiZGVmYXVsdFwiXSA9IHBhcnNlQXJnc1N0cmluZ1RvQXJndjtcclxuZXhwb3J0cy5wYXJzZUFyZ3NTdHJpbmdUb0FyZ3YgPSBwYXJzZUFyZ3NTdHJpbmdUb0FyZ3Y7XHJcbi8vIEFjY2VwdHMgYW55IG51bWJlciBvZiBhcmd1bWVudHMsIGFuZCByZXR1cm5zIHRoZSBmaXJzdCBvbmUgdGhhdCBpcyBhIHN0cmluZ1xyXG4vLyAoZXZlbiBhbiBlbXB0eSBzdHJpbmcpXHJcbmZ1bmN0aW9uIGZpcnN0U3RyaW5nKCkge1xyXG4gICAgdmFyIGFyZ3MgPSBbXTtcclxuICAgIGZvciAodmFyIF9pID0gMDsgX2kgPCBhcmd1bWVudHMubGVuZ3RoOyBfaSsrKSB7XHJcbiAgICAgICAgYXJnc1tfaV0gPSBhcmd1bWVudHNbX2ldO1xyXG4gICAgfVxyXG4gICAgZm9yICh2YXIgaSA9IDA7IGkgPCBhcmdzLmxlbmd0aDsgaSsrKSB7XHJcbiAgICAgICAgdmFyIGFyZyA9IGFyZ3NbaV07XHJcbiAgICAgICAgaWYgKHR5cGVvZiBhcmcgPT09IFwic3RyaW5nXCIpIHtcclxuICAgICAgICAgICAgcmV0dXJuIGFyZztcclxuICAgICAgICB9XHJcbiAgICB9XHJcbn1cclxuIl0sIm1hcHBpbmdzIjoiQUFBQSxZQUFZOztBQUNaQSxPQUFPLENBQUNDLFVBQVUsR0FBRyxJQUFJO0FBQ3pCLFNBQVNDLHFCQUFxQkEsQ0FBQ0MsS0FBSyxFQUFFQyxHQUFHLEVBQUVDLElBQUksRUFBRTtFQUM3QztFQUNBO0VBQ0E7RUFDQTtFQUNBLElBQUlDLFFBQVEsR0FBRyw0RUFBNEU7RUFDM0YsSUFBSUMsUUFBUSxHQUFHSixLQUFLO0VBQ3BCLElBQUlLLE9BQU8sR0FBRyxFQUFFO0VBQ2hCLElBQUlKLEdBQUcsRUFBRTtJQUNMSSxPQUFPLENBQUNDLElBQUksQ0FBQ0wsR0FBRyxDQUFDO0VBQ3JCO0VBQ0EsSUFBSUMsSUFBSSxFQUFFO0lBQ05HLE9BQU8sQ0FBQ0MsSUFBSSxDQUFDSixJQUFJLENBQUM7RUFDdEI7RUFDQSxJQUFJSyxLQUFLO0VBQ1QsR0FBRztJQUNDO0lBQ0FBLEtBQUssR0FBR0osUUFBUSxDQUFDSyxJQUFJLENBQUNKLFFBQVEsQ0FBQztJQUMvQixJQUFJRyxLQUFLLEtBQUssSUFBSSxFQUFFO01BQ2hCO01BQ0E7TUFDQUYsT0FBTyxDQUFDQyxJQUFJLENBQUNHLFdBQVcsQ0FBQ0YsS0FBSyxDQUFDLENBQUMsQ0FBQyxFQUFFQSxLQUFLLENBQUMsQ0FBQyxDQUFDLEVBQUVBLEtBQUssQ0FBQyxDQUFDLENBQUMsQ0FBQyxDQUFDO0lBQzNEO0VBQ0osQ0FBQyxRQUFRQSxLQUFLLEtBQUssSUFBSTtFQUN2QixPQUFPRixPQUFPO0FBQ2xCO0FBQ0FSLE9BQU8sQ0FBQyxTQUFTLENBQUMsR0FBR0UscUJBQXFCO0FBQzFDRixPQUFPLENBQUNFLHFCQUFxQixHQUFHQSxxQkFBcUI7QUFDckQ7QUFDQTtBQUNBLFNBQVNVLFdBQVdBLENBQUEsRUFBRztFQUNuQixJQUFJQyxJQUFJLEdBQUcsRUFBRTtFQUNiLEtBQUssSUFBSUMsRUFBRSxHQUFHLENBQUMsRUFBRUEsRUFBRSxHQUFHQyxTQUFTLENBQUNDLE1BQU0sRUFBRUYsRUFBRSxFQUFFLEVBQUU7SUFDMUNELElBQUksQ0FBQ0MsRUFBRSxDQUFDLEdBQUdDLFNBQVMsQ0FBQ0QsRUFBRSxDQUFDO0VBQzVCO0VBQ0EsS0FBSyxJQUFJRyxDQUFDLEdBQUcsQ0FBQyxFQUFFQSxDQUFDLEdBQUdKLElBQUksQ0FBQ0csTUFBTSxFQUFFQyxDQUFDLEVBQUUsRUFBRTtJQUNsQyxJQUFJQyxHQUFHLEdBQUdMLElBQUksQ0FBQ0ksQ0FBQyxDQUFDO0lBQ2pCLElBQUksT0FBT0MsR0FBRyxLQUFLLFFBQVEsRUFBRTtNQUN6QixPQUFPQSxHQUFHO0lBQ2Q7RUFDSjtBQUNKIn0=

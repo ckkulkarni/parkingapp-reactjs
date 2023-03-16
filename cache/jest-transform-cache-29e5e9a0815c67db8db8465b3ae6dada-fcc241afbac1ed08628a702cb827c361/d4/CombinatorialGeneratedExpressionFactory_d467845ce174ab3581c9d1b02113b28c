@@ -1,0 +1,48 @@
+9199ac2d7193a4437556a89a7a4e6f58
+"use strict";
+
+var __importDefault = void 0 && (void 0).__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var GeneratedExpression_js_1 = __importDefault(require("./GeneratedExpression.js"));
+// 256 generated expressions ought to be enough for anybody
+var MAX_EXPRESSIONS = 256;
+var CombinatorialGeneratedExpressionFactory = /** @class */function () {
+  function CombinatorialGeneratedExpressionFactory(expressionTemplate, parameterTypeCombinations) {
+    this.expressionTemplate = expressionTemplate;
+    this.parameterTypeCombinations = parameterTypeCombinations;
+    this.expressionTemplate = expressionTemplate;
+  }
+  CombinatorialGeneratedExpressionFactory.prototype.generateExpressions = function () {
+    var generatedExpressions = [];
+    this.generatePermutations(generatedExpressions, 0, []);
+    return generatedExpressions;
+  };
+  CombinatorialGeneratedExpressionFactory.prototype.generatePermutations = function (generatedExpressions, depth, currentParameterTypes) {
+    if (generatedExpressions.length >= MAX_EXPRESSIONS) {
+      return;
+    }
+    if (depth === this.parameterTypeCombinations.length) {
+      generatedExpressions.push(new GeneratedExpression_js_1.default(this.expressionTemplate, currentParameterTypes));
+      return;
+    }
+    // tslint:disable-next-line:prefer-for-of
+    for (var i = 0; i < this.parameterTypeCombinations[depth].length; ++i) {
+      // Avoid recursion if no elements can be added.
+      if (generatedExpressions.length >= MAX_EXPRESSIONS) {
+        return;
+      }
+      var newCurrentParameterTypes = currentParameterTypes.slice(); // clone
+      newCurrentParameterTypes.push(this.parameterTypeCombinations[depth][i]);
+      this.generatePermutations(generatedExpressions, depth + 1, newCurrentParameterTypes);
+    }
+  };
+  return CombinatorialGeneratedExpressionFactory;
+}();
+exports.default = CombinatorialGeneratedExpressionFactory;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJHZW5lcmF0ZWRFeHByZXNzaW9uX2pzXzEiLCJfX2ltcG9ydERlZmF1bHQiLCJyZXF1aXJlIiwiTUFYX0VYUFJFU1NJT05TIiwiQ29tYmluYXRvcmlhbEdlbmVyYXRlZEV4cHJlc3Npb25GYWN0b3J5IiwiZXhwcmVzc2lvblRlbXBsYXRlIiwicGFyYW1ldGVyVHlwZUNvbWJpbmF0aW9ucyIsInByb3RvdHlwZSIsImdlbmVyYXRlRXhwcmVzc2lvbnMiLCJnZW5lcmF0ZWRFeHByZXNzaW9ucyIsImdlbmVyYXRlUGVybXV0YXRpb25zIiwiZGVwdGgiLCJjdXJyZW50UGFyYW1ldGVyVHlwZXMiLCJsZW5ndGgiLCJwdXNoIiwiZGVmYXVsdCIsImkiLCJuZXdDdXJyZW50UGFyYW1ldGVyVHlwZXMiLCJzbGljZSJdLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9Db21iaW5hdG9yaWFsR2VuZXJhdGVkRXhwcmVzc2lvbkZhY3RvcnkudHMiXSwic291cmNlc0NvbnRlbnQiOltudWxsXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7QUFBQSxJQUFBQSx3QkFBQSxHQUFBQyxlQUFBLENBQUFDLE9BQUE7QUFHQTtBQUNBLElBQU1DLGVBQWUsR0FBRyxHQUFHO0FBRTNCLElBQUFDLHVDQUFBO0VBQ0UsU0FBQUEsd0NBQ21CQyxrQkFBMEIsRUFDMUJDLHlCQUErRDtJQUQvRCxLQUFBRCxrQkFBa0IsR0FBbEJBLGtCQUFrQjtJQUNsQixLQUFBQyx5QkFBeUIsR0FBekJBLHlCQUF5QjtJQUUxQyxJQUFJLENBQUNELGtCQUFrQixHQUFHQSxrQkFBa0I7RUFDOUM7RUFFT0QsdUNBQUEsQ0FBQUcsU0FBQSxDQUFBQyxtQkFBbUIsR0FBMUI7SUFDRSxJQUFNQyxvQkFBb0IsR0FBMEIsRUFBRTtJQUN0RCxJQUFJLENBQUNDLG9CQUFvQixDQUFDRCxvQkFBb0IsRUFBRSxDQUFDLEVBQUUsRUFBRSxDQUFDO0lBQ3RELE9BQU9BLG9CQUFvQjtFQUM3QixDQUFDO0VBRU9MLHVDQUFBLENBQUFHLFNBQUEsQ0FBQUcsb0JBQW9CLEdBQTVCLFVBQ0VELG9CQUEyQyxFQUMzQ0UsS0FBYSxFQUNiQyxxQkFBb0Q7SUFFcEQsSUFBSUgsb0JBQW9CLENBQUNJLE1BQU0sSUFBSVYsZUFBZSxFQUFFO01BQ2xEOztJQUdGLElBQUlRLEtBQUssS0FBSyxJQUFJLENBQUNMLHlCQUF5QixDQUFDTyxNQUFNLEVBQUU7TUFDbkRKLG9CQUFvQixDQUFDSyxJQUFJLENBQ3ZCLElBQUlkLHdCQUFBLENBQUFlLE9BQW1CLENBQUMsSUFBSSxDQUFDVixrQkFBa0IsRUFBRU8scUJBQXFCLENBQUMsQ0FDeEU7TUFDRDs7SUFHRjtJQUNBLEtBQUssSUFBSUksQ0FBQyxHQUFHLENBQUMsRUFBRUEsQ0FBQyxHQUFHLElBQUksQ0FBQ1YseUJBQXlCLENBQUNLLEtBQUssQ0FBQyxDQUFDRSxNQUFNLEVBQUUsRUFBRUcsQ0FBQyxFQUFFO01BQ3JFO01BQ0EsSUFBSVAsb0JBQW9CLENBQUNJLE1BQU0sSUFBSVYsZUFBZSxFQUFFO1FBQ2xEOztNQUdGLElBQU1jLHdCQUF3QixHQUFHTCxxQkFBcUIsQ0FBQ00sS0FBSyxFQUFFLEVBQUM7TUFDL0RELHdCQUF3QixDQUFDSCxJQUFJLENBQUMsSUFBSSxDQUFDUix5QkFBeUIsQ0FBQ0ssS0FBSyxDQUFDLENBQUNLLENBQUMsQ0FBQyxDQUFDO01BQ3ZFLElBQUksQ0FBQ04sb0JBQW9CLENBQUNELG9CQUFvQixFQUFFRSxLQUFLLEdBQUcsQ0FBQyxFQUFFTSx3QkFBd0IsQ0FBQzs7RUFFeEYsQ0FBQztFQUNILE9BQUFiLHVDQUFDO0FBQUQsQ0FBQyxFQTFDRCJ9

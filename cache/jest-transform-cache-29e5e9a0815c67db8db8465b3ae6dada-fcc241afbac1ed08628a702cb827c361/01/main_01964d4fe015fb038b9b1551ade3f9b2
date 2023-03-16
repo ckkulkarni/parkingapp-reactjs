@@ -1,0 +1,10 @@
+64d09ab824db59aeb359dffd44dafb83
+'use strict';
+
+/* eslint-env node */
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./umd/history.production.min.js');
+} else {
+  module.exports = require('./umd/history.development.js');
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJwcm9jZXNzIiwiZW52IiwiTk9ERV9FTlYiLCJtb2R1bGUiLCJleHBvcnRzIiwicmVxdWlyZSJdLCJzb3VyY2VzIjpbIm1haW4uanMiXSwic291cmNlc0NvbnRlbnQiOlsiJ3VzZSBzdHJpY3QnO1xuXG4vKiBlc2xpbnQtZW52IG5vZGUgKi9cblxuaWYgKHByb2Nlc3MuZW52Lk5PREVfRU5WID09PSAncHJvZHVjdGlvbicpIHtcbiAgbW9kdWxlLmV4cG9ydHMgPSByZXF1aXJlKCcuL3VtZC9oaXN0b3J5LnByb2R1Y3Rpb24ubWluLmpzJyk7XG59IGVsc2Uge1xuICBtb2R1bGUuZXhwb3J0cyA9IHJlcXVpcmUoJy4vdW1kL2hpc3RvcnkuZGV2ZWxvcG1lbnQuanMnKTtcbn1cbiJdLCJtYXBwaW5ncyI6IkFBQUEsWUFBWTs7QUFFWjtBQUVBLElBQUlBLE9BQU8sQ0FBQ0MsR0FBRyxDQUFDQyxRQUFRLEtBQUssWUFBWSxFQUFFO0VBQ3pDQyxNQUFNLENBQUNDLE9BQU8sR0FBR0MsT0FBTyxDQUFDLGlDQUFpQyxDQUFDO0FBQzdELENBQUMsTUFBTTtFQUNMRixNQUFNLENBQUNDLE9BQU8sR0FBR0MsT0FBTyxDQUFDLDhCQUE4QixDQUFDO0FBQzFEIn0=

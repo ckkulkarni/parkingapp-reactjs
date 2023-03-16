@@ -1,0 +1,40 @@
+7a4bfc9f05212602bc8c96b3b8bc614a
+"use strict";
+
+var Symbol = require('./_Symbol'),
+  arrayMap = require('./_arrayMap'),
+  isArray = require('./isArray'),
+  isSymbol = require('./isSymbol');
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0;
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+  symbolToString = symbolProto ? symbolProto.toString : undefined;
+
+/**
+ * The base implementation of `_.toString` which doesn't convert nullish
+ * values to empty strings.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ */
+function baseToString(value) {
+  // Exit early for strings to avoid a performance hit in some environments.
+  if (typeof value == 'string') {
+    return value;
+  }
+  if (isArray(value)) {
+    // Recursively convert values (susceptible to call stack limits).
+    return arrayMap(value, baseToString) + '';
+  }
+  if (isSymbol(value)) {
+    return symbolToString ? symbolToString.call(value) : '';
+  }
+  var result = value + '';
+  return result == '0' && 1 / value == -INFINITY ? '-0' : result;
+}
+module.exports = baseToString;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJTeW1ib2wiLCJyZXF1aXJlIiwiYXJyYXlNYXAiLCJpc0FycmF5IiwiaXNTeW1ib2wiLCJJTkZJTklUWSIsInN5bWJvbFByb3RvIiwicHJvdG90eXBlIiwidW5kZWZpbmVkIiwic3ltYm9sVG9TdHJpbmciLCJ0b1N0cmluZyIsImJhc2VUb1N0cmluZyIsInZhbHVlIiwiY2FsbCIsInJlc3VsdCIsIm1vZHVsZSIsImV4cG9ydHMiXSwic291cmNlcyI6WyJfYmFzZVRvU3RyaW5nLmpzIl0sInNvdXJjZXNDb250ZW50IjpbInZhciBTeW1ib2wgPSByZXF1aXJlKCcuL19TeW1ib2wnKSxcbiAgICBhcnJheU1hcCA9IHJlcXVpcmUoJy4vX2FycmF5TWFwJyksXG4gICAgaXNBcnJheSA9IHJlcXVpcmUoJy4vaXNBcnJheScpLFxuICAgIGlzU3ltYm9sID0gcmVxdWlyZSgnLi9pc1N5bWJvbCcpO1xuXG4vKiogVXNlZCBhcyByZWZlcmVuY2VzIGZvciB2YXJpb3VzIGBOdW1iZXJgIGNvbnN0YW50cy4gKi9cbnZhciBJTkZJTklUWSA9IDEgLyAwO1xuXG4vKiogVXNlZCB0byBjb252ZXJ0IHN5bWJvbHMgdG8gcHJpbWl0aXZlcyBhbmQgc3RyaW5ncy4gKi9cbnZhciBzeW1ib2xQcm90byA9IFN5bWJvbCA/IFN5bWJvbC5wcm90b3R5cGUgOiB1bmRlZmluZWQsXG4gICAgc3ltYm9sVG9TdHJpbmcgPSBzeW1ib2xQcm90byA/IHN5bWJvbFByb3RvLnRvU3RyaW5nIDogdW5kZWZpbmVkO1xuXG4vKipcbiAqIFRoZSBiYXNlIGltcGxlbWVudGF0aW9uIG9mIGBfLnRvU3RyaW5nYCB3aGljaCBkb2Vzbid0IGNvbnZlcnQgbnVsbGlzaFxuICogdmFsdWVzIHRvIGVtcHR5IHN0cmluZ3MuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7Kn0gdmFsdWUgVGhlIHZhbHVlIHRvIHByb2Nlc3MuXG4gKiBAcmV0dXJucyB7c3RyaW5nfSBSZXR1cm5zIHRoZSBzdHJpbmcuXG4gKi9cbmZ1bmN0aW9uIGJhc2VUb1N0cmluZyh2YWx1ZSkge1xuICAvLyBFeGl0IGVhcmx5IGZvciBzdHJpbmdzIHRvIGF2b2lkIGEgcGVyZm9ybWFuY2UgaGl0IGluIHNvbWUgZW52aXJvbm1lbnRzLlxuICBpZiAodHlwZW9mIHZhbHVlID09ICdzdHJpbmcnKSB7XG4gICAgcmV0dXJuIHZhbHVlO1xuICB9XG4gIGlmIChpc0FycmF5KHZhbHVlKSkge1xuICAgIC8vIFJlY3Vyc2l2ZWx5IGNvbnZlcnQgdmFsdWVzIChzdXNjZXB0aWJsZSB0byBjYWxsIHN0YWNrIGxpbWl0cykuXG4gICAgcmV0dXJuIGFycmF5TWFwKHZhbHVlLCBiYXNlVG9TdHJpbmcpICsgJyc7XG4gIH1cbiAgaWYgKGlzU3ltYm9sKHZhbHVlKSkge1xuICAgIHJldHVybiBzeW1ib2xUb1N0cmluZyA/IHN5bWJvbFRvU3RyaW5nLmNhbGwodmFsdWUpIDogJyc7XG4gIH1cbiAgdmFyIHJlc3VsdCA9ICh2YWx1ZSArICcnKTtcbiAgcmV0dXJuIChyZXN1bHQgPT0gJzAnICYmICgxIC8gdmFsdWUpID09IC1JTkZJTklUWSkgPyAnLTAnIDogcmVzdWx0O1xufVxuXG5tb2R1bGUuZXhwb3J0cyA9IGJhc2VUb1N0cmluZztcbiJdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJQSxNQUFNLEdBQUdDLE9BQU8sQ0FBQyxXQUFXLENBQUM7RUFDN0JDLFFBQVEsR0FBR0QsT0FBTyxDQUFDLGFBQWEsQ0FBQztFQUNqQ0UsT0FBTyxHQUFHRixPQUFPLENBQUMsV0FBVyxDQUFDO0VBQzlCRyxRQUFRLEdBQUdILE9BQU8sQ0FBQyxZQUFZLENBQUM7O0FBRXBDO0FBQ0EsSUFBSUksUUFBUSxHQUFHLENBQUMsR0FBRyxDQUFDOztBQUVwQjtBQUNBLElBQUlDLFdBQVcsR0FBR04sTUFBTSxHQUFHQSxNQUFNLENBQUNPLFNBQVMsR0FBR0MsU0FBUztFQUNuREMsY0FBYyxHQUFHSCxXQUFXLEdBQUdBLFdBQVcsQ0FBQ0ksUUFBUSxHQUFHRixTQUFTOztBQUVuRTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsU0FBU0csWUFBWUEsQ0FBQ0MsS0FBSyxFQUFFO0VBQzNCO0VBQ0EsSUFBSSxPQUFPQSxLQUFLLElBQUksUUFBUSxFQUFFO0lBQzVCLE9BQU9BLEtBQUs7RUFDZDtFQUNBLElBQUlULE9BQU8sQ0FBQ1MsS0FBSyxDQUFDLEVBQUU7SUFDbEI7SUFDQSxPQUFPVixRQUFRLENBQUNVLEtBQUssRUFBRUQsWUFBWSxDQUFDLEdBQUcsRUFBRTtFQUMzQztFQUNBLElBQUlQLFFBQVEsQ0FBQ1EsS0FBSyxDQUFDLEVBQUU7SUFDbkIsT0FBT0gsY0FBYyxHQUFHQSxjQUFjLENBQUNJLElBQUksQ0FBQ0QsS0FBSyxDQUFDLEdBQUcsRUFBRTtFQUN6RDtFQUNBLElBQUlFLE1BQU0sR0FBSUYsS0FBSyxHQUFHLEVBQUc7RUFDekIsT0FBUUUsTUFBTSxJQUFJLEdBQUcsSUFBSyxDQUFDLEdBQUdGLEtBQUssSUFBSyxDQUFDUCxRQUFRLEdBQUksSUFBSSxHQUFHUyxNQUFNO0FBQ3BFO0FBRUFDLE1BQU0sQ0FBQ0MsT0FBTyxHQUFHTCxZQUFZIn0=
